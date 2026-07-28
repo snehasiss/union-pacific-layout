@@ -46,6 +46,7 @@ Cost
 Details
 
 | Purpose | Foundation command station for the layout. |
+|---------|-------------------------------------------:|
 | Status | Ordered |
 | Order Number | #OID-02994 |
 | Tracking | not yet shipped |
