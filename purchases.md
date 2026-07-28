@@ -41,58 +41,25 @@ Cost
 | EX-CSB1 | 159.80 |
 | Enclosure | 15.25 |
 | Shipping | 19.15 |
+| Total | $194.20 |
 
-Total
-
-US$194.20
-
-Purpose
-
-Foundation command station for the layout.
-
-Status
-
-Ordered
-
-Order Number
-
-(TBD)
-
-Tracking
-
-(TBD)
-
-Received
-
-(TBD)
-
-Installed
-
-(TBD)
-
-Warranty
-
-(TBD)
-
-Notes
-
-First purchase of the railroad electronics platform.
+Details
+| Purpose | Foundation command station for the layout. |
+| Status | Ordered |
+| Order Number | #OID-02994 |
+| Tracking | not yet shipped |
+| Received | (TBD) |
+| Installed | (TBD) |
+| Warranty | (TBD) |
+| Notes | First purchase of the railroad electronics platform. |
 
 Ordered
-
 ↓
-
 Shipped
-
 ↓
-
 Received
-
 ↓
-
 Tested
-
 ↓
-
 Installed
 
