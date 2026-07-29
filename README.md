@@ -15,7 +15,7 @@ docs/              # Engineering documentation
 config/            # JSON source of truth
 src/               # Firmware, Python, AI, utilities
 operations/        # Deployment and maintenance procedures
-assets/            # Photos, drawings, diagrams
+resources/         # Photos, drawings, diagrams
 inventory/         # Physical assets and procurement
 reference/         # External manuals and prototype information
 tests/             # Validation, simulations, and hardware tests
