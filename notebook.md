@@ -18,6 +18,10 @@ Consulted chatgpt for a long time over multiple days. https://chatgpt.com/c/6a64
 
 Created this repository and the contents. This will keep getting updated as we progress.
 
+$$
+I = \int_{a}^{b} f(x) \,dx
+$$
+
 
 ## 2026-07-29
 
