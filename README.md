@@ -5,7 +5,7 @@
 _This repository is the authoritative digital representation of a physical Union Pacific HO scale model railroad. It contains the engineering documentation, software, configuration, operational procedures, and inventory necessary to reproduce the layout in whole or in part. The physical railroad is the deployed system; this repository is its source of truth._
 
 ---
-<code>
+<pre><code>
 union-pacific-layout/
 
 README.md
@@ -19,4 +19,4 @@ inventory/         # Physical assets and procurement
 reference/         # External manuals and prototype information
 tests/             # Validation, simulations, and hardware tests
 tools/             # Generators, converters, and automation scripts
-</code>
+</code></pre>
