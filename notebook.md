@@ -1,110 +1,88 @@
-\documentclass[11pt,a4paper]{book}
+# Engineering Notebook
 
-\usepackage[a4paper,margin=1in]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{hyperref}
-\usepackage{enumitem}
-\usepackage{titlesec}
+| | |
+|---|---|
+| **Project** | Union Pacific HO Scale Railroad |
+| **Project Start** | 29 July 2026 |
+| **Version** | 0.1 |
 
-\hypersetup{
-    colorlinks=true,
-    urlcolor=blue,
-    linkcolor=black
-}
+---
 
-\setlength{\parskip}{0.6em}
-\setlength{\parindent}{0pt}
+# Engineering Log
 
-\title{\textbf{Engineering Notebook}}
-\author{}
-\date{}
+## 25 July 2026
 
-\begin{document}
-
-\maketitle
-
-\begin{center}
-\begin{tabular}{ll}
-\textbf{Project:} & Union Pacific HO Scale Railroad \\
-\textbf{Project Start:} & 29 July 2026 \\
-\textbf{Version:} & 0.1 \\
-\end{tabular}
-\end{center}
-
-\hrule
-\vspace{1em}
-
-\section*{Engineering Log}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{25 July 2026}
-
-\subsection*{Milestone}
+### Milestone
 
 Started exploring a suitable DCC system for my layout, which is currently under construction.
 
-Consulted ChatGPT extensively over multiple days regarding the architecture and component selection:
+Consulted ChatGPT extensively over multiple days regarding the architecture and selection process.
 
-\url{https://chatgpt.com/c/6a646941-70c8-83ee-a626-fd9a4bccfce1}
+https://chatgpt.com/c/6a646941-70c8-83ee-a626-fd9a4bccfce1
 
 Created this repository and its initial contents. This engineering notebook will continue to evolve as the railroad project progresses.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---
 
-\section*{29 July 2026}
+## 29 July 2026
 
-\subsection*{Milestone}
+### Milestone
 
-Project officially initiated with the selection of the \textbf{DCC-EX} ecosystem as the foundation for the railroad control system.
+Project officially initiated with the selection of the **DCC-EX** ecosystem as the foundation for the railroad control system.
 
-\subsection*{Procurement}
+### Procurement
 
-\textbf{Vendor}
+| | |
+|---|---|
+| **Vendor** | `store.dcc-ex.com` |
+| **Items Ordered** | • EX-CSB1 Express Commander Command System<br>• 15 V / 5 A regulated power supply<br>• Snap-fit enclosure |
 
-\texttt{store.dcc-ex.com}
+---
 
-\vspace{0.5em}
+### Engineering Decision
 
-\textbf{Items Ordered}
+After evaluating commercially available DCC systems, **DCC-EX** was selected because it provides:
 
-\begin{itemize}[leftmargin=2em]
-    \item EX-CSB1 Express Commander Command System
-    \item 15 V / 5 A regulated power supply
-    \item Snap-fit enclosure
-\end{itemize}
-
-\subsection*{Engineering Decision}
-
-After evaluating commercially available DCC systems, the \textbf{DCC-EX} platform was selected because it provides:
-
-\begin{itemize}[leftmargin=2em]
-    \item Open architecture
-    \item Excellent integration with JMRI
-    \item Expandable multi-booster capability
-    \item Native support for modern IP networking
-    \item Strong community support
-    \item Ability to integrate with custom ESP32-based distributed controllers
-\end{itemize}
+- Open architecture
+- Excellent integration with JMRI
+- Expandable multi-booster capability
+- Native support for modern IP networking
+- Strong community support
+- Ability to integrate with custom ESP32-based distributed controllers
 
 The project intentionally avoids proprietary accessory ecosystems wherever practical in order to maximize interoperability, maintainability, and future expansion.
 
-\subsection*{Immediate Objectives}
+---
 
-\begin{enumerate}[leftmargin=2em]
-    \item Commission the EX-CSB1.
-    \item Install JMRI on the Cubietruck.
-    \item Verify OpenJDK 17 compatibility.
-    \item Connect using WiThrottle.
-    \item Read and program locomotive decoders.
-    \item Familiarise with the DCC-EX software ecosystem.
-\end{enumerate}
+### Immediate Objectives
 
-\vfill
+- [ ] Commission the EX-CSB1
+- [ ] Install JMRI on the Cubietruck
+- [ ] Verify OpenJDK 17 compatibility
+- [ ] Connect using WiThrottle
+- [ ] Read and program locomotive decoders
+- [ ] Familiarise with the DCC-EX software ecosystem
 
-\begin{center}
-\textit{"A reliable railroad begins with a reliable architecture."}
-\end{center}
+---
 
-\end{document}
+### System Vision
+
+The long-term architecture can be summarized as
+
+$$
+\text{Railroad}
+=
+\text{DCC-EX}
++
+\text{JMRI}
++
+\text{ESP32 Distributed Controllers}
++
+\text{Automation}
+$$
+
+Future expansion will include multiple boosters, distributed accessory controllers, signalling, CTC, and autonomous train operations.
+
+---
+
+> *"A reliable railroad begins with a reliable architecture."*
