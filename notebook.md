@@ -69,17 +69,11 @@ The project intentionally avoids proprietary accessory ecosystems wherever pract
 
 The long-term architecture can be summarized as
 
-$$
-\text{Railroad}
-
-\text{DCC-EX}
-
-\text{JMRI}
-
-\text{ESP32 Distributed Controllers}
-
-\text{Automation}
-$$
+- Railroad
+- DCC-EX
+- JMRI
+- ESP32 Distributed Controllers
+- Automation
 
 Future expansion will include multiple boosters, distributed accessory controllers, signalling, CTC, and autonomous train operations.
 
