@@ -36,12 +36,15 @@ Items
 
 Cost
 
-| Item | USD |
-|------|----:|
-| EX-CSB1 | 159.80 |
-| Enclosure | 15.25 |
-| Shipping | 19.15 |
-| Total | $194.20 |
+| Item                                     | Cost (USD) |
+| ---------------------------------------- | ---------: |
+| EX-CSB1 Express Commander Command System |    $159.80 |
+| 15 V / 5 A regulated power supply        |            |
+| Snap-fit enclosure                       |     $15.25 |
+| Shipping                                 |     $19.15 |
+| ---------------------------------------- | ---------- |
+| Total project cost (Phase 1)             |  US$194.20 |
+| ---------------------------------------- | ---------- |
 
 Details
 
@@ -72,4 +75,5 @@ Tested
 ↓
 
 Installed
+
 
