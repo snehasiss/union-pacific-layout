@@ -8,6 +8,15 @@
 
 # Engineering Log
 
+## 2026-07-25
+
+### Milestone
+
+Started exploring a suitable DCC system for my layout which is under construction.
+
+Consulted chatgpt for a long time over multiple days. https://chatgpt.com/c/6a646941-70c8-83ee-a626-fd9a4bccfce1
+
+
 ## 2026-07-29
 
 ### Milestone
@@ -18,11 +27,9 @@ Project initiated with the selection of the DCC-EX ecosystem as the foundation f
 
 Vendor: **store.dcc-ex.com**
 
-Items:
-
-EX-CSB1 Express Commander Command System 
-15 V / 5 A regulated power supply       
-Snap-fit enclosure                      
+Items: EX-CSB1 Express Commander Command System with 
+  15 V / 5 A regulated power supply and
+  Snap-fit enclosure                      
 
 ---
 
