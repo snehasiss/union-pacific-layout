@@ -71,13 +71,13 @@ The long-term architecture can be summarized as
 
 $$
 \text{Railroad}
-=
+
 \text{DCC-EX}
-+
+
 \text{JMRI}
-+
+
 \text{ESP32 Distributed Controllers}
-+
+
 \text{Automation}
 $$
 
