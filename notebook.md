@@ -16,6 +16,8 @@ Started exploring a suitable DCC system for my layout which is under constructio
 
 Consulted chatgpt for a long time over multiple days. https://chatgpt.com/c/6a646941-70c8-83ee-a626-fd9a4bccfce1
 
+Created this repository and the contents. This will keep getting updated as we progress.
+
 
 ## 2026-07-29
 
