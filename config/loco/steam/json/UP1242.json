@@ -1,0 +1,28 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 1242,
+        "class": "ten",
+        "wheelArrangement": "4-6-0",
+        "builder": "Cooke Locomotive and Machine Works"
+    },
+    "model": {
+        "scale": "HO"
+    },
+    "electronics": {
+        "dcc": false
+    },
+    "configuration": {
+        "address": 1242
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP1242.png"
+    }
+}

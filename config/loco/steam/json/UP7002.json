@@ -1,0 +1,37 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 7002,
+        "class": "mountain MT-73",
+        "wheelArrangement": "4-8-2",
+        "builder": "American Locomotive Company"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Broadway Limited Imports",
+        "productLine": "die cast"
+    },
+    "electronics": {
+        "decoder": "paragon2",
+        "dcc": true,
+        "sound": true,
+        "smoke": false
+    },
+    "ownership": {
+        "purchasePrice": "489",
+        "seller": "ebay"
+    },
+    "configuration": {
+        "address": 7002
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP7002.png"
+    }
+}

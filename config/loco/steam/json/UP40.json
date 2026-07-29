@@ -1,0 +1,37 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 40,
+        "class": "mogul",
+        "wheelArrangement": "2-6-0",
+        "builder": "New York Locomotive Works"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Athearn",
+        "productLine": "die cast"
+    },
+    "electronics": {
+        "decoder": "esu loksound",
+        "dcc": false,
+        "sound": true,
+        "smoke": false
+    },
+    "ownership": {
+        "purchasePrice": "325",
+        "seller": "houseoftrains"
+    },
+    "configuration": {
+        "address": 40
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP40.png"
+    }
+}

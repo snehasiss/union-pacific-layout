@@ -1,0 +1,32 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 5090,
+        "class": "overland",
+        "wheelArrangement": "4-10-2",
+        "builder": "American Locomotive Company"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "brass",
+        "productLine": "Brass"
+    },
+    "electronics": {
+        "dcc": false,
+        "sound": false,
+        "smoke": false
+    },
+    "configuration": {
+        "address": 5090
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP5090.png"
+    }
+}

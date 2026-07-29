@@ -1,0 +1,37 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 5,
+        "class": "Cass Scenic Railroad",
+        "wheelArrangement": "Heisler steam",
+        "builder": "Heisler Locomotive Works"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Bachmann",
+        "productLine": "plastic"
+    },
+    "electronics": {
+        "decoder": "econami",
+        "dcc": true,
+        "sound": true,
+        "smoke": false
+    },
+    "ownership": {
+        "purchasePrice": "428",
+        "seller": "ebay"
+    },
+    "configuration": {
+        "address": 5
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP5.png"
+    }
+}

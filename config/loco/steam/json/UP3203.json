@@ -1,0 +1,28 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 3203,
+        "class": "pacific",
+        "wheelArrangement": "4-6-2",
+        "builder": "Baldwin Locomotive Works"
+    },
+    "model": {
+        "scale": "HO"
+    },
+    "electronics": {
+        "dcc": false
+    },
+    "configuration": {
+        "address": 3203
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP3203.png"
+    }
+}

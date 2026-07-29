@@ -1,0 +1,37 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 844,
+        "class": "northern FEF",
+        "wheelArrangement": "4-8'4",
+        "builder": "American Locomotive Company"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Broadway Limited Imports",
+        "productLine": "Brass Hybrid"
+    },
+    "electronics": {
+        "decoder": "paragon3",
+        "dcc": true,
+        "sound": true,
+        "smoke": true
+    },
+    "ownership": {
+        "purchasePrice": "560",
+        "seller": "trainworld"
+    },
+    "configuration": {
+        "address": 844
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP844.png"
+    }
+}

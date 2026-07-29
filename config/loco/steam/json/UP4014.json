@@ -1,0 +1,37 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 4014,
+        "class": "big boy",
+        "wheelArrangement": "4-8-8-4",
+        "builder": "American Locomotive Company"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Athearn",
+        "productLine": "Genesis"
+    },
+    "electronics": {
+        "decoder": "tsunami",
+        "dcc": true,
+        "sound": true,
+        "smoke": false
+    },
+    "ownership": {
+        "purchasePrice": "655",
+        "seller": "model train stuff"
+    },
+    "configuration": {
+        "address": 4014
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP4014.png"
+    }
+}

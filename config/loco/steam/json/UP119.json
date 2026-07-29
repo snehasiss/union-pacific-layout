@@ -1,0 +1,36 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 119,
+        "class": "american",
+        "wheelArrangement": "4-4-0",
+        "builder": "Rogers Locomotive and Machine Works"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Bachmann",
+        "productLine": "plastic"
+    },
+    "electronics": {
+        "decoder": "econami",
+        "dcc": true,
+        "sound": true,
+        "smoke": false
+    },
+    "ownership": {
+        "seller": "Trainworld"
+    },
+    "configuration": {
+        "address": 119
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP119.png"
+    }
+}

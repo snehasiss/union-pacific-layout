@@ -1,0 +1,37 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 5053,
+        "class": "TTT-6",
+        "wheelArrangement": "2-10-2",
+        "builder": "Baldwin Locomotive Works"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Broadway Limited Imports",
+        "productLine": "Brass Hybrid"
+    },
+    "electronics": {
+        "decoder": "qsi",
+        "dcc": true,
+        "sound": true,
+        "smoke": false
+    },
+    "ownership": {
+        "purchasePrice": "608",
+        "seller": "ebay"
+    },
+    "configuration": {
+        "address": 5053
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP5053.png"
+    }
+}

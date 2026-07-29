@@ -1,0 +1,37 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "generatedOn": "2026-07-30"
+    },
+    "prototype": {
+        "railroad": "Union Pacific",
+        "roadNumber": 604,
+        "class": "consolidation",
+        "wheelArrangement": "2-8-0",
+        "builder": "Burnham, Wms & Co (pre-Baldwin Locomotive Works)"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Broadway Limited Imports",
+        "productLine": "brass hybrid"
+    },
+    "electronics": {
+        "decoder": "paragon4",
+        "dcc": true,
+        "sound": true,
+        "smoke": true
+    },
+    "ownership": {
+        "purchasePrice": "430",
+        "seller": "springcreek"
+    },
+    "configuration": {
+        "address": 604
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "resources/photos/UP604.png"
+    }
+}
