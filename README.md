@@ -11,13 +11,13 @@ union-pacific-layout/
 
 README.md
 
-docs/              # Engineering documentation
-config/            # JSON source of truth
-src/               # Firmware, Python, AI, utilities
-operations/        # Deployment and maintenance procedures
-resources/         # Photos, drawings, diagrams
-inventory/         # Physical assets and procurement
-reference/         # External manuals and prototype information
-tests/             # Validation, simulations, and hardware tests
-tools/             # Generators, converters, and automation scripts
+config/                 # JSON source of truth
+docs/                   # Engineering documentation
+inventory/              # Physical assets and procurement
+operations/             # Deployment and maintenance procedures
+resources/              # Photos, drawings, diagrams
+resources/reference/    # External manuals and prototype information
+src/                    # Firmware, Python, AI, utilities
+tests/                  # Validation, simulations, and hardware tests
+tools/                  # Generators, converters, and automation scripts
 </code></pre>
