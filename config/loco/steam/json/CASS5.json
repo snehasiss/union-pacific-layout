@@ -1,0 +1,40 @@
+{
+    "metadata": {
+        "schemaVersion": "1.0",
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
+    },
+    "prototype": {
+        "builder": "Heisler Locomotive Works",
+        "railroad": "Cass Scenic Railroad",
+        "reportingMark": "CASS",
+        "roadNumber": 5,
+        "nickname": "Heisler Steam Loco",
+        "wheelArrangement": "3-Truck Heisler"
+    },
+    "model": {
+        "scale": "HO",
+        "manufacturer": "Rivarossi",
+        "product": "plastic",
+        "status": "ordered"
+    },
+    "electronics": {
+        "dcc": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "loksound",
+        "address": 3
+    },
+    "ownership": {
+        "store": "Ebay",
+        "purchasePriceUSD": 340,
+        "purchaseDate": "2026-07-09"
+    },
+    "maintenance": {
+        "serviceHistory": []
+    },
+    "media": {
+        "photo": "assets/photos/Cass5.png"
+    },
+    "notes": ""
+}

@@ -1,37 +1,40 @@
 {
     "metadata": {
         "schemaVersion": "1.0",
-        "generatedOn": "2026-07-30"
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
     },
     "prototype": {
+        "builder": "American Locomotive Company",
         "railroad": "Union Pacific",
+        "reportingMark": "UP",
         "roadNumber": 3826,
-        "class": "challenger",
-        "wheelArrangement": "4-6-6-4",
-        "builder": "American Locomotive Company"
+        "nickname": "Challenger",
+        "wheelArrangement": "4-6-6-4"
     },
     "model": {
         "scale": "HO",
         "manufacturer": "Broadway Limited Imports",
-        "productLine": "Brass Hybrid"
+        "product": "Brass Hybrid",
+        "status": "obtained"
     },
     "electronics": {
-        "decoder": "paragon4",
         "dcc": true,
         "sound": true,
-        "smoke": false
+        "smoke": false,
+        "decoder": "paragon4",
+        "address": 3
     },
     "ownership": {
-        "purchasePrice": "700",
-        "seller": "ebay"
-    },
-    "configuration": {
-        "address": 3826
+        "store": "Ebay",
+        "purchasePriceUSD": 700,
+        "purchaseDate": "2026-06-11"
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "resources/photos/UP3826.png"
-    }
+        "photo": "assets/photos/Up3826.png"
+    },
+    "notes": ""
 }

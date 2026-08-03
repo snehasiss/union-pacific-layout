@@ -1,37 +1,40 @@
 {
     "metadata": {
         "schemaVersion": "1.0",
-        "generatedOn": "2026-07-30"
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
     },
     "prototype": {
+        "builder": "American Locomotive Company",
         "railroad": "Union Pacific",
+        "reportingMark": "UP",
         "roadNumber": 9028,
-        "class": "heavy",
-        "wheelArrangement": "4-12-2",
-        "builder": "American Locomotive Company"
+        "nickname": "Heavy",
+        "wheelArrangement": "4-12-2"
     },
     "model": {
         "scale": "HO",
         "manufacturer": "Broadway Limited Imports",
-        "productLine": "Brass Hybrid"
+        "product": "Brass Hybrid",
+        "status": "obtained"
     },
     "electronics": {
-        "decoder": "paragon4",
         "dcc": true,
         "sound": true,
-        "smoke": true
+        "smoke": true,
+        "decoder": "paragon4",
+        "address": 3
     },
     "ownership": {
-        "purchasePrice": "720",
-        "seller": "iron planet"
-    },
-    "configuration": {
-        "address": 9028
+        "store": "Iron Planet",
+        "purchasePriceUSD": 720,
+        "purchaseDate": "2026-03-05"
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "resources/photos/UP9028.png"
-    }
+        "photo": "assets/photos/Up9028.png"
+    },
+    "notes": ""
 }

@@ -1,37 +1,40 @@
 {
     "metadata": {
         "schemaVersion": "1.0",
-        "generatedOn": "2026-07-30"
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
     },
     "prototype": {
+        "builder": "American Locomotive Company",
         "railroad": "Union Pacific",
+        "reportingMark": "UP",
         "roadNumber": 3551,
-        "class": "bullmoose",
-        "wheelArrangement": "2-8-8-0",
-        "builder": "American Locomotive Company"
+        "nickname": "Bullmoose",
+        "wheelArrangement": "2-8-8-0"
     },
     "model": {
         "scale": "HO",
         "manufacturer": "Broadway Limited Imports",
-        "productLine": "Brass Hybrid"
+        "product": "Brass Hybrid",
+        "status": "obtained"
     },
     "electronics": {
-        "decoder": "paragon4",
         "dcc": true,
         "sound": true,
-        "smoke": true
+        "smoke": true,
+        "decoder": "paragon4",
+        "address": 3
     },
     "ownership": {
-        "purchasePrice": "760",
-        "seller": "trainworld"
-    },
-    "configuration": {
-        "address": 3551
+        "store": "Trainworld",
+        "purchasePriceUSD": 765,
+        "purchaseDate": "2026-05-03"
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "resources/photos/UP3551.png"
-    }
+        "photo": "assets/photos/Up3551.png"
+    },
+    "notes": ""
 }

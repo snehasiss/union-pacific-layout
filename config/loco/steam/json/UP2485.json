@@ -1,37 +1,40 @@
 {
     "metadata": {
         "schemaVersion": "1.0",
-        "generatedOn": "2026-07-30"
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
     },
     "prototype": {
+        "builder": "American Locomotive Company",
         "railroad": "Union Pacific",
+        "reportingMark": "UP",
         "roadNumber": 2485,
-        "class": "mikado",
-        "wheelArrangement": "2-8-2",
-        "builder": "American Locomotive Company"
+        "nickname": "Mikado",
+        "wheelArrangement": "2-8-2"
     },
     "model": {
         "scale": "HO",
         "manufacturer": "Broadway Limited Imports",
-        "productLine": "die cast"
+        "product": "die cast",
+        "status": "obtained"
     },
     "electronics": {
-        "decoder": "paragon2",
         "dcc": true,
         "sound": true,
-        "smoke": false
+        "smoke": false,
+        "decoder": "paragon2",
+        "address": 3
     },
     "ownership": {
-        "purchasePrice": "382",
-        "seller": "ebay"
-    },
-    "configuration": {
-        "address": 2485
+        "store": "Ebay",
+        "purchasePriceUSD": 290,
+        "purchaseDate": "2026-07-06"
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "resources/photos/UP2485.png"
-    }
+        "photo": "assets/photos/Up2485.png"
+    },
+    "notes": ""
 }

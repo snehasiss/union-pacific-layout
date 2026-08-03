@@ -5,36 +5,36 @@
         "lastModified": "2026-08-03"
     },
     "prototype": {
-        "builder": "Baldwin Locomotive Works",
-        "railroad": "Union Pacific",
-        "reportingMark": "UP",
-        "roadNumber": 5053,
-        "nickname": "Ttt-6",
-        "wheelArrangement": "2-10-2"
+        "builder": "Lima Locomotive Works",
+        "railroad": "Mower Lumber Co",
+        "reportingMark": "MLC",
+        "roadNumber": 12,
+        "nickname": "Shay Loco",
+        "wheelArrangement": "4-Truck Shay"
     },
     "model": {
         "scale": "HO",
         "manufacturer": "Broadway Limited Imports",
-        "product": "Brass Hybrid",
+        "product": "die cast",
         "status": "obtained"
     },
     "electronics": {
         "dcc": true,
         "sound": true,
-        "smoke": false,
-        "decoder": "qsi",
+        "smoke": true,
+        "decoder": "paragon4",
         "address": 3
     },
     "ownership": {
-        "store": "Ebay",
-        "purchasePriceUSD": 525,
-        "purchaseDate": "2026-06-23"
+        "store": "Lombard",
+        "purchasePriceUSD": 480,
+        "purchaseDate": "2026-01-14"
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "assets/photos/Up5053.png"
+        "photo": "assets/photos/Mlc12.png"
     },
     "notes": ""
 }

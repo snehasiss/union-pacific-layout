@@ -1,36 +1,38 @@
 {
     "metadata": {
         "schemaVersion": "1.0",
-        "generatedOn": "2026-07-30"
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
     },
     "prototype": {
+        "builder": "Rogers Locomotive And Machine Works",
         "railroad": "Union Pacific",
+        "reportingMark": "UP",
         "roadNumber": 119,
-        "class": "american",
-        "wheelArrangement": "4-4-0",
-        "builder": "Rogers Locomotive and Machine Works"
+        "nickname": "American",
+        "wheelArrangement": "4-4-0"
     },
     "model": {
         "scale": "HO",
         "manufacturer": "Bachmann",
-        "productLine": "plastic"
+        "product": "plastic",
+        "status": "available"
     },
     "electronics": {
-        "decoder": "econami",
         "dcc": true,
         "sound": true,
-        "smoke": false
+        "smoke": false,
+        "decoder": "econami",
+        "address": 0
     },
     "ownership": {
-        "seller": "Trainworld"
-    },
-    "configuration": {
-        "address": 119
+        "store": "Trainworld"
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "resources/photos/UP119.png"
-    }
+        "photo": "assets/photos/Up119.png"
+    },
+    "notes": ""
 }

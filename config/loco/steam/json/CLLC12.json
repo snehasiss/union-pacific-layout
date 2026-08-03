@@ -5,36 +5,36 @@
         "lastModified": "2026-08-03"
     },
     "prototype": {
-        "builder": "Baldwin Locomotive Works",
-        "railroad": "Union Pacific",
-        "reportingMark": "UP",
-        "roadNumber": 3672,
-        "nickname": "Mallet",
-        "wheelArrangement": "2-8-8-2"
+        "builder": "Climax Manufacturing Company",
+        "railroad": "Clear Lake Lumber Co",
+        "reportingMark": "CLLC",
+        "roadNumber": 12,
+        "nickname": "Climax Steam Loco",
+        "wheelArrangement": "3-Truck Climax"
     },
     "model": {
         "scale": "HO",
-        "manufacturer": "Proto 2000",
-        "product": "Proto",
+        "manufacturer": "Bachmann",
+        "product": "plastic",
         "status": "obtained"
     },
     "electronics": {
         "dcc": true,
         "sound": true,
         "smoke": false,
-        "decoder": "esu loksound",
+        "decoder": "econami",
         "address": 3
     },
     "ownership": {
         "store": "Ebay",
-        "purchasePriceUSD": 240,
-        "purchaseDate": "2026-06-23"
+        "purchasePriceUSD": 550,
+        "purchaseDate": "2026-04-07"
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "assets/photos/Up3672.png"
+        "photo": "assets/photos/Cllc12.png"
     },
     "notes": ""
 }

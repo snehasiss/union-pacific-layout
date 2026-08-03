@@ -1,28 +1,30 @@
 {
     "metadata": {
         "schemaVersion": "1.0",
-        "generatedOn": "2026-07-30"
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
     },
     "prototype": {
+        "builder": "Baldwin Locomotive Works",
         "railroad": "Union Pacific",
+        "reportingMark": "UP",
         "roadNumber": 3203,
-        "class": "pacific",
-        "wheelArrangement": "4-6-2",
-        "builder": "Baldwin Locomotive Works"
+        "nickname": "Pacific",
+        "wheelArrangement": "4-6-2"
     },
     "model": {
-        "scale": "HO"
+        "scale": "HO",
+        "status": "searching"
     },
     "electronics": {
-        "dcc": false
-    },
-    "configuration": {
-        "address": 3203
+        "dcc": false,
+        "address": 0
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "resources/photos/UP3203.png"
-    }
+        "photo": "assets/photos/Up3203.png"
+    },
+    "notes": ""
 }

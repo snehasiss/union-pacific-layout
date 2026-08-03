@@ -1,37 +1,40 @@
 {
     "metadata": {
         "schemaVersion": "1.0",
-        "generatedOn": "2026-07-30"
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
     },
     "prototype": {
+        "builder": "American Locomotive Company",
         "railroad": "Union Pacific",
+        "reportingMark": "UP",
         "roadNumber": 844,
-        "class": "northern FEF",
-        "wheelArrangement": "4-8'4",
-        "builder": "American Locomotive Company"
+        "nickname": "Northern Fef",
+        "wheelArrangement": "4-8'4"
     },
     "model": {
         "scale": "HO",
         "manufacturer": "Broadway Limited Imports",
-        "productLine": "Brass Hybrid"
+        "product": "Brass Hybrid",
+        "status": "obtained"
     },
     "electronics": {
-        "decoder": "paragon3",
         "dcc": true,
         "sound": true,
-        "smoke": true
+        "smoke": true,
+        "decoder": "paragon3",
+        "address": 844
     },
     "ownership": {
-        "purchasePrice": "560",
-        "seller": "trainworld"
-    },
-    "configuration": {
-        "address": 844
+        "store": "Trainworld",
+        "purchasePriceUSD": 560,
+        "purchaseDate": "2021-12-21"
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "resources/photos/UP844.png"
-    }
+        "photo": "assets/photos/Up844.png"
+    },
+    "notes": ""
 }

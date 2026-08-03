@@ -1,31 +1,33 @@
 {
     "metadata": {
         "schemaVersion": "1.0",
-        "generatedOn": "2026-07-30"
+        "created": "2026-08-03",
+        "lastModified": "2026-08-03"
     },
     "prototype": {
+        "builder": "Lima Locomotive Works",
         "railroad": "Union Pacific",
+        "reportingMark": "UP",
         "roadNumber": 4455,
-        "class": "S-6 switcher",
-        "wheelArrangement": "0-6-0",
-        "builder": "Lima Locomotive Works"
+        "nickname": "S-6 Switcher",
+        "wheelArrangement": "0-6-0"
     },
     "model": {
         "scale": "HO",
         "manufacturer": "Bachmann",
-        "productLine": "plastic"
+        "product": "plastic",
+        "status": "searching"
     },
     "electronics": {
         "dcc": false,
-        "smoke": false
-    },
-    "configuration": {
-        "address": 4455
+        "smoke": false,
+        "address": 0
     },
     "maintenance": {
         "serviceHistory": []
     },
     "media": {
-        "photo": "resources/photos/UP4455.png"
-    }
+        "photo": "assets/photos/Up4455.png"
+    },
+    "notes": ""
 }
