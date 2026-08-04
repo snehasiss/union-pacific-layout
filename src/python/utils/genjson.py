@@ -29,7 +29,6 @@ def main():
     generator = GenJSON (
         csv_file="steam.csv",
         output_directory="json"
-
     )
     generator.run()
 
