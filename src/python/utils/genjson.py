@@ -7,6 +7,14 @@ Generate one JSON file per locomotive from a CSV inventory.
 
 Author : Snehasis Sinha
 Project: Union Pacific Layout
+
+Input:
+    config/loco/steam/steam.csv
+
+Output:
+    config/loco/steam/json/UP844.json
+    config/loco/steam/json/UP4014.json
+    ...
 """
 
 from __future__ import annotations
