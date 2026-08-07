@@ -25,7 +25,7 @@ from pathlib import Path
 from datetime import datetime, date
 from typing import Any, Dict
 
-from libsgenjson import GenJSON
+from libs.libsgenjson import GenJSON
 
 
 ###############################################################################
