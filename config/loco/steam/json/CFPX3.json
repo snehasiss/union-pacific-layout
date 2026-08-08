@@ -9,7 +9,8 @@
     },
     "model": {
         "make": "mantua",
-        "product": "plastic"
+        "product": "plastic",
+        "scale": "HO"
     },
     "electronics": {
         "dcc": true,

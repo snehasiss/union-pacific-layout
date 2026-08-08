@@ -9,7 +9,8 @@
     },
     "model": {
         "make": "Broadway Limited Imports",
-        "product": "brass hybrid"
+        "product": "brass hybrid",
+        "scale": "HO"
     },
     "electronics": {
         "dcc": true,

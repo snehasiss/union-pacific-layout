@@ -9,7 +9,8 @@
     },
     "model": {
         "make": null,
-        "product": null
+        "product": null,
+        "scale": "HO"
     },
     "electronics": {
         "dcc": false,

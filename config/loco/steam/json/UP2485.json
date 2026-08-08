@@ -9,7 +9,8 @@
     },
     "model": {
         "make": "Broadway Limited Imports",
-        "product": "die cast"
+        "product": "die cast",
+        "scale": "HO"
     },
     "electronics": {
         "dcc": true,

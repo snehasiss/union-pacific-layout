@@ -9,7 +9,8 @@
     },
     "model": {
         "make": "brass",
-        "product": "Brass"
+        "product": "Brass",
+        "scale": "HO"
     },
     "electronics": {
         "dcc": false,

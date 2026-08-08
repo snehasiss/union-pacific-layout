@@ -9,7 +9,8 @@
     },
     "model": {
         "make": "Athearn",
-        "product": "Genesis"
+        "product": "Genesis",
+        "scale": "HO"
     },
     "electronics": {
         "dcc": true,

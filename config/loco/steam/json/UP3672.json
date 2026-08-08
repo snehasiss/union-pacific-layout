@@ -9,7 +9,8 @@
     },
     "model": {
         "make": "Proto 2000",
-        "product": "Proto"
+        "product": "Proto",
+        "scale": "HO"
     },
     "electronics": {
         "dcc": true,

@@ -9,7 +9,8 @@
     },
     "model": {
         "make": "Bachmann",
-        "product": "plastic"
+        "product": "plastic",
+        "scale": "HO"
     },
     "electronics": {
         "dcc": false,
