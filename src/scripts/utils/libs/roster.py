@@ -4,7 +4,7 @@
 # roster.py
 #
 
-from locomotive import Locomotive
+from libs.locomotive import Locomotive
 import csv
 import json
 
@@ -56,6 +56,8 @@ class Roster:
             key.strip().lower().replace(" ", "_"): Roster._clean(value)
             for key, value in row.items()
         }
+
+        #print (normalized)
         return normalized
 
     @classmethod
@@ -67,6 +69,8 @@ class Roster:
 
             for row in reader:
                 normalized = cls._normalize_row(row)
-                roster.add(Locomotive.from_dict(normalized))
+                #print ("a", normalized, "b\n")
+                roster.add(Locomotive.from_csv_row(normalized))
 
+        #print (roster)
         return roster

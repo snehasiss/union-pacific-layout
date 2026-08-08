@@ -7,7 +7,7 @@ filename   : locomotive.py
 """
 
 from dataclasses import dataclass, asdict
-from dataclassfactory import DataclassFactory
+from libs.dataclassfactory import DataclassFactory
 
 from datetime import date
 from typing import Optional
@@ -25,7 +25,7 @@ class Prototype:
 @dataclass
 class Model:
     # model
-    scale: str
+    #scale: str = "HO"
     make: str
     product: str
 
@@ -69,7 +69,7 @@ class Locomotive:
         return self.prototype.reporting_mark
         
     @classmethod
-    def from_dict(cls, data):
+    def from_dict(cls, data: dict):
         return cls(**data)
 
     def to_dict(self):

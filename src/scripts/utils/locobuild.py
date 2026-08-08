@@ -4,20 +4,22 @@
 # filename: test.py
 
 
-from locomotive import Locomotive
-from roster import Roster
+from libs.locomotive import Locomotive
+from libs.roster import Roster
 
 def main():
 	roster = Roster.from_csv("steam.csv")
 
-	breakpoint()
+	#breakpoint()
 
 	locomotive = roster.find(4014)
 
-	breakpoint()
+	#breakpoint()
 	print("running")
 	print(locomotive)
 	print("completed")
+
+	roster.save()
 
 # --- main ---
 if __name__ == "__main__":
