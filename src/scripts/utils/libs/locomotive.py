@@ -26,9 +26,9 @@ class Prototype:
 @dataclass
 class Model:
     # model
-    #scale: str = "HO"
     make: str
     product: str
+    scale: str = "HO"
 
 @dataclass
 class Electronics:
