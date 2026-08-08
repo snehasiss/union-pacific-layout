@@ -1,5 +1,6 @@
-DCC sound conversion of an Athearn HO 2-6-0 Union Pacific locomotive
-https://www.trainworld.com/athearn-87248-ho-2-6-0-mogul-steam-locomotive-union-pacific-40.html 
+# DCC sound conversion of an Athearn HO 2-6-0 Union Pacific locomotive
+
+Reference: https://www.trainworld.com/athearn-87248-ho-2-6-0-mogul-steam-locomotive-union-pacific-40.html 
 - what would be suitable sound decoder option
 - Need sound decoder (prefer slip-in type), preferably ESU
 - keepalive, 
