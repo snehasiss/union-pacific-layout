@@ -1,22 +1,15 @@
 {
-    "metadata": {
-        "schemaVersion": "1.0",
-        "created": "2026-08-03",
-        "lastModified": "2026-08-03"
-    },
     "prototype": {
         "builder": "Baldwin Locomotive Works",
-        "railroad": "Union Pacific",
-        "reportingMark": "UP",
-        "roadNumber": 3672,
-        "nickname": "Mallet",
-        "wheelArrangement": "2-8-8-2"
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": 3672,
+        "nickname": "mallet",
+        "wheels": "2-8-8-2"
     },
     "model": {
-        "scale": "HO",
-        "manufacturer": "Proto 2000",
-        "product": "Proto",
-        "status": "obtained"
+        "make": "Proto 2000",
+        "product": "Proto"
     },
     "electronics": {
         "dcc": true,
@@ -26,15 +19,13 @@
         "address": 3
     },
     "ownership": {
-        "store": "Ebay",
-        "purchasePriceUSD": 240,
-        "purchaseDate": "2026-06-23"
-    },
-    "maintenance": {
-        "serviceHistory": []
+        "status": "obtained",
+        "store": "ebay",
+        "price": 240.0,
+        "dated": "2026-06-23"
     },
     "media": {
-        "photo": "assets/photos/Up3672.png"
-    },
-    "notes": ""
+        "photo": null,
+        "notes": null
+    }
 }

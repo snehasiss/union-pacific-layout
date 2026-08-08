@@ -1,22 +1,15 @@
 {
-    "metadata": {
-        "schemaVersion": "1.0",
-        "created": "2026-08-03",
-        "lastModified": "2026-08-03"
-    },
     "prototype": {
         "builder": "American Locomotive Company",
-        "railroad": "Union Pacific",
-        "reportingMark": "UP",
-        "roadNumber": 4014,
-        "nickname": "Big Boy",
-        "wheelArrangement": "4-8-8-4"
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": 4014,
+        "nickname": "big boy",
+        "wheels": "4-8-8-4"
     },
     "model": {
-        "scale": "HO",
-        "manufacturer": "Athearn",
-        "product": "Genesis",
-        "status": "obtained"
+        "make": "Athearn",
+        "product": "Genesis"
     },
     "electronics": {
         "dcc": true,
@@ -26,15 +19,13 @@
         "address": 3
     },
     "ownership": {
-        "store": "Model Train Stuff",
-        "purchasePriceUSD": 655,
-        "purchaseDate": "2020-11-20"
-    },
-    "maintenance": {
-        "serviceHistory": []
+        "status": "obtained",
+        "store": "model train stuff",
+        "price": 655.0,
+        "dated": "2020-11-20"
     },
     "media": {
-        "photo": "assets/photos/Up4014.png"
-    },
-    "notes": ""
+        "photo": null,
+        "notes": null
+    }
 }

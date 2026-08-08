@@ -1,30 +1,31 @@
 {
-    "metadata": {
-        "schemaVersion": "1.0",
-        "created": "2026-08-03",
-        "lastModified": "2026-08-03"
-    },
     "prototype": {
-        "builder": "Cooke Locomotive And Machine Works",
-        "railroad": "Union Pacific",
-        "reportingMark": "UP",
-        "roadNumber": 1242,
-        "nickname": "Ten",
-        "wheelArrangement": "4-6-0"
+        "builder": "Cooke Locomotive and Machine Works",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": 1242,
+        "nickname": "ten",
+        "wheels": "4-6-0"
     },
     "model": {
-        "scale": "HO",
-        "status": "searching"
+        "make": null,
+        "product": null
     },
     "electronics": {
         "dcc": false,
+        "sound": null,
+        "smoke": null,
+        "decoder": null,
         "address": 0
     },
-    "maintenance": {
-        "serviceHistory": []
+    "ownership": {
+        "status": "searching",
+        "store": null,
+        "price": null,
+        "dated": null
     },
     "media": {
-        "photo": "assets/photos/Up1242.png"
-    },
-    "notes": ""
+        "photo": null,
+        "notes": null
+    }
 }

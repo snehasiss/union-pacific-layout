@@ -1,22 +1,15 @@
 {
-    "metadata": {
-        "schemaVersion": "1.0",
-        "created": "2026-08-03",
-        "lastModified": "2026-08-03"
-    },
     "prototype": {
         "builder": "Baldwin Locomotive Works",
-        "railroad": "Canadian Forest Products",
-        "reportingMark": "CFPX",
-        "roadNumber": 3,
-        "nickname": "Articulated Logger",
-        "wheelArrangement": "2-6-6-2T"
+        "railroad": "canadian forest products",
+        "reporting_mark": "CFPX",
+        "road_number": 3,
+        "nickname": "articulated logger",
+        "wheels": "2-6-6-2T"
     },
     "model": {
-        "scale": "HO",
-        "manufacturer": "mantua",
-        "product": "plastic",
-        "status": "obtained"
+        "make": "mantua",
+        "product": "plastic"
     },
     "electronics": {
         "dcc": true,
@@ -26,15 +19,13 @@
         "address": 3
     },
     "ownership": {
-        "store": "Ebay",
-        "purchasePriceUSD": 180,
-        "purchaseDate": "2020-05-11"
-    },
-    "maintenance": {
-        "serviceHistory": []
+        "status": "obtained",
+        "store": "ebay",
+        "price": 180.0,
+        "dated": "2020-05-11"
     },
     "media": {
-        "photo": "assets/photos/Cfpx3.png"
-    },
-    "notes": ""
+        "photo": null,
+        "notes": null
+    }
 }

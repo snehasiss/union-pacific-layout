@@ -1,22 +1,15 @@
 {
-    "metadata": {
-        "schemaVersion": "1.0",
-        "created": "2026-08-03",
-        "lastModified": "2026-08-03"
-    },
     "prototype": {
         "builder": "Baldwin Locomotive Works",
-        "railroad": "Norfolk And Western",
-        "reportingMark": "NW",
-        "roadNumber": 2190,
-        "nickname": "Y6B Mallet",
-        "wheelArrangement": "2-8-8-2"
+        "railroad": "norfolk and western",
+        "reporting_mark": "NW",
+        "road_number": 2190,
+        "nickname": "Y6b mallet",
+        "wheels": "2-8-8-2"
     },
     "model": {
-        "scale": "HO",
-        "manufacturer": "Broadway Limited Imports",
-        "product": "Brass Hybrid",
-        "status": "obtained"
+        "make": "Broadway Limited Imports",
+        "product": "Brass Hybrid"
     },
     "electronics": {
         "dcc": true,
@@ -26,15 +19,13 @@
         "address": 2190
     },
     "ownership": {
-        "store": "Factorydirect",
-        "purchasePriceUSD": 470,
-        "purchaseDate": "2021-03-17"
-    },
-    "maintenance": {
-        "serviceHistory": []
+        "status": "obtained",
+        "store": "factorydirect",
+        "price": 470.0,
+        "dated": "2021-03-17"
     },
     "media": {
-        "photo": "assets/photos/Nw2190.png"
-    },
-    "notes": ""
+        "photo": null,
+        "notes": null
+    }
 }

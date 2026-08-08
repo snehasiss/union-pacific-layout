@@ -1,22 +1,15 @@
 {
-    "metadata": {
-        "schemaVersion": "1.0",
-        "created": "2026-08-03",
-        "lastModified": "2026-08-03"
-    },
     "prototype": {
         "builder": "Baldwin Locomotive Works",
-        "railroad": "Union Pacific",
-        "reportingMark": "UP",
-        "roadNumber": 5053,
-        "nickname": "Ttt-6",
-        "wheelArrangement": "2-10-2"
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": 5053,
+        "nickname": "TTT-6",
+        "wheels": "2-10-2"
     },
     "model": {
-        "scale": "HO",
-        "manufacturer": "Broadway Limited Imports",
-        "product": "Brass Hybrid",
-        "status": "obtained"
+        "make": "Broadway Limited Imports",
+        "product": "Brass Hybrid"
     },
     "electronics": {
         "dcc": true,
@@ -26,15 +19,13 @@
         "address": 3
     },
     "ownership": {
-        "store": "Ebay",
-        "purchasePriceUSD": 525,
-        "purchaseDate": "2026-06-23"
-    },
-    "maintenance": {
-        "serviceHistory": []
+        "status": "obtained",
+        "store": "ebay",
+        "price": 525.0,
+        "dated": "2026-06-23"
     },
     "media": {
-        "photo": "assets/photos/Up5053.png"
-    },
-    "notes": ""
+        "photo": null,
+        "notes": null
+    }
 }

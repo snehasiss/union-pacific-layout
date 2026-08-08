@@ -1,22 +1,15 @@
 {
-    "metadata": {
-        "schemaVersion": "1.0",
-        "created": "2026-08-03",
-        "lastModified": "2026-08-03"
-    },
     "prototype": {
         "builder": "New York Locomotive Works",
-        "railroad": "Union Pacific",
-        "reportingMark": "UP",
-        "roadNumber": 40,
-        "nickname": "Mogul",
-        "wheelArrangement": "2-6-0"
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": 40,
+        "nickname": "mogul",
+        "wheels": "2-6-0"
     },
     "model": {
-        "scale": "HO",
-        "manufacturer": "Athearn",
-        "product": "die cast",
-        "status": "available"
+        "make": "Athearn",
+        "product": "die cast"
     },
     "electronics": {
         "dcc": false,
@@ -25,11 +18,14 @@
         "decoder": "dc",
         "address": 0
     },
-    "maintenance": {
-        "serviceHistory": []
+    "ownership": {
+        "status": "available",
+        "store": null,
+        "price": null,
+        "dated": null
     },
     "media": {
-        "photo": "assets/photos/Up40.png"
-    },
-    "notes": ""
+        "photo": null,
+        "notes": null
+    }
 }
