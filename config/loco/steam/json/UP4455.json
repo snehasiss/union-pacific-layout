@@ -2,7 +2,7 @@
     "prototype": {
         "builder": "Lima Locomotive Works",
         "railroad": "Union Pacific",
-        "reporting_mark": "Up",
+        "reporting_mark": "UP",
         "road_number": 4455,
         "nickname": "S-6 Switcher",
         "wheels": "0-6-0"
