@@ -6,6 +6,7 @@
 
 from libs.locomotive import Locomotive
 from libs.roster import Roster
+from libs.dataclassfactory import DataclassFactory
 
 def main():
 	roster = Roster.from_csv("steam.csv")
