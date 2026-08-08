@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
-# test of Locomotive and Roster
-# filename: test.py
+# locobuild.py builds locomotive, prepares roster, orchastrates io
 
+
+from pathlib import Path
 
 from libs.roster import Roster
-from pathlib import Path
+from libs.locomotive import Locomotive
+from libs.iostream import IOStream
+
 
 def main():
 
@@ -15,15 +18,24 @@ def main():
     input_file = config_dir / "steam.csv"
     output_dir = config_dir / "json"
 
-    roster = Roster.from_csv(input_file)
+    io = IOStream (case=IOStream.CASE_TITLE)
+    rows = io.read_csv(input_file)
 
-    locomotive = roster.find(4014)
+    roster = Roster ()
 
-    print("running")
-    print(locomotive)
-    print("completed")
+    for row in rows:
+        roster.add (Locomotive.from_record(row))
 
-    roster.save(output_dir)
+    for loco in roster:
+        filename = (
+            f"{loco.reporting_mark}"
+            f"{loco.road_number.json}"
+            )
+        io.write_json (
+            output_dir / filename,
+            loco.to_dict()
+            )
+
 
 # --- main ---
 if __name__ == "__main__":

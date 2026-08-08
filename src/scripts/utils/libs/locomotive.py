@@ -83,32 +83,13 @@ class Locomotive:
         return data
 
     @classmethod
-    def from_csv_row(cls, row):
+    def from_record(cls, row):
 
-        prototype = DataclassFactory.build(
-            Prototype,
-            row
-        )
-
-        model = DataclassFactory.build(
-            Model,
-            row
-        )
-
-        electronics = DataclassFactory.build(
-            Electronics,
-            row
-        )
-
-        ownership = DataclassFactory.build(
-            Ownership,
-            row
-        )
-
-        media = DataclassFactory.build(
-            Media,
-            row
-        )
+        prototype = DataclassFactory.build (Prototype, row)
+        model = DataclassFactory.build (Model, row)
+        electronics = DataclassFactory.build (Electronics, row)
+        ownership = DataclassFactory.build (Ownership, row)
+        media = DataclassFactory.build (Media, row)
 
         return cls(
             prototype=prototype,

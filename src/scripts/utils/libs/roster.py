@@ -5,6 +5,7 @@
 #
 
 from libs.locomotive import Locomotive
+from libs.iostream import IOSteam
 from datetime import date
 from pathlib import Path
 import csv
@@ -77,7 +78,7 @@ class Roster:
             for row in reader:
                 normalized = cls._normalize_row(row)
                 # print ("a", normalized, "b\n")
-                roster.add(Locomotive.from_csv_row(normalized))
+                roster.add(Locomotive.from_record(normalized))
 
         #print (roster)
         return roster
