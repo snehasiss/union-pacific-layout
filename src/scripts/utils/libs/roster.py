@@ -42,7 +42,7 @@ class Roster:
                     loco.to_dict(),
                     fp,
                     indent=4
-			# default=lambda obj: obj.isoformat() if isinstance(obj, date) else TypeError
+            # default=lambda obj: obj.isoformat() if isinstance(obj, date) else TypeError
                     ) 
 
     def load(self, filename):

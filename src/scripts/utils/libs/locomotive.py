@@ -76,11 +76,11 @@ class Locomotive:
     def to_dict(self):
         data= asdict(self)
 
-		if isinstance(data["ownership"]["dated"], date):
-        	data["ownership"]["dated"] = \
+        if isinstance(data["ownership"]["dated"], date):
+            data["ownership"]["dated"] = \
             data["ownership"]["dated"].isoformat()
 
-    	return data
+        return data
 
     @classmethod
     def from_csv_row(cls, row):
