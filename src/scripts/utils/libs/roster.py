@@ -5,6 +5,7 @@
 #
 
 from libs.locomotive import Locomotive
+from datetime import date
 import csv
 import json
 
@@ -41,6 +42,7 @@ class Roster:
                     loco.to_dict(),
                     fp,
                     indent=4
+			# default=lambda obj: obj.isoformat() if isinstance(obj, date) else TypeError
                     ) 
 
     def load(self, filename):

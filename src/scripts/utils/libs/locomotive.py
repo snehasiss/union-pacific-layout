@@ -8,6 +8,7 @@ filename   : locomotive.py
 
 from dataclasses import dataclass, asdict
 from libs.dataclassfactory import DataclassFactory
+from datetime import date
 
 from datetime import date
 from typing import Optional
@@ -73,7 +74,13 @@ class Locomotive:
         return cls(**data)
 
     def to_dict(self):
-        return asdict(self)
+        data= asdict(self)
+
+		if isinstance(data["ownership"]["dated"], date):
+        	data["ownership"]["dated"] = \
+            data["ownership"]["dated"].isoformat()
+
+    	return data
 
     @classmethod
     def from_csv_row(cls, row):
