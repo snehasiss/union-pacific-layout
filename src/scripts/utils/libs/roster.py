@@ -6,6 +6,7 @@
 
 from libs.locomotive import Locomotive
 from datetime import date
+from pathlib import Path
 import csv
 import json
 
@@ -34,15 +35,19 @@ class Roster:
         return value if value else None
 
 
-    def save(self):
+    def save(self, output_dir):
+        output_path = Path (output_dir)
+        output_path.mkdir (parents=True, exist_ok=True)
+
         for loco in self:
             filename = f"{loco.reporting_mark}{loco.road_number}.json"
-            with open (filename, "w") as fp:
+            filepath = output_path / filename
+
+            with open (filepath, "w", encoding="utf-8") as fp:
                 json.dump (
                     loco.to_dict(),
                     fp,
                     indent=4
-            # default=lambda obj: obj.isoformat() if isinstance(obj, date) else TypeError
                     ) 
 
     def load(self, filename):

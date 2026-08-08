@@ -4,27 +4,30 @@
 # filename: test.py
 
 
-from libs.locomotive import Locomotive
 from libs.roster import Roster
-from libs.dataclassfactory import DataclassFactory
+from pathlib import Path
 
 def main():
-	roster = Roster.from_csv("steam.csv")
 
-	#breakpoint()
+    project_root = Path(__file__).resolve().parent[3]
+    config_dir   = project_root / "config" / "loco" / "steam"
 
-	locomotive = roster.find(4014)
+    input_file = config_dir / "steam.csv"
+    output_dir = config_dir / "json"
 
-	#breakpoint()
-	print("running")
-	print(locomotive)
-	print("completed")
+    roster = Roster.from_csv(input_file)
 
-	roster.save()
+    locomotive = roster.find(4014)
+
+    print("running")
+    print(locomotive)
+    print("completed")
+
+    roster.save(output_dir)
 
 # --- main ---
 if __name__ == "__main__":
-	main()
+    main()
 
 ## end
 
