@@ -1,14 +1,14 @@
 {
     "prototype": {
         "builder": "American Locomotive Company",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 5090,
-        "nickname": "overland",
+        "nickname": "Overland",
         "wheels": "4-10-2"
     },
     "model": {
-        "make": "brass",
+        "make": "Brass",
         "product": "Brass",
         "scale": "HO"
     },
@@ -20,7 +20,7 @@
         "address": 0
     },
     "ownership": {
-        "status": "searching",
+        "status": "Searching",
         "store": null,
         "price": null,
         "dated": null

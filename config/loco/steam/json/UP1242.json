@@ -1,10 +1,10 @@
 {
     "prototype": {
-        "builder": "Cooke Locomotive and Machine Works",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "builder": "Cooke Locomotive And Machine Works",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 1242,
-        "nickname": "ten",
+        "nickname": "Ten",
         "wheels": "4-6-0"
     },
     "model": {
@@ -20,7 +20,7 @@
         "address": 0
     },
     "ownership": {
-        "status": "searching",
+        "status": "Searching",
         "store": null,
         "price": null,
         "dated": null

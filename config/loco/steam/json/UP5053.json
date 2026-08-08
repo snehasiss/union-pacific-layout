@@ -1,10 +1,10 @@
 {
     "prototype": {
         "builder": "Baldwin Locomotive Works",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 5053,
-        "nickname": "TTT-6",
+        "nickname": "Ttt-6",
         "wheels": "2-10-2"
     },
     "model": {
@@ -16,12 +16,12 @@
         "dcc": true,
         "sound": true,
         "smoke": false,
-        "decoder": "qsi",
+        "decoder": "Qsi",
         "address": 3
     },
     "ownership": {
-        "status": "obtained",
-        "store": "ebay",
+        "status": "Obtained",
+        "store": "Ebay",
         "price": 525.0,
         "dated": "2026-06-23"
     },

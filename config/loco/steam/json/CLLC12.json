@@ -1,27 +1,27 @@
 {
     "prototype": {
         "builder": "Climax Manufacturing Company",
-        "railroad": "clear lake lumber co",
-        "reporting_mark": "CLLC",
+        "railroad": "Clear Lake Lumber Co",
+        "reporting_mark": "Cllc",
         "road_number": 12,
-        "nickname": "climax steam loco",
-        "wheels": "3-truck climax"
+        "nickname": "Climax Steam Loco",
+        "wheels": "3-Truck Climax"
     },
     "model": {
         "make": "Bachmann",
-        "product": "plastic",
+        "product": "Plastic",
         "scale": "HO"
     },
     "electronics": {
         "dcc": true,
         "sound": true,
         "smoke": false,
-        "decoder": "econami",
+        "decoder": "Econami",
         "address": 3
     },
     "ownership": {
-        "status": "obtained",
-        "store": "ebay",
+        "status": "Obtained",
+        "store": "Ebay",
         "price": 550.0,
         "dated": "2026-04-07"
     },

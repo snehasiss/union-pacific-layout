@@ -1,10 +1,10 @@
 {
     "prototype": {
         "builder": "Baldwin Locomotive Works",
-        "railroad": "norfolk and western",
-        "reporting_mark": "NW",
+        "railroad": "Norfolk And Western",
+        "reporting_mark": "Nw",
         "road_number": 2190,
-        "nickname": "Y6b mallet",
+        "nickname": "Y6B Mallet",
         "wheels": "2-8-8-2"
     },
     "model": {
@@ -16,12 +16,12 @@
         "dcc": true,
         "sound": true,
         "smoke": true,
-        "decoder": "paragon4",
+        "decoder": "Paragon4",
         "address": 2190
     },
     "ownership": {
-        "status": "obtained",
-        "store": "factorydirect",
+        "status": "Obtained",
+        "store": "Factorydirect",
         "price": 470.0,
         "dated": "2021-03-17"
     },

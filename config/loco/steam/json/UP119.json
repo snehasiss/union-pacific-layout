@@ -1,26 +1,26 @@
 {
     "prototype": {
-        "builder": "Rogers Locomotive and Machine Works",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "builder": "Rogers Locomotive And Machine Works",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 119,
-        "nickname": "american",
+        "nickname": "American",
         "wheels": "4-4-0"
     },
     "model": {
         "make": "Bachmann",
-        "product": "plastic",
+        "product": "Plastic",
         "scale": "HO"
     },
     "electronics": {
         "dcc": true,
         "sound": true,
         "smoke": false,
-        "decoder": "econami",
+        "decoder": "Econami",
         "address": 0
     },
     "ownership": {
-        "status": "available",
+        "status": "Available",
         "store": "Trainworld",
         "price": null,
         "dated": null

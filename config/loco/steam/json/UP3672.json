@@ -1,10 +1,10 @@
 {
     "prototype": {
         "builder": "Baldwin Locomotive Works",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 3672,
-        "nickname": "mallet",
+        "nickname": "Mallet",
         "wheels": "2-8-8-2"
     },
     "model": {
@@ -16,12 +16,12 @@
         "dcc": true,
         "sound": true,
         "smoke": false,
-        "decoder": "esu loksound",
+        "decoder": "Esu Loksound",
         "address": 3
     },
     "ownership": {
-        "status": "obtained",
-        "store": "ebay",
+        "status": "Obtained",
+        "store": "Ebay",
         "price": 240.0,
         "dated": "2026-06-23"
     },

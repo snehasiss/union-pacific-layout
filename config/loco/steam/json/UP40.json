@@ -1,26 +1,26 @@
 {
     "prototype": {
         "builder": "New York Locomotive Works",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 40,
-        "nickname": "mogul",
+        "nickname": "Mogul",
         "wheels": "2-6-0"
     },
     "model": {
         "make": "Athearn",
-        "product": "die cast",
+        "product": "Die Cast",
         "scale": "HO"
     },
     "electronics": {
         "dcc": false,
         "sound": false,
         "smoke": false,
-        "decoder": "dc",
+        "decoder": "Dc",
         "address": 0
     },
     "ownership": {
-        "status": "available",
+        "status": "Available",
         "store": null,
         "price": null,
         "dated": null

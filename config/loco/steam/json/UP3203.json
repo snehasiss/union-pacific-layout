@@ -1,10 +1,10 @@
 {
     "prototype": {
         "builder": "Baldwin Locomotive Works",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 3203,
-        "nickname": "pacific",
+        "nickname": "Pacific",
         "wheels": "4-6-2"
     },
     "model": {
@@ -20,7 +20,7 @@
         "address": 0
     },
     "ownership": {
-        "status": "searching",
+        "status": "Searching",
         "store": null,
         "price": null,
         "dated": null

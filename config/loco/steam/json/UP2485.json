@@ -1,27 +1,27 @@
 {
     "prototype": {
         "builder": "American Locomotive Company",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 2485,
-        "nickname": "mikado",
+        "nickname": "Mikado",
         "wheels": "2-8-2"
     },
     "model": {
         "make": "Broadway Limited Imports",
-        "product": "die cast",
+        "product": "Die Cast",
         "scale": "HO"
     },
     "electronics": {
         "dcc": true,
         "sound": true,
         "smoke": false,
-        "decoder": "paragon2",
+        "decoder": "Paragon2",
         "address": 3
     },
     "ownership": {
-        "status": "obtained",
-        "store": "ebay",
+        "status": "Obtained",
+        "store": "Ebay",
         "price": 290.0,
         "dated": "2026-07-06"
     },

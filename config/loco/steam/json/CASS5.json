@@ -2,26 +2,26 @@
     "prototype": {
         "builder": "Heisler Locomotive Works",
         "railroad": "Cass Scenic Railroad",
-        "reporting_mark": "CASS",
+        "reporting_mark": "Cass",
         "road_number": 5,
-        "nickname": "heisler steam loco",
-        "wheels": "3-truck heisler"
+        "nickname": "Heisler Steam Loco",
+        "wheels": "3-Truck Heisler"
     },
     "model": {
         "make": "Rivarossi",
-        "product": "plastic",
+        "product": "Plastic",
         "scale": "HO"
     },
     "electronics": {
         "dcc": true,
         "sound": true,
         "smoke": false,
-        "decoder": "loksound",
+        "decoder": "Loksound",
         "address": 3
     },
     "ownership": {
-        "status": "ordered",
-        "store": "ebay",
+        "status": "Ordered",
+        "store": "Ebay",
         "price": 340.0,
         "dated": "2026-07-09"
     },

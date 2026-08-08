@@ -1,10 +1,10 @@
 {
     "prototype": {
         "builder": "American Locomotive Company",
-        "railroad": "union pacific",
-        "reporting_mark": "UP",
+        "railroad": "Union Pacific",
+        "reporting_mark": "Up",
         "road_number": 4014,
-        "nickname": "big boy",
+        "nickname": "Big Boy",
         "wheels": "4-8-8-4"
     },
     "model": {
@@ -16,12 +16,12 @@
         "dcc": true,
         "sound": true,
         "smoke": false,
-        "decoder": "tsunami",
+        "decoder": "Tsunami",
         "address": 3
     },
     "ownership": {
-        "status": "obtained",
-        "store": "model train stuff",
+        "status": "Obtained",
+        "store": "Model Train Stuff",
         "price": 655.0,
         "dated": "2020-11-20"
     },
