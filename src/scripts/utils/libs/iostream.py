@@ -73,14 +73,20 @@ class IOStream:
     # ---------------------------------------------------------------
     # Dictionary normalization
     # ---------------------------------------------------------------
-
+    
     def _normalize_dict(self, data):
-        return {
-            key.strip().lower().replace(" ", "_"):
-                self._normalize_value(value)
+        normalized = {}
 
-            for key, value in data.items()
-        }
+        for key, value in data.items():
+            field = key.strip().lower().replace(" ", "_")
+            value = self._normalize_value(value)
+
+            if field == "reporting_mark" and value is not None:
+                value = value.upper()
+
+            normalized[field] = value
+
+        return normalized
 
     def _normalize_value(self, value):
         if value is None:

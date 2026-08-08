@@ -5,7 +5,7 @@
 #
 
 from libs.locomotive import Locomotive
-from libs.iostream import IOSteam
+from libs.iostream import IOStream
 from datetime import date
 from pathlib import Path
 import csv

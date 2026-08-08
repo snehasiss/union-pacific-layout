@@ -29,7 +29,7 @@ def main():
     for loco in roster:
         filename = (
             f"{loco.reporting_mark}"
-            f"{loco.road_number.json}"
+            f"{loco.road_number}.json"
             )
         io.write_json (
             output_dir / filename,
