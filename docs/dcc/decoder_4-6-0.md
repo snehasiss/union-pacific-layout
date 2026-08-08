@@ -1,9 +1,9 @@
-# DCC sound conversion of an Athearn HO 2-6-0 Union Pacific locomotive
+# DCC sound for Athearn HO Union Pacific 2-6-0
 
 Reference: https://www.trainworld.com/athearn-87248-ho-2-6-0-mogul-steam-locomotive-union-pacific-40.html 
 - what would be suitable sound decoder option
 - Need sound decoder (prefer slip-in type), preferably ESU
-- keepalive, 
+- keepalive 
 - speaker with enclosure.
 
 ---
@@ -33,4 +33,3 @@ The ultimate ESU-focused components to convert this locomotive to premium sound 
 * Wiring Path: Tuck the two wires from the Power Pack Mini and the two wires from the speaker into the side channels of the plastic tender base before snapping the outer tender body back into place to prevent pinches.
 
 Would you like assistance selecting the exact aftermarket software tools required to flash the ESU sound file onto the chip, or would you like to verify the minimum layout curve radius needed once this setup is built?
-
