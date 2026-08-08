@@ -13,16 +13,16 @@ The ultimate ESU-focused components to convert this locomotive to premium sound 
 
 * The Choice: ESU LokSound 5 DCC (Part #58429) with a 21MTC NEM connector.
 * Why it fits: This is a direct "slip-in" decoder that will plug immediately into the 21-pin mother board provided by Athearn inside the tender, avoiding any loose wiring harnesses.
-* The Sound File: You will want to program it with ESU Sound File #S0515 (Baldwin Light Steam / Medium Steam), which perfectly aligns with the historic chuff rates and whistle configurations of a light Union Pacific branch line switcher.
+* The Sound File: You will want to program it with ESU Sound File #S0815 (Baldwin Light Steam / Medium Steam), which perfectly aligns with the historic chuff rates and whistle configurations of a light Union Pacific branch line switcher.
 
 ## 2. The Speaker & Enclosure (High Performance, Small Footprint)
 
-* The Choice: ESU 50334 LokSound 11mm x 15mm "Sugar Cube" Speaker Set.
+* The Choice: ESU 50321 LokSound 11mm x 15mm "Sugar Cube" Speaker Set.
 * Why it fits: Standard round speakers will block the tender housing shell from closing. This rectangular sugar cube speaker kit comes with modular, customizable plastic snap-together enclosure segments. You can construct a shallow 5mm or 7mm deep enclosure block that nests under the charcoal/oil load layout lines.
 
 ## 3. The Keep-Alive (Power Pack)
 
-* The Choice: ESU 55180 LokSound Power Pack Mini.
+* The Choice: ESU 54671 LokSound Power Pack Mini.
 * Why it fits: Steam locomotives with short wheelbases are prone to stalling on turnouts and dirty track sections. The "Mini" variant uses smaller tantalum capacitors rather than bulky super-capacitors, specifically engineered to slide flat against the side of the 21-pin decoder framework within restricted tender shells. It gives the engine up to 3 seconds of uninterrupted track power.
 
 ## Space Optimization Tips for Installation
