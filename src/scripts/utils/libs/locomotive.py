@@ -20,8 +20,6 @@ class Prototype:
     railroad: str
     reporting_mark: str
     road_number: int
-    nickname: str
-    wheels: str
 
 @dataclass
 class Model:
@@ -31,8 +29,8 @@ class Model:
     scale: str = "HO"
 
 @dataclass
-class Electronics:
-    # electronics
+class Control:
+    # control system
     dcc: bool
     sound: bool
     smoke: bool
@@ -42,7 +40,7 @@ class Electronics:
 @dataclass
 class Ownership:
     # ownership
-    status: str
+    acquired: bool = True
     store: Optional[str] = None
     price: Optional[float] = None
     dated: Optional[date] = None
@@ -53,13 +51,36 @@ class Media:
     photo: Optional[str] = None
     notes: Optional[str] = None
 
+@dataclass 
+class Engine:
+	pass
+
+@dataclass
+class Steam (Engine):
+	loco_class: str
+	wheels: str
+	cylinders: int
+
+@dataclass 
+class Diesel (Engine):
+	loco_model: str
+	service_type: str
+	horsepower: int
+
+@dataclass
+class mow (Engine):
+	equipment_type: str
+	self_propelled: bool = True
+
 @dataclass
 class Locomotive:
+	type: str
     prototype: Prototype
     model: Model
-    electronics: Electronics
+    control: Control
     ownership: Ownership
     media: Media
+	engine: Engine
 
     @property
     def road_number(self) -> int:
@@ -69,6 +90,17 @@ class Locomotive:
     def reporting_mark(self):
         return self.prototype.reporting_mark
         
+	def __post_init__(self):
+		match self.type:
+			case "steam":
+				engine = Steam ()
+
+			case "diesel":
+				engine = Diesel ()
+
+			case _:
+				engine = None
+
     @classmethod
     def from_dict(cls, data: dict):
         return cls(**data)
