@@ -65,7 +65,7 @@ The existing CSV files and their importer will be moved under a dedicated tool a
 ```text
 src/
 └── tools/
-    └── loco_import/
+    └── imports/
         ├── loco_import.py
         ├── steam.csv
         └── diesel.csv
@@ -422,18 +422,9 @@ union-pacific-layout/
 │
 ├── src/
 │   ├── scripts/
-│   │   ├── libs/
-│   │   │   ├── locomotive.py
-│   │   │   ├── roster.py
-│   │   │   ├── dataclassfactory.py
-│   │   │   └── iostream.py
-│   │   └── locobuild.py
 │   │
 │   └── tools/
-│       └── loco_import/
-│           ├── loco_import.py
-│           ├── steam.csv
-│           └── diesel.csv
+│       └── imports/
 │
 ├── operations/
 ├── resources/
