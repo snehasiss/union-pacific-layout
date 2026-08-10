@@ -1,4 +1,4 @@
-# ADR-004: Railroad Data Persistence and Domain Object Architecture
+# ADR: 010 System Architecture
 
 **Status:** Accepted  
 **Date:** 10 August 2026  
