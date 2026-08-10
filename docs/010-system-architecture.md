@@ -2,7 +2,7 @@
 
 **Status:** Accepted  
 **Date:** 10 August 2026  
-**Project:** Union Pacific HO Scale Railroad
+**Project:** HO Scale Model Railroad
 
 ---
 
@@ -441,10 +441,62 @@ union-pacific-layout/
 └── README.md
 ```
 
-`src/scripts/utils/libs/` is simplified to `src/scripts/libs/`.
+`src/` is further refactored into a conventional Python package structure like this:
+
+```text
+src/
+├── scripts/
+│   ├── domain/
+│   │   ├── locomotive.py
+│   │   ├── car.py
+│   │   ├── roster.py
+│   │   ├── turnout.py
+│   │   ├── signal.py
+│   │   ├── machine.py
+│   │   └── ...
+│   │
+│   ├── persistence/
+│   │   ├── iostream.py
+│   │   └── ...
+│   │
+│   ├── services/
+│   │   └── ...
+│   │
+│   ├── factory/
+│   │   └── dataclassfactory.py
+│   │
+│   └── ...
+│
+└── tools/
+    └── imports/
+        ├── loco_import.py
+        ├── steam.csv
+        └── diesel.csv
+```
+
 
 The exact Python package structure may be refactored later if the software grows into a conventional Python package.
 
+### Domain data naming convention 
+```text
+L000001.json  → Locomotive
+C000001.json  → Car
+T000001.json  → Turnout
+G000001.json  → Signal
+M000001.json  → Machine / MOW
+``` 
+
+The source directory `src/` internal structure would be like:
+```text
+domain/      → contains the things that constitute the model railroad.
+persistence/ → handles JSON storage and retrieval through IOStream.
+services/    → contains application/use-case logic that operates on domain objects.
+factory/     → contains generic domain-object construction/deserialization logic.
+tools/       → contains utilities such as the one-time CSV locomotive importer.
+
+roster.py    → stays under domain/, because a roster is itself a domain concept.
+turnout.py   → is used for track changing switches, including the switch motors.
+```
 ---
 
 ## Architectural Principle
