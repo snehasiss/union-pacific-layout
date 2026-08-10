@@ -19,8 +19,8 @@ The repository must also support other physical railroad entities such as:
 - Locomotives
 - Freight and passenger cars
 - Signals
-- Switches
-- MOW and other motorized machines
+- Turnouts or Switches
+- MOW (Maintenance of Way) and other motorized machines
 
 Each physical item requires a persistent unique identifier.
 
@@ -33,7 +33,7 @@ Each physical item requires a persistent unique identifier.
 After initial CSV import, the normal lifecycle is:
 
 ```text
-JSON <-> Domain Object <-> JSON
+JSON <-> ⟷ Domain Object <-> JSON
 ```
 
 CSV-to-JSON conversion is considered a one-time import/migration utility rather than a core application function.
