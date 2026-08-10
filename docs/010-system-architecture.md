@@ -33,8 +33,7 @@ Each physical item requires a persistent unique identifier.
 After initial CSV import, the normal lifecycle is:
 
 ```text
-JSON <-> ⟷ Domain Object <-> JSON
-A ↔ B ⇌ C ⇔ D ⇄ E
+JSON <-> Domain Object <-> JSON
 ```
 
 CSV-to-JSON conversion is considered a one-time import/migration utility rather than a core application function.
