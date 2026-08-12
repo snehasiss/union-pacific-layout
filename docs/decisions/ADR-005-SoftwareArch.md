@@ -1,199 +1,136 @@
-# ADR-005: Software Architecture — Locomotive Domain Model
+# ADR-005: Software Architecture — Generic Railroad Entity Domain Model
 
 - **Status:** Accepted
-- **Date:** 2026-08-11
-- **Decision:** Implement the locomotive domain model, roster, and persistence foundation before introducing services or additional railroad entities.
+- **Date:** 2026-08-12
+- **Decision:** Establish a generic, compositional domain model for railroad entities and organize all project software under `src/` by software/system boundary.
 
 ## Context
 
-The Union Pacific HO Scale Railroad project needs a digital representation of the physical locomotive collection.
+The Union Pacific HO Scale Railroad project is a digital representation of a physical HO-scale model railroad.
 
-The historical locomotive data is maintained in a spreadsheet and exported to CSV. The CSV files are an input/data-source representation rather than the domain model itself.
+The software will eventually span multiple execution environments:
 
-The current implementation phase is deliberately limited to:
+- Railroad application/domain software
+- ESP32 firmware
+- SBC-side runtime and integration software
 
-- Locomotive domain objects
-- Roster
-- Locomotive persistence
-- Import tooling required to populate the domain objects
+Therefore, `src/` is the source root for **all project software**, not merely Python application code.
 
-The following architectural areas are intentionally deferred:
-
-- `services/`
-- `factory/`
-- Cars
-- Signals
-- Turnouts
-- Layout objects
-- Operations
-- Agentic/autonomous control
-
-The source spreadsheet/CSV will be manually curated. Historical spelling, capitalization, and missing-data issues will be corrected or enriched in the source data before import. The importer should therefore not accumulate special-case corrections for known historical data-entry mistakes.
+The initial implementation focuses on the railroad domain model, starting with locomotives and rosters.
 
 ## Decision
 
-### 1. Source data and domain model are separate
-
-CSV is an external/input representation.
-
-The domain model must not mirror the CSV schema merely because a field exists in the source file.
-
-The intended flow is:
-
-```text
-Spreadsheet
-    |
-    | manual correction / historical enrichment
-    v
-CSV
-    |
-    | import
-    v
-Domain objects
-    |
-    v
-Persistence
-    |
-    v
-JSON
-```
-
-Source-data cleanup such as spelling mistakes, capitalization inconsistencies, and missing historical information will be handled in the spreadsheet/source CSV.
-
-Domain-level invariants and semantics remain the responsibility of the domain classes.
-
-### 2. Current source layout
-
-The implementation will use the following top-level structure under `src`:
+### 1. `src/` is the source root for all project software
 
 ```text
 src/
-├── domain/
-├── persistence/
-├── tools/
-└── tests/
+├── railroad/
+├── esp32/
+└── sbc/
 ```
 
-`services/` and `factory/` are intentionally omitted from the current implementation phase.
-
-The import tooling remains under:
+The responsibilities are:
 
 ```text
-src/tools/imports/
+railroad    Digital railroad model and application/domain software
+esp32       ESP32 firmware and microcontroller-specific software
+sbc         Software intended to run on the layout-side SBC
 ```
 
-The source CSV files currently provide separate steam and diesel datasets because their historical spreadsheet schemas differ.
+This structure deliberately avoids treating `src/` as a Python-only source root. The project may contain multiple programming languages under these system boundaries.
 
-### 3. Locomotive is the common domain entity
-
-Steam and diesel locomotives are represented by a single `Locomotive` domain class.
-
-Inheritance such as:
+### 2. Railroad software has its own internal structure
 
 ```text
-Locomotive
-├── SteamLocomotive
-└── DieselLocomotive
+src/
+└── railroad/
+    ├── domain/
+    ├── persistence/
+    ├── tools/
+    └── tests/
 ```
 
-is intentionally not used.
+`domain` contains domain concepts; `persistence` handles storage/reconstruction; `tools` contains importers and development/data tools; `tests` contains railroad software tests.
 
-The domain is kept simple through composition.
+`services/` and `factory/` are intentionally deferred until an actual requirement justifies them.
 
-A locomotive contains:
+### 3. Generic domain objects are shared across railroad entity types
+
+Common concepts are represented once:
 
 ```text
-Locomotive
+Identity
+Prototype
+Purpose
+Model
+Electronics
+Ownership
+```
+
+A railroad entity is conceptually composed from these objects:
+
+```text
+Railroad Entity
 ├── Identity
-├── Type
 ├── Prototype
 ├── Model
 ├── Electronics
 └── Ownership
 ```
 
-### 4. Locomotive type
+Composition is preferred over a large inheritance hierarchy.
 
-The locomotive type is a first-class domain attribute:
-
-```text
-steam
-diesel
-```
-
-There will be no electric locomotive type in the current domain model or planned scope.
-
-`LocomotiveType` should be represented as a controlled domain value, preferably an enum.
+### 4. Generic domain objects live directly under `railroad/domain/`
 
 ```text
-LocomotiveType
-├── STEAM
-└── DIESEL
+src/railroad/domain/
+├── identity.py
+├── prototype.py
+├── model.py
+├── electronics.py
+├── ownership.py
+│
+├── locomotive/
+│   ├── locomotive.py
+│   └── roster.py
+│
+├── car/
+└── mow/
 ```
 
-### 5. Identity
+The generic objects do not belong under `locomotive/` because they will be reused by cars, MOW equipment, power cars, and other railroad entities.
 
-Every locomotive has a persistent digital entity identity.
+### 5. Identity is generic
+
+`Identity` contains:
 
 ```text
-Identity
-├── id
-├── railroad
-├── reporting_mark
-└── road_number
+id
+entity_type
+railroad
+reporting_mark
+road_number
 ```
 
-The `id` is independent of the prototype's railroad identity.
+`entity_type` may identify `steam`, `diesel`, `hopper`, `reefer`, `boxcar`, `passenger`, `wagon`, etc.
 
-For example:
+There is no separate `LocomotiveType` object.
+
+### 6. Persistent entity IDs
+
+IDs are stable digital identities and use namespaces:
 
 ```text
-id              = L001
-railroad        = UP
-reporting_mark  = UP
-road_number     = 4014
+L001 ... L999   locomotives
+C001 ... C999   cars
+M001 ... M999   MOW
 ```
 
-The domain ID identifies the digital entity in this project, while the railroad/reporting-mark/road-number combination identifies the corresponding real-world locomotive.
+Three digits are used; 999 is the maximum number per namespace. IDs are generated by the generic `IdGenerator`.
 
-### 6. Locomotive ID convention
+Persistence filenames use the entity ID, e.g. `L001.json`. Existing IDs are retained when loading persisted entities.
 
-Locomotive IDs use the prefix `L` followed by a sequential numeric identifier.
-
-Examples:
-
-```text
-L001
-L002
-L003
-...
-L999
-L1000
-```
-
-Three digits are preferred, with four digits supported if ever required.
-
-The numeric sequence is persistent and is not an array index.
-
-Once assigned, an ID must not change.
-
-If `L002` is retired or removed, a later locomotive must not be renumbered to `L002`.
-
-The ID is also the basis for the persistence filename:
-
-```text
-L001.json
-L002.json
-...
-```
-
-The ID generator should be generic in design, while the current entity namespace is `L` for locomotives.
-
-When loading an existing persisted entity, the persisted ID is retained; a new ID is generated only for a genuinely new entity.
-
-### 7. Prototype
-
-`Prototype` represents the real-world locomotive rather than the physical HO model.
+### 7. Prototype is generic
 
 ```text
 Prototype
@@ -203,330 +140,195 @@ Prototype
 └── purpose
 ```
 
-#### Prototype model
+`prototype.model` is the common prototype classification field for both steam and diesel locomotives.
 
-The generic `model` attribute is deliberately used for both steam and diesel.
-
-This is an important normalization decision.
-
-For diesel locomotives, examples include:
+Examples:
 
 ```text
-GP30
-SD70ACe
-SD90MAC
-AC4400CW
+Steam:  4-8-8-4
+Diesel: SD90MAC
 ```
 
-For steam locomotives, examples include:
+For steam locomotives, wheel arrangement is therefore represented by `prototype.model`. There is no separate `wheel_arrangement` field.
+
+`nickname` is optional and may contain names such as `Big Boy` or `Challenger`.
+
+### 8. Prototype purpose
+
+`purpose` uses the domain enum:
 
 ```text
-4-6-6-4
-4-8-8-4
-4-8-4
-2-8-8-0
-2-10-2
+Purpose.PASSENGER = "passenger"
+Purpose.FREIGHT   = "freight"
+Purpose.SWITCHER  = "switcher"
 ```
 
-The `prototype.model` field therefore represents the primary prototype classification/model by which a locomotive is identified.
+`Purpose` is generic and not locomotive-specific.
 
-This avoids having separate fields such as:
-
-```text
-diesel.loco_model
-steam.wheel_arrangement
-```
-
-and allows common roster functionality such as listing or searching all unique prototype models without knowing whether the locomotive is steam or diesel.
-
-There is intentionally **no separate `wheel_arrangement` attribute** in the domain model.
-
-For steam locomotives, the wheel arrangement is the value of `prototype.model`.
-
-#### Prototype nickname
-
-`nickname` holds commonly used names such as:
-
-```text
-Big Boy
-Challenger
-Centennial
-Bull Moose
-```
-
-The nickname is optional.
-
-#### Prototype purpose
-
-`purpose` represents the primary prototype purpose/classification.
-
-Current controlled values are:
-
-```text
-passenger
-freight
-switcher
-```
-
-This applies primarily to diesel but is also applicable to steam.
-
-`purpose` represents the primary classification rather than a complete historical service record. A locomotive's historical changes in assignment or service will be modeled separately in the future if required.
-
-### 8. HO Model
-
-`Model` represents the physical scale model owned by the project.
+### 9. Model represents the physical model
 
 ```text
 Model
-├── scale
 ├── manufacturer
 └── product
 ```
 
-The distinction is:
+`Prototype` describes the real-world entity; `Model` describes the physical model representing it.
 
-```text
-Prototype = real-world locomotive
-Model     = physical model of that locomotive
+### 10. HO is a project-wide constant
+
+This project represents an **HO-scale railroad**. Scale is therefore not configurable per model.
+
+```python
+Model.SCALE == "HO"
 ```
 
-#### Scale
+`SCALE` is a class constant, not a constructor parameter or instance field, and never changes.
 
-The project is an HO scale railroad.
+Nevertheless, `scale` must appear in persisted JSON:
 
-`Model.scale` is initialized when the model object is created and is immutable for the lifetime of that model object.
-
-The initial/default value is:
-
-```text
-HO
+```json
+{
+  "model": {
+    "scale": "HO",
+    "manufacturer": "Athearn",
+    "product": "Genesis Big Boy"
+  }
+}
 ```
 
-The implementation may use a controlled `Scale` enum even though only `HO` is currently required.
+Persistence explicitly serializes `Model.SCALE` as JSON `scale`.
 
-#### Manufacturer and product
+### 11. Manufacturer and product are late-assigned
 
-`manufacturer` and `product` are assigned from the curated data source and may be populated after initial object creation.
-
-For example:
+`manufacturer` and `product` may initially be absent and can be assigned later from curated source data.
 
 ```text
-scale        = HO       # fixed at creation
-manufacturer = BLI      # may be assigned later
-product      = 4801     # may be assigned later
+scale        = HO       # class constant
+manufacturer = BLI      # assigned later
+product      = 4801     # assigned later
 ```
 
-Only `scale` is immutable at the object level.
+### 12. Electronics is generic
 
-### 9. Electronics
+`Electronics` may apply to locomotives, sound-equipped cars, reefer/container equipment, power cars, MOW equipment, and other electronically equipped entities.
 
-Electronics represent the installed/associated model electronics rather than prototype characteristics.
+Separate locomotive/car electronics classes are not introduced unless future requirements demonstrate genuinely different semantics.
 
-The initial domain structure is:
+### 13. Ownership is generic
+
+`Ownership` is shared across entity types and may represent status, store, price, acquisition date, and related ownership information.
+
+### 14. Locomotive and Roster
+
+`Locomotive` is the first concrete railroad entity and is composed from the generic objects:
 
 ```text
-Electronics
-├── dcc
-├── sound
-├── smoke
-├── decoder
-└── address
+Locomotive
+├── Identity
+├── Prototype
+├── Model
+├── Electronics
+└── Ownership
 ```
 
-These attributes are intentionally separate from `Model` because electronics may be changed without changing the physical model identity.
+There are no `SteamLocomotive` or `DieselLocomotive` subclasses at this stage. Steam/diesel classification is represented by `Identity.entity_type`.
 
-### 10. Ownership
+`Roster` is the collection of `Locomotive` entities and will provide operations such as add, remove, find, lookup by ID/reporting mark/model/type/purpose, and unique prototype-model queries.
 
-Ownership/purchase information is represented separately from the prototype and model identity.
+### 15. Persistence remains outside the domain
 
-The initial structure is:
+Domain objects do not contain JSON or filesystem-specific persistence logic.
 
 ```text
-Ownership
-├── status
-├── store
-├── price
-└── acquired
+Domain object → Persistence → JSON
 ```
 
-Historical purchasing information may be enriched from sources such as eBay, TrainWorld, Lombard Hobbies, and other retailers before being committed to the source spreadsheet/CSV.
+Persisted data must contain enough information to reconstruct the domain object without allocating a new ID.
 
-### 11. Roster
+### 16. Import remains separate from the domain model
 
-`Roster` is a domain collection of `Locomotive` entities.
-
-It is not merely an exposed Python list.
-
-The roster will eventually support operations such as:
+CSV is an input/source representation. Historical spelling, capitalization, and missing-data corrections are made manually in the maintained spreadsheet/source data rather than through importer-specific correction rules.
 
 ```text
-add()
-remove()
-find()
-find_by_id()
-find_by_reporting_mark()
-find_by_prototype_model()
-find_by_type()
-find_by_purpose()
-unique_prototype_models()
-iteration
-length
+Historical spreadsheet
+        ↓ manual correction / enrichment
+CSV
+        ↓ import / mapping
+Domain objects
+        ↓
+Persistence / JSON
 ```
 
-The roster must preserve the persistent identity of its locomotives.
+### 17. Testing
 
-### 12. Persistence
-
-Persistence is separated from the domain.
-
-The domain classes must not contain JSON or filesystem-specific persistence logic.
-
-The intended boundary is:
+Railroad tests live under:
 
 ```text
-Domain object
-    |
-    v
-Repository
-    |
-    v
-JSON file
+src/railroad/tests/
 ```
 
-Locomotive persistence uses the locomotive ID as the filename:
+Current tests:
 
 ```text
-L001 -> L001.json
+src/railroad/tests/domain/
+├── test_identity.py
+├── test_prototype.py
+└── test_model.py
 ```
 
-The repository is responsible for loading and saving domain objects.
-
-The persisted JSON should contain the complete domain representation necessary to reconstruct the locomotive without generating a new ID.
-
-### 13. Testing
-
-Tests are colocated under `src/tests` as part of the current project structure:
+Future subsystem tests remain within their boundaries:
 
 ```text
-src/
-├── domain/
-├── persistence/
-├── tools/
-└── tests/
+src/esp32/tests/
+src/sbc/tests/
 ```
 
-The initial implementation/testing sequence is:
+### 18. Implementation sequence
 
-1. `LocomotiveType`
-2. `Identity`
-3. `Prototype`
-4. `Model`
-5. `Electronics`
-6. `Ownership`
-7. `Locomotive`
-8. `Roster`
-9. JSON locomotive persistence
-10. Import tooling integration
-
-Each class should be implemented and tested before moving to the next significant layer.
+```text
+Identity       ✓ implemented and tested
+Prototype      ✓ implemented and tested
+Model          ✓ implemented and tested
+Electronics    → next
+Ownership      → next
+Locomotive     → later
+Roster         → later
+Persistence    → later
+Import         → later
+```
 
 ## Consequences
 
 ### Positive
 
-- Steam and diesel are represented uniformly.
-- Roster queries do not need steam/diesel-specific logic for prototype classification.
-- Prototype information is clearly separated from the physical HO model.
-- Persistent locomotive IDs provide stable references for future systems.
-- JSON filenames naturally map to domain entities.
-- Source-data cleanup remains a one-time data-curation activity rather than becoming importer logic.
-- The architecture remains simple and avoids premature inheritance or service/factory abstractions.
-- The model can later be extended to cars, signals, turnouts, and other railroad entities using the same architectural principles.
+- `src/` cleanly accommodates railroad, ESP32, and SBC software.
+- Common railroad concepts are represented exactly once.
+- Locomotives, cars, MOW equipment, power cars, and future entities can reuse the same domain objects.
+- Steam and diesel require no separate class hierarchy.
+- Prototype classification uses one common `prototype.model` field.
+- Electronics can apply to non-locomotive equipment.
+- HO scale is correctly modeled as a project invariant while remaining visible in JSON.
+- Stable IDs provide a foundation for future cross-entity references.
+- Source CSV can evolve independently from the normalized domain model.
+- The architecture remains deliberately simple and compositional.
 
 ### Trade-offs
 
-- The source CSV schema and domain schema will not be identical.
-- Some import mapping logic will be necessary when converting source records into domain objects.
-- `prototype.model` has a different semantic representation for steam and diesel, although its domain meaning remains consistent: the primary prototype classification/model.
-- Persistent ID allocation requires care to ensure IDs are never reused.
+- CSV schema and domain schema are not identical, so import mapping is required.
+- `entity_type` is intentionally broad.
+- Some generic attributes will not apply to every entity.
+- Future entity types may require additional controlled vocabularies.
+- Multiple software boundaries require their own build/test conventions.
 
-## Resulting Initial Domain Vocabulary
+## Architectural Principle
 
-The first implementation will establish these domain types:
+> **Model common railroad-entity concepts once, compose them into concrete entities, and introduce specialization only when the domain demonstrates a genuine need for it.**
 
-```text
-LocomotiveType
-Purpose
-Scale
-
-Identity
-Prototype
-Model
-Electronics
-Ownership
-
-Locomotive
-Roster
-```
-
-No inheritance hierarchy for steam/diesel is required.
-
-No `services/` or `factory/` implementation is required at this stage.
-
-## Example
-
-A steam locomotive:
-
-```json
-{
-  "identity": {
-    "id": "L001",
-    "railroad": "UP",
-    "reporting_mark": "UP",
-    "road_number": 4014
-  },
-  "type": "steam",
-  "prototype": {
-    "builder": "ALCO",
-    "model": "4-8-8-4",
-    "nickname": "Big Boy",
-    "purpose": "freight"
-  },
-  "model": {
-    "scale": "HO",
-    "manufacturer": "Athearn",
-    "product": "..."
-  }
-}
-```
-
-A diesel locomotive:
-
-```json
-{
-  "identity": {
-    "id": "L011",
-    "railroad": "UP",
-    "reporting_mark": "UP",
-    "road_number": 7082
-  },
-  "type": "diesel",
-  "prototype": {
-    "builder": "GE",
-    "model": "AC4400CW",
-    "nickname": null,
-    "purpose": "freight"
-  },
-  "model": {
-    "scale": "HO",
-    "manufacturer": "...",
-    "product": "..."
-  }
-}
-```
-
-These two entities have the same domain structure even though their prototype classification differs.
+> **Organize project software by execution/system boundary under `src/`, while keeping the railroad domain model independent of platform-specific implementation details.**
 
 ## Status
 
-**Accepted and ready for implementation.**
+**Accepted — current corrected version.**
+
+This ADR supersedes earlier versions of ADR-005 and reflects the current committed source-tree architecture and the domain decisions validated through the implementation of `Identity`, `Prototype`, and `Model`.
