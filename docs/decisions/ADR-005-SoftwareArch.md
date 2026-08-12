@@ -1,4 +1,4 @@
-# ADR-005: Software Architecture — Generic Railroad Entity Domain Model
+# ADR-005: Software Architecture — Entity Domain Model
 
 - **Status:** Accepted
 - **Date:** 2026-08-12
