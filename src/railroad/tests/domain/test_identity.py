@@ -2,8 +2,8 @@
 # test_identity.py
 # 
 
-from src.domain.identity import Identity
-from src.domain.identity import IdGenerator
+from src.railroad.domain.identity import Identity
+from src.railroad.domain.identity import IdGenerator
 
 
 SHOW_TEST_OUTPUT = True

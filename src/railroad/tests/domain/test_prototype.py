@@ -2,8 +2,8 @@
 # test_prototype.py
 #
 
-from src.domain.prototype import Prototype
-from src.domain.prototype import Purpose
+from src.railroad.domain.prototype import Prototype
+from src.railroad.domain.prototype import Purpose
 
 
 SHOW_TEST_OUTPUT = True

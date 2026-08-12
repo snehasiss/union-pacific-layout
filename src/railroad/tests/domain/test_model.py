@@ -4,7 +4,7 @@
 
 from dataclasses import fields
 
-from src.domain.model import Model
+from src.railroad.domain.model import Model
 
 
 SHOW_TEST_OUTPUT = True
