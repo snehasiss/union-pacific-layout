@@ -2,7 +2,7 @@
 # test_electronics.py
 #
 
-from src.railroad.domain.electronics import Electronics
+from railroad.domain.electronics import Electronics
 
 
 SHOW_TEST_OUTPUT = True

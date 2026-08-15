@@ -4,7 +4,7 @@
 
 from datetime import date
 
-from src.railroad.domain.ownership import (
+from railroad.domain.ownership import (
     Ownership,
     OwnershipStatus,
 )
