@@ -9,13 +9,13 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Union
 
 
 class Config:
     """Load and provide access to railroad application configuration."""
 
-    def __init__(self, path: str | Path) -> None:
+    def __init__(self, path: Union[str, Path]) -> None:
         self._path = Path(path).resolve()
         self._root = self._path.parent.parent
 
