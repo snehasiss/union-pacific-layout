@@ -17,6 +17,7 @@ class Purpose(Enum):
     PASSENGER = "passenger"
     FREIGHT = "freight"
     SWITCHER = "switcher"
+    MACHINE = "machine"
 
 
 @dataclass(frozen=True)
