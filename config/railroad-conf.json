@@ -1,0 +1,22 @@
+// config/railroad-conf.json
+
+{
+    "application": {
+        "name": "union-pacific-layout"
+    },
+    "paths": {
+        "config": "config",
+        "data": "data",
+        "resources": "resources",
+        "logs": "logs"
+    },
+    "data": {
+        "locomotive": "data/locomotive",
+        "car": "data/car",
+        "mow": "data/mow"
+    },
+    "resources": {
+        "drawings": "resources/drawings",
+        "media": "resources/media"
+    }
+}
