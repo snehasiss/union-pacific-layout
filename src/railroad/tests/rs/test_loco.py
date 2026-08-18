@@ -15,6 +15,7 @@ from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco
 from railroad.rs.roster import Roster
+from railroad.rs.loco_type import LocoType
 
 
 def create_loco(
@@ -54,7 +55,8 @@ def create_loco(
 
     return Loco(
         identity=identity,
-        prototype=prototype,
+		loco_type: LocoType.STEAM
+		prototype=prototype,
         model=model,
         electronics=electronics,
         ownership=ownership,
@@ -179,4 +181,17 @@ def test_roster_rejects_invalid_initial_contents() -> None:
 
     with pytest.raises(TypeError):
         Roster(["not a locomotive"])
+
+def test_loco_rejects_invalid_loco_type() -> None:
+    """Loco rejects a value that is not a LocoType."""
+
+    with pytest.raises(TypeError):
+        Loco(
+            identity=identity,
+            loco_type="steam",
+            prototype=prototype,
+            model=model,
+            electronics=electronics,
+            ownership=ownership,
+        )
 

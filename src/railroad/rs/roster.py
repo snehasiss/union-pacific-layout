@@ -22,7 +22,7 @@ class Roster:
     Collection of locomotives.
     """
 
-    locos: list[loco] = field(default_factory=list)
+    locos: list[Loco] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         """Validate roster contents."""
