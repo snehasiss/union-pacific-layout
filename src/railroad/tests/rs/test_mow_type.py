@@ -5,7 +5,7 @@
 Tests for MOWType.
 """
 
-from railroad.mow.mow_type import MOWType
+from railroad.rs.mow_type import MOWType
 
 
 def test_mow_type_contains_all_defined_types() -> None:

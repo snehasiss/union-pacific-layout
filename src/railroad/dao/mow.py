@@ -3,7 +3,7 @@
 
 """Data access object for Maintenance-of-Way entities."""
 
-from railroad.mow.mow import MOW
+from railroad.rs.mow import MOW
 
 
 class MowDAO:

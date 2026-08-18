@@ -14,7 +14,7 @@ from railroad.domain.identity import Identity
 from railroad.domain.model import Model
 from railroad.domain.ownership import Ownership
 from railroad.domain.prototype import Prototype
-from railroad.mow.mow_type import MOWType
+from railroad.rs.mow_type import MOWType
 
 
 @dataclass

@@ -12,8 +12,8 @@ from railroad.domain.identity import Identity
 from railroad.domain.model import Model
 from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
-from railroad.mow.mow import MOW
-from railroad.mow.mow_type import MOWType
+from railroad.rs.mow import MOW
+from railroad.rs.mow_type import MOWType
 
 
 def create_mow(

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# locomotive.py
+# car.py
 #
 
 """
-Locomotive domain entity.
+Car domain entity.
 
-A Locomotive represents a physical locomotive in the railroad's
+A Car represents a physical railroad car in the railroad's
 digital model.
 """
 
@@ -13,6 +13,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from railroad.rs.car_type import CarType
 from railroad.domain.electronics import Electronics
 from railroad.domain.identity import Identity
 from railroad.domain.model import Model
@@ -21,13 +22,13 @@ from railroad.domain.prototype import Prototype
 
 
 @dataclass
-class Locomotive:
+class Car:
     """
-    Digital representation of a physical locomotive.
+    Digital representation of a physical railroad car.
 
-    A locomotive is composed of shared domain objects describing
-    its identity, prototype, physical model, electronics, and
-    ownership.
+    A car is composed of shared domain objects describing its
+    identity, prototype, physical model, electronics, ownership,
+    and car type.
     """
 
     identity: Identity
@@ -35,9 +36,10 @@ class Locomotive:
     model: Model
     electronics: Electronics
     ownership: Ownership
+    car_type: CarType
 
     def __post_init__(self) -> None:
-        """Validate locomotive invariants."""
+        """Validate car invariants."""
 
         if not isinstance(self.identity, Identity):
             raise TypeError("identity must be an Identity.")
@@ -54,6 +56,9 @@ class Locomotive:
         if not isinstance(self.ownership, Ownership):
             raise TypeError("ownership must be an Ownership.")
 
+        if not isinstance(self.car_type, CarType):
+            raise TypeError("car_type must be a CarType.")
+
     @property
     def id(self) -> str:
         """Return the persistent digital identity."""
@@ -61,7 +66,7 @@ class Locomotive:
 
     @property
     def entity_type(self) -> str:
-        """Return the locomotive entity type."""
+        """Return the car entity type."""
         return self.identity.entity_type
 
     @property
@@ -76,12 +81,12 @@ class Locomotive:
 
     @property
     def road_number(self) -> int:
-        """Return the locomotive road number."""
+        """Return the car road number."""
         return self.identity.road_number
 
     @property
     def prototype_model(self) -> str:
-        """Return the prototype model or wheel arrangement."""
+        """Return the prototype model."""
         return self.prototype.model
 
     @property

@@ -3,7 +3,7 @@
 
 """Data access object for cars."""
 
-from railroad.car.car import Car
+from railroad.rs.car import Car
 
 
 class CarDAO:

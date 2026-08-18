@@ -5,7 +5,7 @@
 Tests for CarType.
 """
 
-from railroad.car.car_type import CarType
+from railroad.rs.car_type import CarType
 
 
 def test_car_type_contains_all_defined_types() -> None:

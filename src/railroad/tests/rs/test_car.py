@@ -7,8 +7,8 @@ Tests for the Car domain entity.
 
 import pytest
 
-from railroad.car.car import Car
-from railroad.car.car_type import CarType
+from railroad.rs.car import Car
+from railroad.rs.car_type import CarType
 from railroad.domain.electronics import Electronics
 from railroad.domain.identity import Identity
 from railroad.domain.model import Model

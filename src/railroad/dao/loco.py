@@ -3,7 +3,7 @@
 
 """Data access object for locomotives."""
 
-from railroad.locomotive.locomotive import Locomotive
+from railroad.rs.loco import Loco
 
 
 class LocoDAO:

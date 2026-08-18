@@ -13,14 +13,14 @@ from railroad.domain.identity import Identity
 from railroad.domain.model import Model
 from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
-from railroad.locomotive.locomotive import Locomotive
-from railroad.locomotive.roster import Roster
+from railroad.rs.loco import Loco
+from railroad.rs.roster import Roster
 
 
-def create_locomotive(
+def create_loco(
     road_number: int,
-) -> Locomotive:
-    """Create a representative locomotive for testing."""
+) -> Loco:
+    """Create a representative loco for testing."""
 
     identity = Identity.create(
         prefix="L",
@@ -52,7 +52,7 @@ def create_locomotive(
         status=OwnershipStatus.OWNED,
     )
 
-    return Locomotive(
+    return Loco(
         identity=identity,
         prototype=prototype,
         model=model,
@@ -70,41 +70,41 @@ def test_empty_roster() -> None:
     assert list(roster) == []
 
 
-def test_roster_can_be_initialized_with_locomotives() -> None:
+def test_roster_can_be_initialized_with_locos() -> None:
     """A roster can be initialized with locomotives."""
 
-    locomotive = create_locomotive(844)
-    roster = Roster([locomotive])
+    loco = create_loco(844)
+    roster = Roster([loco])
 
     assert len(roster) == 1
-    assert roster.get(locomotive.id) is locomotive
+    assert roster.get(loco.id) is loco
 
 
-def test_add_locomotive() -> None:
+def test_add_loco() -> None:
     """A locomotive can be added to a roster."""
 
     roster = Roster()
-    locomotive = create_locomotive(844)
+    loco = create_loco(844)
 
-    roster.add(locomotive)
+    roster.add(loco)
 
     assert len(roster) == 1
-    assert roster.get(locomotive.id) is locomotive
+    assert roster.get(loco.id) is loco
 
 
-def test_add_duplicate_locomotive_id_is_rejected() -> None:
+def test_add_duplicate_loco_id_is_rejected() -> None:
     """Duplicate locomotive IDs are not allowed."""
 
     roster = Roster()
-    locomotive = create_locomotive(844)
+    loco = create_loco(844)
 
-    roster.add(locomotive)
+    roster.add(loco)
 
     with pytest.raises(ValueError):
-        roster.add(locomotive)
+        roster.add(loco)
 
 
-def test_get_missing_locomotive() -> None:
+def test_get_missing_loco() -> None:
     """Getting a missing locomotive raises KeyError."""
 
     roster = Roster()
@@ -117,31 +117,31 @@ def test_contains_id() -> None:
     """Roster can determine whether an ID exists."""
 
     roster = Roster()
-    locomotive = create_locomotive(844)
+    loco = create_loco(844)
 
-    assert not roster.contains_id(locomotive.id)
+    assert not roster.contains_id(loco.id)
 
-    roster.add(locomotive)
+    roster.add(loco)
 
-    assert roster.contains_id(locomotive.id)
+    assert roster.contains_id(loco.id)
 
 
-def test_remove_locomotive() -> None:
+def test_remove_loco() -> None:
     """A locomotive can be removed from the roster."""
 
     roster = Roster()
-    locomotive = create_locomotive(844)
+    loco = create_loco(844)
 
-    roster.add(locomotive)
+    roster.add(loco)
 
-    removed = roster.remove(locomotive.id)
+    removed = roster.remove(loco.id)
 
-    assert removed is locomotive
+    assert removed is loco
     assert len(roster) == 0
-    assert not roster.contains_id(locomotive.id)
+    assert not roster.contains_id(loco.id)
 
 
-def test_remove_missing_locomotive() -> None:
+def test_remove_missing_loco() -> None:
     """Removing a missing locomotive raises KeyError."""
 
     roster = Roster()
@@ -153,19 +153,19 @@ def test_remove_missing_locomotive() -> None:
 def test_roster_iteration() -> None:
     """Roster iteration preserves insertion order."""
 
-    first = create_locomotive(844)
-    second = create_locomotive(4014)
+    first = create_loco(844)
+    second = create_loco(4014)
 
     roster = Roster()
     roster.add(first)
     roster.add(second)
 
-    locomotives = list(roster)
+    locos = list(roster)
 
-    assert locomotives == [first, second]
+    assert locos == [first, second]
 
 
-def test_roster_rejects_non_locomotive() -> None:
+def test_roster_rejects_non_loco() -> None:
     """Roster accepts only Locomotive objects."""
 
     roster = Roster()
