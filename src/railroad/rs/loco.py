@@ -18,6 +18,7 @@ from railroad.domain.identity import Identity
 from railroad.domain.model import Model
 from railroad.domain.ownership import Ownership
 from railroad.domain.prototype import Prototype
+from railroad.rs.loco_type import LocoType
 
 
 @dataclass
@@ -31,16 +32,21 @@ class Loco:
     """
 
     identity: Identity
+    loco_type: LocoType
     prototype: Prototype
     model: Model
     electronics: Electronics
     ownership: Ownership
 
+        
     def __post_init__(self) -> None:
         """Validate locomotive invariants."""
 
         if not isinstance(self.identity, Identity):
             raise TypeError("identity must be an Identity.")
+
+        if not isinstance(self.loco_type, LocoType):
+            raise TypeError("loco_type must be a LocoType")
 
         if not isinstance(self.prototype, Prototype):
             raise TypeError("prototype must be a Prototype.")
