@@ -53,6 +53,7 @@ def create_loco(
 
     return Loco(
         identity=identity,
+        loco_type=LocoType.STEAM,
         prototype=prototype,
         model=model,
         electronics=electronics,

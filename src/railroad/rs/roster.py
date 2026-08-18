@@ -10,9 +10,7 @@ railroad's digital model.
 """
 
 from __future__ import annotations
-
 from dataclasses import dataclass, field
-
 from railroad.rs.loco import Loco
 
 
