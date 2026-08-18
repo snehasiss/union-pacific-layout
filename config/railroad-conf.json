@@ -2,17 +2,37 @@
     "application": {
         "name": "union-pacific-layout"
     },
+
     "paths": {
         "config": "config",
         "data": "data",
         "resources": "resources",
         "logs": "logs"
     },
+
     "data": {
-        "locomotive": "data/locomotive",
-        "car": "data/car",
-        "mow": "data/mow"
+        "loco": {
+            "path": "loco",
+            "prefix": "L"
+        },
+        "car": {
+            "path": "car",
+            "prefix": "C"
+        },
+        "mow": {
+            "path": "mow",
+            "prefix": "M"
+        },
+        "signal": {
+            "path": "signal",
+            "prefix": "G"
+        },
+        "turnout": {
+            "path": "turnout",
+            "prefix": "T"
+        }
     },
+
     "resources": {
         "drawings": "resources/drawings",
         "media": "resources/media"

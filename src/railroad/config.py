@@ -8,8 +8,17 @@ Application configuration for the railroad system.
 from __future__ import annotations
 
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Union
+
+
+@dataclass(frozen=True)
+class DataConfig:
+    """Configuration for a persisted railroad entity."""
+
+    path: Path
+    prefix: str
 
 
 class Config:
@@ -59,24 +68,6 @@ class Config:
         return self._resolve(self._data["paths"]["logs"])
 
     @property
-    def locomotive(self) -> Path:
-        """Return the locomotive data directory."""
-
-        return self._resolve(self._data["data"]["locomotive"])
-
-    @property
-    def car(self) -> Path:
-        """Return the car data directory."""
-
-        return self._resolve(self._data["data"]["car"])
-
-    @property
-    def mow(self) -> Path:
-        """Return the MOW data directory."""
-
-        return self._resolve(self._data["data"]["mow"])
-
-    @property
     def drawings(self) -> Path:
         """Return the drawings resource directory."""
 
@@ -88,7 +79,18 @@ class Config:
 
         return self._resolve(self._data["resources"]["media"])
 
+    def data_config(self, name: str) -> DataConfig:
+        """Return configuration for a persisted railroad entity."""
+
+        item = self._data["data"][name]
+
+        return DataConfig(
+            path=self.data / item["path"],
+            prefix=item["prefix"],
+        )
+
     def _resolve(self, value: str) -> Path:
         """Resolve a configuration path relative to the application root."""
 
         return (self._root / value).resolve()
+

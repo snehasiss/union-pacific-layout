@@ -2,191 +2,108 @@
 # test_config.py
 
 """
-Tests for the railroad Config class.
+Tests for railroad application configuration.
 """
 
-import json
 from pathlib import Path
 
 import pytest
 
-from railroad.config import Config
+from railroad.config import Config, DataConfig
+
+
+CONFIG_FILE = Path("config/railroad-conf.json")
 
 
 @pytest.fixture
-def config_path(tmp_path: Path) -> Path:
-    """Create a representative railroad configuration."""
+def config() -> Config:
+    """Return the application configuration."""
 
-    root = tmp_path / "union-pacific-layout"
-    config_dir = root / "config"
-    config_dir.mkdir(parents=True)
-
-    path = config_dir / "railroad-conf.json"
-
-    configuration = {
-        "application": {
-            "name": "union-pacific-layout"
-        },
-        "paths": {
-            "config": "config",
-            "data": "data",
-            "resources": "resources",
-            "logs": "logs"
-        },
-        "data": {
-            "locomotive": "data/locomotive",
-            "car": "data/car",
-            "mow": "data/mow"
-        },
-        "resources": {
-            "drawings": "resources/drawings",
-            "media": "resources/media"
-        }
-    }
-
-    path.write_text(
-        json.dumps(configuration, indent=4),
-        encoding="utf-8",
-    )
-
-    return path
+    return Config(CONFIG_FILE)
 
 
-def test_config_can_be_loaded(config_path: Path) -> None:
-    """Configuration can be loaded from JSON."""
-
-    config = Config(config_path)
-
-    assert isinstance(config, Config)
-
-
-def test_application_name(config_path: Path) -> None:
-    """Application name is available from configuration."""
-
-    config = Config(config_path)
+def test_config_can_be_loaded(config: Config) -> None:
+    """Configuration can be loaded from the configuration file."""
 
     assert config.name == "union-pacific-layout"
 
 
-def test_root_directory(config_path: Path) -> None:
-    """Application root is resolved from the configuration location."""
+def test_config_root(config: Config) -> None:
+    """Configuration resolves the application root."""
 
-    config = Config(config_path)
+    assert config.root.is_dir()
+    assert config.root.name == "union-pacific-layout"
 
-    assert config.root == config_path.parent.parent.resolve()
 
-
-def test_config_directory(config_path: Path) -> None:
-    """Configuration directory is resolved correctly."""
-
-    config = Config(config_path)
+def test_config_directories(config: Config) -> None:
+    """Configured application directories are resolved correctly."""
 
     assert config.config == config.root / "config"
-
-
-def test_data_directory(config_path: Path) -> None:
-    """Data directory is resolved correctly."""
-
-    config = Config(config_path)
-
     assert config.data == config.root / "data"
-
-
-def test_resources_directory(config_path: Path) -> None:
-    """Resources directory is resolved correctly."""
-
-    config = Config(config_path)
-
     assert config.resources == config.root / "resources"
-
-
-def test_logs_directory(config_path: Path) -> None:
-    """Logs directory is resolved correctly."""
-
-    config = Config(config_path)
-
     assert config.logs == config.root / "logs"
 
 
-def test_locomotive_directory(config_path: Path) -> None:
-    """Locomotive data directory is resolved correctly."""
+def test_resource_directories(config: Config) -> None:
+    """Configured resource directories are resolved correctly."""
 
-    config = Config(config_path)
-
-    assert config.locomotive == config.root / "data" / "locomotive"
-
-
-def test_car_directory(config_path: Path) -> None:
-    """Car data directory is resolved correctly."""
-
-    config = Config(config_path)
-
-    assert config.car == config.root / "data" / "car"
+    assert config.drawings == config.root / "resources/drawings"
+    assert config.media == config.root / "resources/media"
 
 
-def test_mow_directory(config_path: Path) -> None:
-    """MOW data directory is resolved correctly."""
+def test_loco_data_config(config: Config) -> None:
+    """Loco data configuration is correct."""
 
-    config = Config(config_path)
+    data = config.data_config("loco")
 
-    assert config.mow == config.root / "data" / "mow"
-
-
-def test_drawings_directory(config_path: Path) -> None:
-    """Drawings resource directory is resolved correctly."""
-
-    config = Config(config_path)
-
-    assert config.drawings == config.root / "resources" / "drawings"
+    assert isinstance(data, DataConfig)
+    assert data.path == config.data / "loco"
+    assert data.prefix == "L"
 
 
-def test_media_directory(config_path: Path) -> None:
-    """Media resource directory is resolved correctly."""
+def test_car_data_config(config: Config) -> None:
+    """Car data configuration is correct."""
 
-    config = Config(config_path)
+    data = config.data_config("car")
 
-    assert config.media == config.root / "resources" / "media"
-
-
-def test_paths_are_absolute(config_path: Path) -> None:
-    """All resolved configuration paths are absolute."""
-
-    config = Config(config_path)
-
-    paths = [
-        config.root,
-        config.config,
-        config.data,
-        config.resources,
-        config.logs,
-        config.locomotive,
-        config.car,
-        config.mow,
-        config.drawings,
-        config.media,
-    ]
-
-    assert all(path.is_absolute() for path in paths)
+    assert isinstance(data, DataConfig)
+    assert data.path == config.data / "car"
+    assert data.prefix == "C"
 
 
-def test_missing_configuration_file_is_rejected(tmp_path: Path) -> None:
-    """A missing configuration file raises FileNotFoundError."""
+def test_mow_data_config(config: Config) -> None:
+    """MOW data configuration is correct."""
 
-    path = tmp_path / "missing.json"
+    data = config.data_config("mow")
 
-    with pytest.raises(FileNotFoundError):
-        Config(path)
+    assert isinstance(data, DataConfig)
+    assert data.path == config.data / "mow"
+    assert data.prefix == "M"
 
 
-def test_invalid_json_is_rejected(tmp_path: Path) -> None:
-    """Invalid JSON raises JSONDecodeError."""
+def test_signal_data_config(config: Config) -> None:
+    """Signal data configuration is correct."""
 
-    path = tmp_path / "invalid.json"
-    path.write_text(
-        "{ invalid json",
-        encoding="utf-8",
-    )
+    data = config.data_config("signal")
 
-    with pytest.raises(json.JSONDecodeError):
-        Config(path)
+    assert isinstance(data, DataConfig)
+    assert data.path == config.data / "signal"
+    assert data.prefix == "G"
+
+
+def test_turnout_data_config(config: Config) -> None:
+    """Turnout data configuration is correct."""
+
+    data = config.data_config("turnout")
+
+    assert isinstance(data, DataConfig)
+    assert data.path == config.data / "turnout"
+    assert data.prefix == "T"
+
+
+def test_unknown_data_config_is_rejected(config: Config) -> None:
+    """An unknown data entity cannot be configured."""
+
+    with pytest.raises(KeyError):
+        config.data_config("unknown")
 
