@@ -32,7 +32,7 @@ The railroad therefore requires a DCC architecture that is reliable, expandable,
 
 ## 2. Decision
 
-The railroad will use **DCC-EX as the primary Digital Command Control platform**, initially based on an **EX-CSB1 Express Commander Command System** with a regulated 15 V / 5 A power supply.
+The railroad will use **DCC-EX as the primary Digital Command Control platform**, initially based on an **EX-CSB1 Express Commander Command System** with a regulated 15V / 5A power supply.
 
 The DCC system will be treated as a **locomotive command and track-power subsystem**, rather than as the central architecture for every railroad function.
 
@@ -114,7 +114,7 @@ The current conceptual target is:
 
 ### Booster 1
 
-Approximately 5 A total capacity, divided into independently protected districts such as:
+Approximately 5A total capacity, divided into independently protected districts such as:
 
 - Yard.
 - Steam roundhouse.
@@ -123,7 +123,7 @@ Approximately 5 A total capacity, divided into independently protected districts
 
 ### Booster 2
 
-Approximately 5 A total capacity, with districts such as:
+Approximately 5A total capacity, with districts such as:
 
 - East UP mainline.
 - East DOWN mainline.
