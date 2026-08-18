@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-# test_roster.py
+# test_roster.py : Tests for the locomotive Roster.
 #
 
-"""
-Tests for the locomotive Roster.
-"""
 
 import pytest
 
@@ -14,6 +11,7 @@ from railroad.domain.model import Model
 from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco
+from railroad.rs.loco_type import LocoType
 from railroad.rs.roster import Roster
 
 

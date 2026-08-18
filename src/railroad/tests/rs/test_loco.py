@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-# test_loco.py
+# test_loco.py : Tests for the locomotives.
 #
 
-"""
-Tests for the locomotive Roster.
-"""
 
 import pytest
 
@@ -55,7 +52,7 @@ def create_loco(
 
     return Loco(
         identity=identity,
-		loco_type: LocoType.STEAM,
+		loco_type=LocoType.STEAM,
 		prototype=prototype,
         model=model,
         electronics=electronics,
