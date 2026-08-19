@@ -104,30 +104,16 @@ def test_exists_returns_false_for_missing_file(
     assert stream.exists(path) is False
 
 
-def test_exists_returns_false_for_directory(
+def test_exists_for_directory(
     stream: IOStream,
     tmp_path: Path,
 ) -> None:
-    """exists returns False when the path is a directory."""
+    """exists() returns True for an existing directory."""
 
-    directory = tmp_path / "directory"
+    directory = tmp_path / "loco"
     directory.mkdir()
 
-    assert stream.exists(directory) is False
-
-
-def test_delete_removes_file(
-    stream: IOStream,
-    tmp_path: Path,
-) -> None:
-    """delete removes an existing file."""
-
-    path = tmp_path / "test.txt"
-    path.write_text("hello", encoding="utf-8")
-
-    stream.delete(path)
-
-    assert not path.exists()
+    assert stream.exists(directory) is True
 
 
 def test_read_missing_file_raises_error(
@@ -142,13 +128,3 @@ def test_read_missing_file_raises_error(
         stream.read(path)
 
 
-def test_delete_missing_file_raises_error(
-    stream: IOStream,
-    tmp_path: Path,
-) -> None:
-    """Deleting a missing file raises FileNotFoundError."""
-
-    path = tmp_path / "missing.txt"
-
-    with pytest.raises(FileNotFoundError):
-        stream.delete(path)

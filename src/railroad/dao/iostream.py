@@ -2,37 +2,46 @@
 # iostream.py
 
 """
-Low-level filesystem I/O for the DAO layer.
+Filesystem I/O operations for the railroad persistence layer.
+
+IOStream has no knowledge of railroad domain objects, JSON, IDs, or DAOs.
+It provides only basic text-file and directory operations.
 """
 
 from pathlib import Path
-from typing import Union
 
 
 class IOStream:
-    """Perform basic text I/O operations on the filesystem."""
+    """Provide basic filesystem I/O operations."""
 
-    def read(self, path: Union[str, Path]) -> str:
-        """Read and return text from a file."""
+    def read(self, path: Path) -> str:
+        """Read and return the contents of a text file."""
 
-        file_path = Path(path)
-        return file_path.read_text(encoding="utf-8")
+        return path.read_text(encoding="utf-8")
 
-    def write(self, path: Union[str, Path], data: str) -> None:
-        """Write text to a file."""
+    def write(self, path: Path, content: str) -> None:
+        """Write text content to a file.
 
-        file_path = Path(path)
-        file_path.parent.mkdir(parents=True, exist_ok=True)
-        file_path.write_text(data, encoding="utf-8")
+        Parent directories are created when they do not already exist.
+        """
 
-    def exists(self, path: Union[str, Path]) -> bool:
-        """Return True when the specified file exists."""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
 
-        return Path(path).is_file()
+    def exists(self, path: Path) -> bool:
+        """Return True if the specified path exists."""
 
-    def delete(self, path: Union[str, Path]) -> None:
-        """Delete a file."""
+        return path.exists()
 
-        file_path = Path(path)
-        file_path.unlink()
+    def list(
+        self,
+        path: Path,
+        pattern: str = "*.json",
+    ) -> list[Path]:
+        """Return matching files in a directory in sorted order."""
 
+        return sorted(
+            item
+            for item in path.glob(pattern)
+            if item.is_file()
+        )
