@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# mow_type.py
+# railroad/rs/mow_type.py
 
 """
 Maintenance-of-Way equipment classification.
