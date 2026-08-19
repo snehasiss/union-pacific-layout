@@ -225,3 +225,19 @@ def test_save_replaces_existing_loco(dao):
 
     assert restored.nickname == "updated"
 
+def test_get_loco_without_acquisition_date(dao):
+    loco = make_loco()
+
+    loco.ownership = Ownership(
+        status=OwnershipStatus.INTENT,
+        source="model train stuff",
+        price=0,
+        acquired=None,
+    )
+
+    dao.save(loco)
+
+    restored = dao.get("L001")
+
+    assert restored.ownership.status == OwnershipStatus.INTENT
+    assert restored.ownership.acquired is None
