@@ -50,6 +50,9 @@ def test_purpose_values():
     assert Purpose.PASSENGER.value == "passenger"
     assert Purpose.FREIGHT.value == "freight"
     assert Purpose.SWITCHER.value == "switcher"
+    assert Purpose.LOGGER.value == "logger"
+    assert Purpose.MACHINE.value == "machine"
+    assert Purpose.SPECIAL.value == "special"
 
     _log("Purpose enum values validated")
 

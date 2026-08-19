@@ -17,8 +17,9 @@ class Purpose(Enum):
     PASSENGER = "passenger"
     FREIGHT = "freight"
     SWITCHER = "switcher"
+    LOGGER = "logger"
     MACHINE = "machine"
-
+    SPECIAL = "special"
 
 @dataclass(frozen=True)
 class Prototype:
