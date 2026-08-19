@@ -21,20 +21,12 @@ class Electronics:
     vehicles, and other railroad entities.
 
     Attributes:
-        dcc:
-            Whether the model is DCC equipped.
-
-        decoder:
-            Installed DCC decoder identification, if applicable.
-
-        address:
-            DCC address. Defaults to 3 for DCC-equipped models.
-
-        sound:
-            Whether the model has an electronic sound capability.
-
-        light:
-            Whether the model has electronically controlled lighting.
+        dcc: Whether the model is DCC equipped.
+        decoder: Installed DCC decoder identification, if applicable.
+        address: DCC address. Defaults to 3 for DCC-equipped models.
+        sound: Whether the model has an electronic sound capability.
+        light: Whether the model has electronically controlled lighting.
+        smoke: if the model has smoke generator with dcc control
     """
 
     dcc: bool = False

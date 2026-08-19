@@ -15,7 +15,7 @@ from dataclasses import dataclass
 
 from railroad.rs.car_type import CarType
 from railroad.domain.electronics import Electronics
-from railroad.domain.identity import Identity
+from railroad.domain.identity import Identity, EntityType
 from railroad.domain.model import Model
 from railroad.domain.ownership import Ownership
 from railroad.domain.prototype import Prototype
@@ -67,7 +67,7 @@ class Car:
     @property
     def entity_type(self) -> EntityType:
         """Return the car entity type."""
-        return self.identity.EntityType.CAR 
+        return self.identity.entity_type 
 
     @property
     def railroad(self) -> str:

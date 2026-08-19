@@ -21,6 +21,7 @@ def test_default_non_dcc_electronics():
     assert electronics.address is None
     assert electronics.sound is False
     assert electronics.light is False
+    assert electronics.smoke is False
 
     _log("Default non-DCC electronics validated")
 
@@ -36,6 +37,7 @@ def test_dcc_electronics_defaults_to_address_3():
     assert electronics.address == 3
     assert electronics.sound is False
     assert electronics.light is False
+    assert electronics.smoke is False
 
     _log(
         f"DCC electronics validated: "
@@ -47,17 +49,19 @@ def test_dcc_electronics_defaults_to_address_3():
 def test_dcc_electronics_with_custom_address():
     electronics = Electronics(
         dcc=True,
-        decoder="LokSound 5",
+        decoder="Tsunami",
         address=4014,
         sound=True,
         light=True,
+        smoke=False,
     )
 
     assert electronics.dcc is True
-    assert electronics.decoder == "LokSound 5"
+    assert electronics.decoder == "Tsunami"
     assert electronics.address == 4014
     assert electronics.sound is True
     assert electronics.light is True
+    assert electronics.smoke is False
 
     _log(
         f"DCC electronics with custom address validated: "
@@ -81,6 +85,7 @@ def test_non_dcc_sound_equipment():
     assert electronics.address is None
     assert electronics.sound is True
     assert electronics.light is False
+    assert electronics.smoke is False
 
     _log("Non-DCC sound-equipped model validated")
 
@@ -101,6 +106,7 @@ def test_non_dcc_light_equipment():
     assert electronics.address is None
     assert electronics.sound is False
     assert electronics.light is True
+    assert electronics.smoke is False
 
     _log("Non-DCC light-equipped model validated")
 
@@ -115,6 +121,7 @@ def test_sound_and_light_are_independent_of_dcc():
     assert electronics.dcc is False
     assert electronics.sound is True
     assert electronics.light is True
+    assert electronics.smoke is False
 
     _log("Sound/light independence from DCC validated")
 

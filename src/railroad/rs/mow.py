@@ -10,7 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from railroad.domain.electronics import Electronics
-from railroad.domain.identity import Identity
+from railroad.domain.identity import Identity, EntityType
 from railroad.domain.model import Model
 from railroad.domain.ownership import Ownership
 from railroad.domain.prototype import Prototype

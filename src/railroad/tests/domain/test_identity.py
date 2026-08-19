@@ -2,9 +2,10 @@
 # test_identity.py
 # 
 
-from railroad.domain.identity import Identity
+from railroad.domain.identity import Identity, EntityType
 from railroad.domain.identity import IdGenerator
-
+from enum import Enum
+import pytest
 
 SHOW_TEST_OUTPUT = True
 
@@ -170,8 +171,19 @@ def test_invalid_id_is_rejected():
 
     _log("Invalid ID correctly rejected")
 
+def test_identity_accepts_valid_entity_type():
+    identity = Identity(
+        id="C001",
+        entity_type=EntityType.CAR,
+        railroad="union pacific",
+        reporting_mark="UP",
+        road_number=123
+    )
+
+    assert identity.entity_type == EntityType.CAR
+    
 def test_identity_rejects_invalid_entity_type():
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         Identity(
             id="C001",
             entity_type="hopper",

@@ -6,7 +6,7 @@
 import pytest
 
 from railroad.domain.electronics import Electronics
-from railroad.domain.identity import Identity
+from railroad.domain.identity import Identity, EntityType
 from railroad.domain.model import Model
 from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose

@@ -24,6 +24,7 @@ The identity also retains the prototype's railroad identity:
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import Enum
 import re
 
 
@@ -207,7 +208,7 @@ class Identity:
         IdGenerator.parse(self.id)
 
         if not isinstance(self.entity_type, EntityType):
-            raise ValueError("entity_type must be a non-empty string.")
+            raise ValueError("entity_type must be an EntityType.")
 
         if not isinstance(self.railroad, str) or not self.railroad.strip():
             raise ValueError("railroad must be a non-empty string.")
