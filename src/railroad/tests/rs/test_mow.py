@@ -25,7 +25,7 @@ def create_mow(
 
     identity = Identity.create(
         prefix="M",
-        entity_type="mow",
+        entity_type=EntityType.MOW,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=road_number,
@@ -91,7 +91,7 @@ def test_mow_identity_properties() -> None:
     mow = create_mow(road_number=123)
 
     assert mow.id.startswith("M")
-    assert mow.entity_type == "mow"
+    assert mow.entity_type == EntityType.MOW
     assert mow.railroad == "Union Pacific"
     assert mow.reporting_mark == "UP"
     assert mow.road_number == 123

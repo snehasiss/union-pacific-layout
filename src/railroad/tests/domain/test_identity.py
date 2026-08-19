@@ -17,7 +17,7 @@ def _log(message: str) -> None:
 def test_create_generates_id():
     identity = Identity.create(
         prefix="L",
-        entity_type="steam",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=4014,
@@ -36,13 +36,13 @@ def test_create_generates_id():
 def test_identity_contains_all_fields():
     identity = Identity.create(
         prefix="L",
-        entity_type="steam",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=4014,
     )
 
-    assert identity.entity_type == "steam"
+    assert identity.entity_type == EntityType.LOCO
     assert identity.railroad == "Union Pacific"
     assert identity.reporting_mark == "UP"
     assert identity.road_number == 4014
@@ -53,7 +53,7 @@ def test_identity_contains_all_fields():
 def test_generated_ids_are_sequential():
     first = Identity.create(
         prefix="L",
-        entity_type="steam",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=4014,
@@ -61,7 +61,7 @@ def test_generated_ids_are_sequential():
 
     second = Identity.create(
         prefix="L",
-        entity_type="diesel",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=7082,
@@ -78,7 +78,7 @@ def test_generated_ids_are_sequential():
 def test_different_entity_namespaces_are_independent():
     locomotive = Identity.create(
         prefix="L",
-        entity_type="steam",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=844,
@@ -86,7 +86,7 @@ def test_different_entity_namespaces_are_independent():
 
     car = Identity.create(
         prefix="C",
-        entity_type="hopper",
+        entity_type=EntityType.CAR,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=123456,
@@ -104,7 +104,7 @@ def test_different_entity_namespaces_are_independent():
 def test_existing_identity_retains_id():
     identity = Identity.from_existing(
         id="L100",
-        entity_type="steam",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=4014,
@@ -118,7 +118,7 @@ def test_existing_identity_retains_id():
 def test_existing_id_advances_generator():
     Identity.from_existing(
         id="L200",
-        entity_type="steam",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=4014,
@@ -126,7 +126,7 @@ def test_existing_id_advances_generator():
 
     identity = Identity.create(
         prefix="L",
-        entity_type="diesel",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=7082,
@@ -140,7 +140,7 @@ def test_existing_id_advances_generator():
 def test_identity_is_immutable():
     identity = Identity.from_existing(
         id="L300",
-        entity_type="steam",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=4014,
@@ -159,7 +159,7 @@ def test_invalid_id_is_rejected():
     try:
         Identity.from_existing(
             id="X0001",
-            entity_type="steam",
+            entity_type=EntityType.LOCO,
             railroad="Union Pacific",
             reporting_mark="UP",
             road_number=4014,
@@ -170,6 +170,15 @@ def test_invalid_id_is_rejected():
 
     _log("Invalid ID correctly rejected")
 
+def test_identity_rejects_invalid_entity_type():
+    with pytest.raises(TypeError):
+        Identity(
+            id="C001",
+            entity_type="hopper",
+            railroad="union pacific",
+            reporting_mark="UP",
+            road_number=123
+        )
 
 def test_maximum_id_is_three_digits():
     assert IdGenerator.MAX_NUMBER == 999

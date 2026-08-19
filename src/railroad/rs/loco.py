@@ -66,7 +66,7 @@ class Loco:
         return self.identity.id
 
     @property
-    def entity_type(self) -> str:
+    def entity_type(self) -> EntityType:
         """Return the locomotive entity type."""
         return self.identity.entity_type
 

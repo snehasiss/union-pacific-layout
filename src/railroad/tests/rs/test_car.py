@@ -24,7 +24,7 @@ def create_car(
 
     identity = Identity.create(
         prefix="C",
-        entity_type="car",
+        entity_type=EntityType.CAR,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=road_number,
@@ -87,7 +87,7 @@ def test_car_identity_properties() -> None:
     car = create_car(road_number=54321)
 
     assert car.id.startswith("C")
-    assert car.entity_type == "car"
+    assert car.entity_type == EntityType.CAR
     assert car.railroad == "Union Pacific"
     assert car.reporting_mark == "UP"
     assert car.road_number == 54321

@@ -62,7 +62,7 @@ class MOW:
         return self.identity.id
 
     @property
-    def entity_type(self) -> str:
+    def entity_type(self) -> EntityType:
         """Return the MOW entity type."""
 
         return self.identity.entity_type

@@ -22,7 +22,7 @@ def create_loco(
 
     identity = Identity.create(
         prefix="L",
-        entity_type="steam",
+        entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
         road_number=road_number,

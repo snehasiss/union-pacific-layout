@@ -118,6 +118,14 @@ class IdGenerator:
         return prefix
 
 
+class EntityType(Enum):
+    LOCO = "loco"
+    CAR = "car"
+    MOW = "mow"
+    SIGNAL = "signal"
+    TURNOUT = "turnout"
+
+
 @dataclass(frozen=True)
 class Identity:
     """
@@ -142,7 +150,7 @@ class Identity:
     """
 
     id: str
-    entity_type: str
+    entity_type: EntityType
     railroad: str
     reporting_mark: str
     road_number: int
@@ -151,7 +159,7 @@ class Identity:
     def create(
         cls,
         prefix: str,
-        entity_type: str,
+        entity_type: EntityType,
         railroad: str,
         reporting_mark: str,
         road_number: int,
@@ -173,7 +181,7 @@ class Identity:
     def from_existing(
         cls,
         id: str,
-        entity_type: str,
+        entity_type: EntityType,
         railroad: str,
         reporting_mark: str,
         road_number: int,
@@ -198,7 +206,7 @@ class Identity:
         """Validate identity invariants."""
         IdGenerator.parse(self.id)
 
-        if not isinstance(self.entity_type, str) or not self.entity_type.strip():
+        if not isinstance(self.entity_type, EntityType):
             raise ValueError("entity_type must be a non-empty string.")
 
         if not isinstance(self.railroad, str) or not self.railroad.strip():

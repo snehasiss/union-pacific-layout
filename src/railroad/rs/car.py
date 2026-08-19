@@ -65,9 +65,9 @@ class Car:
         return self.identity.id
 
     @property
-    def entity_type(self) -> str:
+    def entity_type(self) -> EntityType:
         """Return the car entity type."""
-        return self.identity.entity_type
+        return self.identity.EntityType.CAR 
 
     @property
     def railroad(self) -> str:

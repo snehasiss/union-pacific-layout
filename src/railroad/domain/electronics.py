@@ -42,6 +42,7 @@ class Electronics:
     address: int | None = None
     sound: bool = False
     light: bool = False
+    smoke: bool = False
 
     def __post_init__(self) -> None:
         """Validate electronics invariants."""
@@ -54,6 +55,9 @@ class Electronics:
 
         if not isinstance(self.light, bool):
             raise TypeError("light must be a boolean.")
+
+        if not isinstance(self.smoke, bool):
+            raise TypeError("smoke must be a boolean.")
 
         if self.decoder is not None:
             if not isinstance(self.decoder, str) or not self.decoder.strip():
