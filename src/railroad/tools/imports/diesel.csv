@@ -119,5 +119,5 @@ freight,diesel,GE,Union Pacific,U30C,UP,2881,Atlas,yes,yes,no,loksound,3,owned,T
 freight,diesel,GE,Union Pacific,U50,UP,53,Athearn Genesis,no,no,no,dc,0,owned,ebay,255,2021-07-24
 freight,diesel,GE,Union Pacific,U50,UP,52,Athearn Genesis,yes,yes,no,tsunami2,3,owned,TrainWorld,300,2026-01-25
 freight,diesel,GE,Union Pacific,U50C,UP,5009,ScaleTrains,yes,yes,no,LokSound5,3,intent,lombard,430,
-switcher,diesel,Baldwin,Union Pacific,VO-1000,UP,,Bowser,no,no,no,dc,0,owned,ebay,92,2022-03-14
+switcher,diesel,Baldwin,Union Pacific,VO-1000,UP,1201,Bowser,no,no,no,dc,0,owned,ebay,92,2022-03-14
 freight,diesel,KM,Southern Pacific,ML4000,SP,9102,Piko,yes,yes,no,smartdecoder5.1,3,owned,lombard,370,2026-02-18
