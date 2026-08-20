@@ -1,22 +1,28 @@
-builder,wheels,name,railroad,mark,road number,make,product,status,DCC,Sound,light,Smoke,decoder,address,store,Price,dated
-ALCo,4-8-8-4,big boy,union pacific,UP,4014,Athearn,Genesis,obtained,y,yes,yes,no,tsunami,3,model train stuff,655,20-Nov-2020
-ALCo,4-6-6-4,challenger,union pacific,UP,3826,Broadway Limited Imports,Brass Hybrid,obtained,y,yes,yes,no,paragon4,3,ebay,700,11-Jun-2026
-Baldwin,2-8-8-2,mallet,union pacific,UP,3672,Proto 2000,Proto,obtained,y,yes,yes,no,esu loksound,3,ebay,240,23-Jun-2026
-Baldwin,2-8-8-2,Y6b mallet,norfolk and western,NW,2190,Broadway Limited Imports,Brass Hybrid,obtained,y,yes,yes,yes,paragon4,2190,factorydirect,470,17-Mar-2021
-ALCo,2-8-8-0,bullmoose,union pacific,UP,3551,Broadway Limited Imports,Brass Hybrid,obtained,y,yes,yes,yes,paragon4,3,trainworld,765,3-May-2026
-Baldwin,2-10-2,TTT-6,union pacific,UP,5053,Broadway Limited Imports,Brass Hybrid,obtained,y,yes,yes,no,qsi,3,ebay,525,23-Jun-2026
-ALCo,4-12-2,heavy,union pacific,UP,9028,Broadway Limited Imports,Brass Hybrid,obtained,y,yes,yes,yes,paragon4,3,iron planet ,720,5-Mar-2026
-ALCo,4-10-2,overland,union pacific,UP,5090,brass,Brass     ,searching,n,no,no,no,dc,0,unknown ,0,
-ALCo,4-8'4,northern FEF,union pacific,UP,844,Broadway Limited Imports,Brass Hybrid,obtained,y,yes,yes,yes,paragon3,844,trainworld,560,21-Dec-2021
-ALCo,4-8-2,mountain MT-73,union pacific,UP,7002,Broadway Limited Imports,die cast,obtained,y,yes,yes,no,paragon2,3,ebay,429,3-Jul-2026
-Baldwin,4-6-2,pacific,union pacific,UP,3203,brass,die cast,searching,n,no,no,no,dc,0,unknown ,0,
-Cooke,4-6-0,ten,union pacific,UP,1242,brass,brass,searching,n,no,no,no,dc,0,unknown ,0,
-ALCo,2-8-2,mikado,union pacific,UP,2485,Broadway Limited Imports,die cast,obtained,y,yes,yes,no,paragon2,3,ebay,290,6-Jul-2026
-Baldwin,2-8-0,consolidation,union pacific,UP,604,Broadway Limited Imports,brass hybrid,obtained,y,yes,yes,yes,paragon4,3,springcreek,430,22-Apr-2026
-Baldwin,2-6-0,mogul,union pacific,UP,40,Athearn,die cast,available,n,no,yes,no,dc,0,Trainworld,0,
-Rogers,4-4-0,american,union pacific,UP,119,Bachmann,plastic,available,y,yes,yes,no,econami,3,Trainworld,0,
-Lima,0-6-0,S-6 switcher,union pacific,UP,4455,Bachmann,plastic,searching,n,,no,no,dc,0,unknown ,0,
-Baldwin,2-6-6-2T,articulated logger,canadian forest products,CFPX,3,mantua,plastic,obtained,y,yes,yes,no,loksound,3,ebay,180,11-May-2020
-Lima,4-truck shay,shay loco,mower lumber co,MLC,12,Broadway Limited Imports,die cast,obtained,y,yes,yes,yes,paragon4,3,lombard,480,14-Jan-2026
-Climax,3-truck climax,climax steam loco,clear lake lumber co,CLLC,12,Bachmann,plastic,obtained,y,yes,yes,no,econami,3,ebay,550,7-Apr-2026
-Heisler,3-truck heisler,heisler steam loco,Cass Scenic Railroad,CASS,5,Rivarossi,plastic,searching,y,yes,yes,no,loksound,3,unknown ,340,9-Jul-2026
+purpose,locotype,builder,loco_model,nickname,railroad,reporting_mark,road_number,make,DCC,Sound,light,Smoke,decoder,address,status,store,Price,dated
+freight,steam,ALCo,4-8-8-4,big boy,union pacific,UP,4014,Athearn,yes,yes,yes,no,tsunami,3,owned,model train stuff,655,20-Nov-2020
+freight,steam,ALCo,4-6-6-4,challenger,union pacific,UP,3826,BLI,yes,yes,yes,no,paragon4,3,owned,ebay,700,11-Jun-2026
+freight,steam,Baldwin,2-8-8-2,mallet,union pacific,UP,3672,Proto2000,yes,yes,yes,no,esu loksound,3,owned,ebay,240,23-Jun-2026
+freight,steam,Baldwin,2-8-8-2,Y6b mallet,norfolk and western,NW,2190,BLI,yes,yes,yes,yes,paragon4,2190,owned,factorydirect,470,17-Mar-2021
+freight,steam,ALCo,2-8-8-0,bullmoose,union pacific,UP,3551,BLI,yes,yes,yes,yes,paragon4,3,owned,trainworld,765,3-May-2026
+freight,steam,Baldwin,2-10-2,TTT-6,union pacific,UP,5053,BLI,yes,yes,yes,no,qsi,3,owned,ebay,525,23-Jun-2026
+freight,steam,ALCo,4-12-2,heavy,union pacific,UP,9028,BLI,yes,yes,yes,yes,paragon4,3,owned,iron planet ,720,5-Mar-2026
+freight,steam,ALCo,4-10-2,overland,union pacific,UP,5090,brass,no,no,no,no,dc,0,intent,unknown ,0,
+passenger,steam,ALCo,4-8'4,northern FEF,union pacific,UP,844,BLI,yes,yes,yes,yes,paragon3,844,owned,trainworld,560,21-Dec-2021
+passenger,steam,ALCo,4-8-2,mountain MT-73,union pacific,UP,7002,BLI,yes,yes,yes,no,paragon2,3,owned,ebay,429,3-Jul-2026
+passenger,steam,Baldwin,4-6-2,pacific,union pacific,UP,3203,brass,no,no,no,no,dc,0,intent,unknown ,0,
+passenger,steam,Cooke,4-6-0,ten,union pacific,UP,1242,brass,no,no,no,no,dc,0,intent,unknown ,0,
+freight,steam,ALCo,2-8-2,mikado,union pacific,UP,2485,BLI,yes,yes,yes,no,paragon2,3,owned,ebay,290,6-Jul-2026
+freight,steam,Baldwin,2-8-0,consolidation,union pacific,UP,604,BLI,yes,yes,yes,yes,paragon4,3,owned,springcreek,430,22-Apr-2026
+passenger,steam,Baldwin,2-6-0,mogul,union pacific,UP,40,Athearn,no,no,yes,no,dc,0,intent,Trainworld,0,
+passenger,steam,Rogers,4-4-0,american,union pacific,UP,119,Bachmann,yes,yes,yes,no,econami,3,intent,Trainworld,0,
+switcher,steam,Lima,0-6-0,S-6 switcher,union pacific,UP,4455,Bachmann,no,no,no,no,dc,0,intent,unknown ,0,
+logger,steam,Baldwin,2-6-6-2T,articulated logger,canadian forest products,CFPX,3,mantua,yes,yes,yes,no,loksound,3,owned,ebay,180,11-May-2020
+logger,steam,Lima,4-truck shay,shay loco,mower lumber co,MLC,12,BLI,yes,yes,yes,yes,paragon4,3,owned,lombard,480,14-Jan-2026
+logger,steam,Climax,3-truck climax,climax steam loco,clear lake lumber co,CLLC,12,Bachmann,yes,yes,yes,no,econami,3,owned,ebay,550,7-Apr-2026
+logger,steam,Heisler,3-truck heisler,heisler steam loco,Cass Scenic Railroad,CASS,5,Rivarossi,yes,yes,yes,no,loksound,3,intent,unknown ,340,
+passenger,steam,Baldwin,4-6-2,president washington,Baltimore and Ohio,B&O,5300,Rivarossi,no,no,yes,no,dc,0,owned,ebay,,
+passenger,steam,Baldwin,4-6-2,president adams,Baltimore and Ohio,B&O,5301,Mantua,no,no,yes,no,dc,0,owned,ebay,,
+passenger,steam,Baldwin,4-6-2,president jefferson,Baltimore and Ohio,B&O,5302,Rivarossi,no,no,yes,no,dc,0,owned,ebay,,
+passenger,steam,Baldwin,4-6-2,president monroe,Baltimore and Ohio,B&O,5304,Rivarossi,no,no,yes,no,dc,0,owned,ebay,,
+passenger,steam,Baldwin,4-6-2,president fillmore,Baltimore and Ohio,B&O,5311,Rivarossi,yes,yes,yes,no,loksound,5311,owned,SFO hobby shop,,1-Jul-2010
+passenger,steam,Baldwin,4-6-2,president lincoln,Baltimore and Ohio,B&O,5314,Rivarossi,no,no,yes,no,dc,0,owned,ebay,,
