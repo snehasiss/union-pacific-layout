@@ -1,131 +1,141 @@
 #!/usr/bin/env python3
-# test_mow.py
+#
+# railroad/tests/rs/test_mow.py
+#
 
 """
-Tests for the MOW domain entity.
+Tests for the Maintenance-of-Way domain entity.
 """
+
+from __future__ import annotations
+
+from datetime import date
 
 import pytest
 
-from railroad.domain.electronics import Electronics
-from railroad.domain.identity import Identity, EntityType
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
+from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.mow import MOW
 from railroad.rs.mow_type import MOWType
 
 
-def create_mow(
-    road_number: str = "100",
-    mow_type: MOWType = MOWType.TAMPER,
-    self_propelled: bool = True,
-) -> MOW:
-    """Create a representative MOW asset for testing."""
+def create_mow() -> MOW:
+    """Create a valid MOW asset for testing."""
 
-    identity = Identity.create(
-        prefix="M",
+    identity = Identity(
+        id="M001",
         entity_type=EntityType.MOW,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=road_number,
+        road_number="100",
     )
 
     prototype = Prototype(
-        builder="Plasser",
+        builder="Plasser & Theurer",
         model="Tamper",
         nickname=None,
-        purpose=Purpose.MACHINE,
+        purpose=Purpose.FREIGHT,
     )
 
     model = Model(
-        manufacturer="Plasser",
-        product="Tamper",
+        manufacturer="Kibri",
+        product="MOW Tamper",
     )
 
-    electronics = Electronics(
-        dcc=True,
-        decoder="LokSound",
-        sound=True,
+    control = Control(
+        type=ControlType.DC,
+        light=True,
+        sound=False,
+        smoke=False,
     )
 
-    ownership = Ownership(
-        status=OwnershipStatus.OWNED,
+    asset = Asset(
+        status=AssetStatus.OWNED,
+        source="Model Train Stuff",
+        price=89.99,
+        acquired=date(2026, 1, 1),
     )
 
     return MOW(
         identity=identity,
         prototype=prototype,
         model=model,
-        electronics=electronics,
-        ownership=ownership,
-        mow_type=mow_type,
-        self_propelled=self_propelled,
+        control=control,
+        asset=asset,
+        mow_type=MOWType.TAMPER,
+        self_propelled=True,
     )
 
 
-def test_mow_can_be_created() -> None:
-    """An MOW asset can be constructed."""
+def test_mow_creation() -> None:
+    """A valid MOW asset can be created."""
 
     mow = create_mow()
 
     assert isinstance(mow, MOW)
 
 
-def test_mow_contains_domain_components() -> None:
-    """An MOW asset contains all required domain components."""
+def test_mow_components() -> None:
+    """An MOW asset contains the expected domain components."""
 
     mow = create_mow()
 
     assert isinstance(mow.identity, Identity)
     assert isinstance(mow.prototype, Prototype)
     assert isinstance(mow.model, Model)
-    assert isinstance(mow.electronics, Electronics)
-    assert isinstance(mow.ownership, Ownership)
+    assert isinstance(mow.control, Control)
+    assert isinstance(mow.asset, Asset)
     assert isinstance(mow.mow_type, MOWType)
 
 
-def test_mow_identity_properties() -> None:
-    """Identity information is exposed through MOW."""
-
-    mow = create_mow(road_number="123")
-
-    assert mow.id.startswith("M")
-    assert mow.entity_type == EntityType.MOW
-    assert mow.railroad == "Union Pacific"
-    assert mow.reporting_mark == "UP"
-    assert mow.road_number == "123"
-
-
-def test_mow_prototype_properties() -> None:
-    """Prototype information is exposed through MOW."""
+def test_mow_properties() -> None:
+    """MOW properties expose identity and prototype information."""
 
     mow = create_mow()
 
+    assert mow.id == "M001"
+    assert mow.entity_type == EntityType.MOW
+    assert mow.railroad == "Union Pacific"
+    assert mow.reporting_mark == "UP"
+    assert mow.road_number == "100"
     assert mow.prototype_model == "Tamper"
     assert mow.nickname is None
 
 
+def test_mow_control() -> None:
+    """MOW control information is preserved."""
+
+    mow = create_mow()
+
+    assert mow.control.type == ControlType.DC
+    assert mow.control.light is True
+    assert mow.control.sound is False
+    assert mow.control.smoke is False
+    assert mow.control.decoder is None
+    assert mow.control.address is None
+
+
+def test_mow_asset() -> None:
+    """MOW asset information is preserved."""
+
+    mow = create_mow()
+
+    assert mow.asset.status == AssetStatus.OWNED
+    assert mow.asset.source == "Model Train Stuff"
+    assert mow.asset.price == 89.99
+    assert mow.asset.acquired == date(2026, 1, 1)
+
+
 def test_mow_type() -> None:
-    """MOW exposes its MOWType."""
+    """MOW type is preserved."""
 
-    mow = create_mow(mow_type=MOWType.MPV)
+    mow = create_mow()
 
-    assert mow.mow_type is MOWType.MPV
-
-
-def test_self_propelled() -> None:
-    """Self-propelled capability is represented correctly."""
-
-    powered = create_mow(self_propelled=True)
-    unpowered = create_mow(
-        road_number="200",
-        mow_type=MOWType.CRANE,
-        self_propelled=False,
-    )
-
-    assert powered.self_propelled is True
-    assert unpowered.self_propelled is False
+    assert mow.mow_type == MOWType.TAMPER
+    assert mow.self_propelled is True
 
 
 def test_mow_rejects_invalid_identity() -> None:
@@ -138,8 +148,8 @@ def test_mow_rejects_invalid_identity() -> None:
             identity="invalid",
             prototype=mow.prototype,
             model=mow.model,
-            electronics=mow.electronics,
-            ownership=mow.ownership,
+            control=mow.control,
+            asset=mow.asset,
             mow_type=mow.mow_type,
             self_propelled=mow.self_propelled,
         )
@@ -155,8 +165,8 @@ def test_mow_rejects_invalid_prototype() -> None:
             identity=mow.identity,
             prototype="invalid",
             model=mow.model,
-            electronics=mow.electronics,
-            ownership=mow.ownership,
+            control=mow.control,
+            asset=mow.asset,
             mow_type=mow.mow_type,
             self_propelled=mow.self_propelled,
         )
@@ -172,15 +182,15 @@ def test_mow_rejects_invalid_model() -> None:
             identity=mow.identity,
             prototype=mow.prototype,
             model="invalid",
-            electronics=mow.electronics,
-            ownership=mow.ownership,
+            control=mow.control,
+            asset=mow.asset,
             mow_type=mow.mow_type,
             self_propelled=mow.self_propelled,
         )
 
 
-def test_mow_rejects_invalid_electronics() -> None:
-    """MOW requires an Electronics object."""
+def test_mow_rejects_invalid_control() -> None:
+    """MOW requires a Control object."""
 
     mow = create_mow()
 
@@ -189,15 +199,15 @@ def test_mow_rejects_invalid_electronics() -> None:
             identity=mow.identity,
             prototype=mow.prototype,
             model=mow.model,
-            electronics="invalid",
-            ownership=mow.ownership,
+            control="invalid",
+            asset=mow.asset,
             mow_type=mow.mow_type,
             self_propelled=mow.self_propelled,
         )
 
 
-def test_mow_rejects_invalid_ownership() -> None:
-    """MOW requires an Ownership object."""
+def test_mow_rejects_invalid_asset() -> None:
+    """MOW requires an Asset object."""
 
     mow = create_mow()
 
@@ -206,8 +216,8 @@ def test_mow_rejects_invalid_ownership() -> None:
             identity=mow.identity,
             prototype=mow.prototype,
             model=mow.model,
-            electronics=mow.electronics,
-            ownership="invalid",
+            control=mow.control,
+            asset="invalid",
             mow_type=mow.mow_type,
             self_propelled=mow.self_propelled,
         )
@@ -223,15 +233,15 @@ def test_mow_rejects_invalid_mow_type() -> None:
             identity=mow.identity,
             prototype=mow.prototype,
             model=mow.model,
-            electronics=mow.electronics,
-            ownership=mow.ownership,
+            control=mow.control,
+            asset=mow.asset,
             mow_type="tamper",
             self_propelled=mow.self_propelled,
         )
 
 
 def test_mow_rejects_invalid_self_propelled() -> None:
-    """MOW requires self_propelled to be a bool."""
+    """MOW requires a boolean self_propelled value."""
 
     mow = create_mow()
 
@@ -240,9 +250,8 @@ def test_mow_rejects_invalid_self_propelled() -> None:
             identity=mow.identity,
             prototype=mow.prototype,
             model=mow.model,
-            electronics=mow.electronics,
-            ownership=mow.ownership,
+            control=mow.control,
+            asset=mow.asset,
             mow_type=mow.mow_type,
-            self_propelled="true",
+            self_propelled="yes",
         )
-

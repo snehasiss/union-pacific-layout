@@ -14,10 +14,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from railroad.rs.car_type import CarType
-from railroad.domain.electronics import Electronics
+from railroad.domain.control import Control
 from railroad.domain.identity import Identity, EntityType
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership
+from railroad.domain.asset import Asset
 from railroad.domain.prototype import Prototype
 
 
@@ -27,15 +27,15 @@ class Car:
     Digital representation of a physical railroad car.
 
     A car is composed of shared domain objects describing its
-    identity, prototype, physical model, electronics, ownership,
+    identity, prototype, physical model, control, asset,
     and car type.
     """
 
     identity: Identity
     prototype: Prototype
     model: Model
-    electronics: Electronics
-    ownership: Ownership
+    control: Control
+    asset: Asset
     car_type: CarType
 
     def __post_init__(self) -> None:
@@ -50,11 +50,11 @@ class Car:
         if not isinstance(self.model, Model):
             raise TypeError("model must be a Model.")
 
-        if not isinstance(self.electronics, Electronics):
-            raise TypeError("electronics must be an Electronics.")
+        if not isinstance(self.control, Control):
+            raise TypeError("control must be an Control.")
 
-        if not isinstance(self.ownership, Ownership):
-            raise TypeError("ownership must be an Ownership.")
+        if not isinstance(self.asset, Asset):
+            raise TypeError("asset must be an Asset.")
 
         if not isinstance(self.car_type, CarType):
             raise TypeError("car_type must be a CarType.")

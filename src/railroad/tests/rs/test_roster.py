@@ -1,68 +1,79 @@
 #!/usr/bin/env python3
-# test_roster.py : Tests for the locomotive Roster.
+#
+# railroad/tests/rs/test_roster.py
 #
 
+"""
+Tests for the locomotive Roster domain object.
+"""
+
+from __future__ import annotations
+
+from datetime import date
 
 import pytest
 
-from railroad.domain.electronics import Electronics
-from railroad.domain.identity import Identity, EntityType
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
+from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco
 from railroad.rs.loco_type import LocoType
 from railroad.rs.roster import Roster
 
 
-def create_loco(
-    road_number: str,
-) -> Loco:
-    """Create a representative locomotive for testing."""
+def create_loco(loco_id: str = "L001") -> Loco:
+    """Create a valid locomotive for roster testing."""
 
-    identity = Identity.create(
-        prefix="L",
+    identity = Identity(
+        id=loco_id,
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=road_number,
-
+        road_number="4014",
     )
 
     prototype = Prototype(
         builder="ALCo",
-        model="4-8-4",
-        nickname="Northern",
-        purpose=Purpose.PASSENGER,
+        model="4-8-8-4",
+        nickname="Big Boy",
+        purpose=Purpose.FREIGHT,
     )
 
     model = Model(
-        manufacturer="Broadway Limited Imports",
-        product=f"UP {road_number}",
+        manufacturer="Athearn",
+        product="Genesis Big Boy",
     )
 
-    electronics = Electronics(
-        dcc=True,
-        decoder="LokSound",
+    control = Control(
+        type=ControlType.DCC,
+        light=True,
         sound=True,
+        smoke=False,
+        decoder="Paragon4",
+        address=4014,
     )
 
-    ownership = Ownership(
-        status=OwnershipStatus.OWNED,
+    asset = Asset(
+        status=AssetStatus.OWNED,
+        source="Model Train Stuff",
+        price=599.99,
+        acquired=date(2026, 1, 1),
     )
 
     return Loco(
         identity=identity,
-        loco_type=LocoType.STEAM,
         prototype=prototype,
         model=model,
-        electronics=electronics,
-        ownership=ownership,
+        control=control,
+        asset=asset,
+        loco_type=LocoType.STEAM,
     )
 
 
 def test_empty_roster() -> None:
-    """A newly created roster is empty."""
+    """A new roster is empty."""
 
     roster = Roster()
 
@@ -70,42 +81,74 @@ def test_empty_roster() -> None:
     assert list(roster) == []
 
 
-def test_roster_can_be_initialized_with_locos() -> None:
+def test_roster_accepts_locos() -> None:
     """A roster can be initialized with locomotives."""
 
-    loco = create_loco("844")
+    loco = create_loco()
     roster = Roster([loco])
 
     assert len(roster) == 1
-    assert roster.get(loco.id) is loco
+    assert roster.locos == [loco]
+
+
+def test_roster_rejects_non_list() -> None:
+    """Roster contents must be a list."""
+
+    with pytest.raises(TypeError):
+        Roster("invalid")
+
+
+def test_roster_rejects_non_loco() -> None:
+    """Roster can contain only Loco objects."""
+
+    with pytest.raises(TypeError):
+        Roster(["invalid"])
 
 
 def test_add_loco() -> None:
     """A locomotive can be added to a roster."""
 
     roster = Roster()
-    loco = create_loco("844")
+    loco = create_loco()
 
     roster.add(loco)
 
     assert len(roster) == 1
-    assert roster.get(loco.id) is loco
+    assert roster.get("L001") is loco
 
 
-def test_add_duplicate_loco_id_is_rejected() -> None:
-    """Duplicate locomotive IDs are not allowed."""
+def test_add_rejects_non_loco() -> None:
+    """Only Loco objects can be added."""
 
     roster = Roster()
-    loco = create_loco("844")
 
-    roster.add(loco)
+    with pytest.raises(TypeError):
+        roster.add("invalid")
+
+
+def test_add_rejects_duplicate_id() -> None:
+    """A duplicate locomotive ID is rejected."""
+
+    roster = Roster()
+    roster.add(create_loco("L001"))
 
     with pytest.raises(ValueError):
-        roster.add(loco)
+        roster.add(create_loco("L001"))
+
+
+def test_get_loco() -> None:
+    """A locomotive can be retrieved by ID."""
+
+    loco = create_loco("L001")
+    roster = Roster([loco])
+
+    result = roster.get("L001")
+
+    assert result is loco
 
 
 def test_get_missing_loco() -> None:
-    """Getting a missing locomotive raises KeyError."""
+    """Getting an unknown locomotive raises KeyError."""
 
     roster = Roster()
 
@@ -113,36 +156,21 @@ def test_get_missing_loco() -> None:
         roster.get("L999")
 
 
-def test_contains_id() -> None:
-    """Roster can determine whether an ID exists."""
-
-    roster = Roster()
-    loco = create_loco("844")
-
-    assert not roster.contains_id(loco.id)
-
-    roster.add(loco)
-
-    assert roster.contains_id(loco.id)
-
-
 def test_remove_loco() -> None:
-    """A locomotive can be removed from the roster."""
+    """A locomotive can be removed and returned."""
 
-    roster = Roster()
-    loco = create_loco("844")
+    loco = create_loco("L001")
+    roster = Roster([loco])
 
-    roster.add(loco)
+    result = roster.remove("L001")
 
-    removed = roster.remove(loco.id)
-
-    assert removed is loco
+    assert result is loco
     assert len(roster) == 0
-    assert not roster.contains_id(loco.id)
+    assert roster.contains_id("L001") is False
 
 
 def test_remove_missing_loco() -> None:
-    """Removing a missing locomotive raises KeyError."""
+    """Removing an unknown locomotive raises KeyError."""
 
     roster = Roster()
 
@@ -150,33 +178,36 @@ def test_remove_missing_loco() -> None:
         roster.remove("L999")
 
 
-def test_roster_iteration() -> None:
-    """Roster iteration preserves insertion order."""
+def test_contains_id() -> None:
+    """Roster can determine whether an ID exists."""
 
-    first = create_loco("844")
-    second = create_loco("4014")
+    roster = Roster([create_loco("L001")])
 
-    roster = Roster()
-    roster.add(first)
-    roster.add(second)
-
-    locos = list(roster)
-
-    assert locos == [first, second]
+    assert roster.contains_id("L001") is True
+    assert roster.contains_id("L002") is False
 
 
-def test_roster_rejects_non_loco() -> None:
-    """Roster accepts only Locomotive objects."""
+def test_len() -> None:
+    """Roster length reflects the number of locomotives."""
 
-    roster = Roster()
+    roster = Roster(
+        [
+            create_loco("L001"),
+            create_loco("L002"),
+            create_loco("L003"),
+        ]
+    )
 
-    with pytest.raises(TypeError):
-        roster.add("not a loco")
+    assert len(roster) == 3
 
 
-def test_roster_rejects_invalid_initial_contents() -> None:
-    """Roster cannot be initialized with non-locomotive objects."""
+def test_iteration_preserves_order() -> None:
+    """Roster iteration follows insertion order."""
 
-    with pytest.raises(TypeError):
-        Roster(["not a loco"])
+    loco1 = create_loco("L001")
+    loco2 = create_loco("L002")
+    loco3 = create_loco("L003")
 
+    roster = Roster([loco1, loco2, loco3])
+
+    assert list(roster) == [loco1, loco2, loco3]

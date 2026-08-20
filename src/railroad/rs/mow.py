@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from railroad.domain.electronics import Electronics
+from railroad.domain.control import Control
 from railroad.domain.identity import Identity, EntityType
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership
+from railroad.domain.asset import Asset
 from railroad.domain.prototype import Prototype
 from railroad.rs.mow_type import MOWType
 
@@ -26,8 +26,8 @@ class MOW:
     identity: Identity
     prototype: Prototype
     model: Model
-    electronics: Electronics
-    ownership: Ownership
+    control: Control
+    asset: Asset
     mow_type: MOWType
     self_propelled: bool
 
@@ -43,11 +43,11 @@ class MOW:
         if not isinstance(self.model, Model):
             raise TypeError("model must be a Model.")
 
-        if not isinstance(self.electronics, Electronics):
-            raise TypeError("electronics must be an Electronics.")
+        if not isinstance(self.control, Control):
+            raise TypeError("control must be an Control.")
 
-        if not isinstance(self.ownership, Ownership):
-            raise TypeError("ownership must be an Ownership.")
+        if not isinstance(self.asset, Asset):
+            raise TypeError("asset must be an Asset.")
 
         if not isinstance(self.mow_type, MOWType):
             raise TypeError("mow_type must be an MOWType.")

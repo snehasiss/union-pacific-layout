@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-# ownership.py
+# asset.py
 #
 
 """
-Ownership information for a physical railroad model.
+Asset information for a physical railroad model.
 """
 
 from __future__ import annotations
@@ -13,8 +13,8 @@ from datetime import date
 from enum import Enum
 
 
-class OwnershipStatus(Enum):
-    """Ownership status of a physical railroad model."""
+class AssetStatus(Enum):
+    """Lifecycle status of a physical railroad model asset."""
 
     OWNED = "owned"
     INTENT = "intent"
@@ -22,26 +22,22 @@ class OwnershipStatus(Enum):
 
 
 @dataclass
-class Ownership:
+class Asset:
     """
-    Describe ownership and acquisition information.
-
-    This object is generic and may be associated with locomotives,
-    cars, MOW equipment, power cars, containers, and other physical
-    railroad models.
+    Describe acquisition and lifecycle information for a railroad asset.
     """
 
-    status: OwnershipStatus = OwnershipStatus.OWNED
+    status: AssetStatus = AssetStatus.OWNED
     source: str | None = None
     price: float | None = None
     acquired: date | None = None
 
     def __post_init__(self) -> None:
-        """Validate ownership attributes."""
+        """Validate asset invariants."""
 
-        if not isinstance(self.status, OwnershipStatus):
+        if not isinstance(self.status, AssetStatus):
             raise TypeError(
-                "status must be an OwnershipStatus."
+                "status must be an AssetStatus."
             )
 
         if self.source is not None:

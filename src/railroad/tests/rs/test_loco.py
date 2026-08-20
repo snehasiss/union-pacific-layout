@@ -1,196 +1,206 @@
 #!/usr/bin/env python3
-# test_loco.py : Tests for the locomotives.
+# railroad/tests/rs/test_loco.py
 #
 
+from datetime import date
 
 import pytest
 
-from railroad.domain.electronics import Electronics
-from railroad.domain.identity import Identity, EntityType
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
+from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco
 from railroad.rs.loco_type import LocoType
-from railroad.rs.roster import Roster
 
 
-def create_loco(
-    road_number: str,
-) -> Loco:
-    """Create a representative loco for testing."""
-
-    identity = Identity.create(
-        prefix="L",
+def make_identity() -> Identity:
+    return Identity(
+        id="L001",
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=road_number,
+        road_number="4014",
     )
 
-    prototype = Prototype(
+
+def make_prototype() -> Prototype:
+    return Prototype(
         builder="ALCo",
-        model="4-8-4",
-        nickname="Northern",
-        purpose=Purpose.PASSENGER,
+        model="4-8-8-4",
+        nickname="Big Boy",
+        purpose=Purpose.FREIGHT,
     )
 
-    model = Model(
-        manufacturer="Broadway Limited Imports",
-        product=f"UP {road_number}",
+
+def make_model() -> Model:
+    return Model(
+        manufacturer="Athearn",
+        product="Genesis Big Boy",
     )
 
-    electronics = Electronics(
-        dcc=True,
-        decoder="LokSound",
+
+def make_control() -> Control:
+    return Control(
+        type=ControlType.DCC,
+        light=True,
         sound=True,
+        smoke=False,
+        decoder="Paragon4",
+        address=4014,
     )
 
-    ownership = Ownership(
-        status=OwnershipStatus.OWNED,
+
+def make_asset() -> Asset:
+    return Asset(
+        status=AssetStatus.OWNED,
+        source="Model Train Stuff",
+        price=599.99,
+        acquired=date(2026, 1, 1),
     )
 
+
+def make_loco() -> Loco:
     return Loco(
-        identity=identity,
-		loco_type=LocoType.STEAM,
-		prototype=prototype,
-        model=model,
-        electronics=electronics,
-        ownership=ownership,
+        identity=make_identity(),
+        loco_type=LocoType.STEAM,
+        prototype=make_prototype(),
+        model=make_model(),
+        control=make_control(),
+        asset=make_asset(),
     )
 
 
-def test_empty_roster() -> None:
-    """A newly created roster is empty."""
+def test_loco_creation():
+    loco = make_loco()
 
-    roster = Roster()
-
-    assert len(roster) == 0
-    assert list(roster) == []
-
-
-def test_roster_can_be_initialized_with_locos() -> None:
-    """A roster can be initialized with locomotives."""
-
-    loco = create_loco("844")
-    roster = Roster([loco])
-
-    assert len(roster) == 1
-    assert roster.get(loco.id) is loco
+    assert isinstance(loco, Loco)
+    assert loco.loco_type == LocoType.STEAM
+    assert loco.prototype.model == "4-8-8-4"
+    assert loco.model.manufacturer == "Athearn"
+    assert loco.control.type == ControlType.DCC
+    assert loco.asset.status == AssetStatus.OWNED
 
 
-def test_add_loco() -> None:
-    """A locomotive can be added to a roster."""
+def test_loco_identity_properties():
+    loco = make_loco()
 
-    roster = Roster()
-    loco = create_loco("844")
-
-    roster.add(loco)
-
-    assert len(roster) == 1
-    assert roster.get(loco.id) is loco
+    assert loco.id == "L001"
+    assert loco.entity_type == EntityType.LOCO
+    assert loco.railroad == "Union Pacific"
+    assert loco.reporting_mark == "UP"
+    assert loco.road_number == "4014"
 
 
-def test_add_duplicate_loco_id_is_rejected() -> None:
-    """Duplicate locomotive IDs are not allowed."""
+def test_loco_prototype_properties():
+    loco = make_loco()
 
-    roster = Roster()
-    loco = create_loco("844")
-
-    roster.add(loco)
-
-    with pytest.raises(ValueError):
-        roster.add(loco)
+    assert loco.prototype_model == "4-8-8-4"
+    assert loco.nickname == "Big Boy"
 
 
-def test_get_missing_loco() -> None:
-    """Getting a missing locomotive raises KeyError."""
+def test_loco_accepts_diesel():
+    loco = make_loco()
+    loco.loco_type = LocoType.DIESEL
 
-    roster = Roster()
-
-    with pytest.raises(KeyError):
-        roster.get("L999")
+    assert loco.loco_type == LocoType.DIESEL
 
 
-def test_contains_id() -> None:
-    """Roster can determine whether an ID exists."""
+def test_loco_accepts_turbine():
+    loco = make_loco()
+    loco.loco_type = LocoType.TURBINE
 
-    roster = Roster()
-    loco = create_loco("844")
-
-    assert not roster.contains_id(loco.id)
-
-    roster.add(loco)
-
-    assert roster.contains_id(loco.id)
+    assert loco.loco_type == LocoType.TURBINE
 
 
-def test_remove_loco() -> None:
-    """A locomotive can be removed from the roster."""
+def test_loco_accepts_missing_nickname():
+    prototype = Prototype(
+        builder="EMD",
+        model="SD40-2",
+        nickname=None,
+        purpose=Purpose.FREIGHT,
+    )
 
-    roster = Roster()
-    loco = create_loco("844")
+    loco = Loco(
+        identity=make_identity(),
+        loco_type=LocoType.DIESEL,
+        prototype=prototype,
+        model=make_model(),
+        control=make_control(),
+        asset=make_asset(),
+    )
 
-    roster.add(loco)
-
-    removed = roster.remove(loco.id)
-
-    assert removed is loco
-    assert len(roster) == 0
-    assert not roster.contains_id(loco.id)
-
-
-def test_remove_missing_loco() -> None:
-    """Removing a missing locomotive raises KeyError."""
-
-    roster = Roster()
-
-    with pytest.raises(KeyError):
-        roster.remove("L999")
+    assert loco.nickname is None
 
 
-def test_roster_iteration() -> None:
-    """Roster iteration preserves insertion order."""
-
-    first = create_loco("844")
-    second = create_loco("4014")
-
-    roster = Roster()
-    roster.add(first)
-    roster.add(second)
-
-    locos = list(roster)
-
-    assert locos == [first, second]
-
-
-def test_roster_rejects_non_loco() -> None:
-    """Roster accepts only Locomotive objects."""
-
-    roster = Roster()
-
-    with pytest.raises(TypeError):
-        roster.add("not a locomotive")
-
-
-def test_roster_rejects_invalid_initial_contents() -> None:
-    """Roster cannot be initialized with non-locomotive objects."""
-
-    with pytest.raises(TypeError):
-        Roster(["not a locomotive"])
-
-def test_loco_rejects_invalid_loco_type() -> None:
-    """Loco rejects a value that is not a LocoType."""
-
-    loco = create_loco("844")
-
+def test_loco_rejects_invalid_identity():
     with pytest.raises(TypeError):
         Loco(
-            identity=loco.identity,
-            loco_type="steam",
-            prototype=loco.prototype,
-            model=loco.model,
-            electronics=loco.electronics,
-            ownership=loco.ownership,
+            identity="L001",
+            loco_type=LocoType.STEAM,
+            prototype=make_prototype(),
+            model=make_model(),
+            control=make_control(),
+            asset=make_asset(),
         )
 
+
+def test_loco_rejects_invalid_loco_type():
+    with pytest.raises(TypeError):
+        Loco(
+            identity=make_identity(),
+            loco_type="steam",
+            prototype=make_prototype(),
+            model=make_model(),
+            control=make_control(),
+            asset=make_asset(),
+        )
+
+
+def test_loco_rejects_invalid_prototype():
+    with pytest.raises(TypeError):
+        Loco(
+            identity=make_identity(),
+            loco_type=LocoType.STEAM,
+            prototype="prototype",
+            model=make_model(),
+            control=make_control(),
+            asset=make_asset(),
+        )
+
+
+def test_loco_rejects_invalid_model():
+    with pytest.raises(TypeError):
+        Loco(
+            identity=make_identity(),
+            loco_type=LocoType.STEAM,
+            prototype=make_prototype(),
+            model="model",
+            control=make_control(),
+            asset=make_asset(),
+        )
+
+
+def test_loco_rejects_invalid_control():
+    with pytest.raises(TypeError):
+        Loco(
+            identity=make_identity(),
+            loco_type=LocoType.STEAM,
+            prototype=make_prototype(),
+            model=make_model(),
+            control="control",
+            asset=make_asset(),
+        )
+
+
+def test_loco_rejects_invalid_asset():
+    with pytest.raises(TypeError):
+        Loco(
+            identity=make_identity(),
+            loco_type=LocoType.STEAM,
+            prototype=make_prototype(),
+            model=make_model(),
+            control=make_control(),
+            asset="asset",
+        )

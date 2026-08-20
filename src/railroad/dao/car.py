@@ -15,10 +15,10 @@ from pathlib import Path
 
 from railroad.config import Config
 from railroad.dao.iostream import IOStream
-from railroad.domain.electronics import Electronics
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.car import Car
 from railroad.rs.car_type import CarType
@@ -179,21 +179,21 @@ class CarDAO:
                 "manufacturer": car.model.manufacturer,
                 "product": car.model.product,
             },
-            "electronics": {
-                "dcc": car.electronics.dcc,
-                "decoder": car.electronics.decoder,
-                "address": car.electronics.address,
-                "sound": car.electronics.sound,
-                "light": car.electronics.light,
-                "smoke": car.electronics.smoke,
+            "control": {
+                "type": car.control.type.value,
+                "decoder": car.control.decoder,
+                "address": car.control.address,
+                "sound": car.control.sound,
+                "light": car.control.light,
+                "smoke": car.control.smoke,
             },
-            "ownership": {
-                "status": car.ownership.status.value,
-                "source": car.ownership.source,
-                "price": car.ownership.price,
+            "asset": {
+                "status": car.asset.status.value,
+                "source": car.asset.source,
+                "price": car.asset.price,
                 "acquired": (
-                    car.ownership.acquired.isoformat()
-                    if car.ownership.acquired is not None
+                    car.asset.acquired.isoformat()
+                    if car.asset.acquired is not None
                     else None
                 ),
             },
@@ -206,10 +206,10 @@ class CarDAO:
         identity_data = payload["identity"]
         prototype_data = payload["prototype"]
         model_data = payload["model"]
-        electronics_data = payload["electronics"]
-        ownership_data = payload["ownership"]
+        control_data = payload["control"]
+        asset_data = payload["asset"]
 
-        acquired = ownership_data.get("acquired")
+        acquired = asset_data.get("acquired")
 
         if acquired is not None:
             acquired = date.fromisoformat(acquired)
@@ -234,19 +234,19 @@ class CarDAO:
             product=model_data.get("product"),
         )
 
-        electronics = Electronics(
-            dcc=electronics_data["dcc"],
-            decoder=electronics_data.get("decoder"),
-            address=electronics_data.get("address"),
-            sound=electronics_data["sound"],
-            light=electronics_data["light"],
-            smoke=electronics_data["smoke"],
+        control = Control(
+            type=ControlType(control_data["type"]),
+            decoder=control_data.get("decoder"),
+            address=control_data.get("address"),
+            sound=control_data["sound"],
+            light=control_data["light"],
+            smoke=control_data["smoke"],
         )
 
-        ownership = Ownership(
-            status=OwnershipStatus(ownership_data["status"]),
-            source=ownership_data.get("source"),
-            price=ownership_data.get("price"),
+        asset = Asset(
+            status=AssetStatus(asset_data["status"]),
+            source=asset_data.get("source"),
+            price=asset_data.get("price"),
             acquired=acquired,
         )
 
@@ -254,7 +254,7 @@ class CarDAO:
             identity=identity,
             prototype=prototype,
             model=model,
-            electronics=electronics,
-            ownership=ownership,
+            control=control,
+            asset=asset,
             car_type=CarType(payload["car_type"]),
         )

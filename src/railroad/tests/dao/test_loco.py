@@ -1,72 +1,34 @@
 #!/usr/bin/env python3
+# test_loco.py
+#
+
+from __future__ import annotations
+
+"""
+Tests for LocoDAO.
+"""
 
 import json
 from datetime import date
+from pathlib import Path
 
 import pytest
 
 from railroad.config import Config
 from railroad.dao.loco import LocoDAO
-from railroad.domain.electronics import Electronics
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco
 from railroad.rs.loco_type import LocoType
 
 
-def make_loco(entity_id="L001") -> Loco:
-    identity = Identity.from_existing(
-        id=entity_id,
-        entity_type=EntityType.LOCO,
-        railroad="union pacific",
-        reporting_mark="UP",
-        road_number="4014",
-    )
+def create_config(tmp_path: Path) -> Config:
+    """Create an isolated test configuration."""
 
-    prototype = Prototype(
-        builder="ALCo",
-        model="4-8-8-4",
-        nickname="big boy",
-        purpose=Purpose.FREIGHT,
-    )
-
-    model = Model(
-        manufacturer="Athearn",
-        product="Genesis",
-    )
-
-    electronics = Electronics(
-        dcc=True,
-        decoder="tsunami",
-        address=3,
-        sound=True,
-        light=False,
-        smoke=False,
-    )
-
-    ownership = Ownership(
-        status=OwnershipStatus.OWNED,
-        source="model train stuff",
-        price=655.0,
-        acquired=date(2020, 11, 20),
-    )
-
-    return Loco(
-        identity=identity,
-        loco_type=LocoType.STEAM,
-        prototype=prototype,
-        model=model,
-        electronics=electronics,
-        ownership=ownership,
-    )
-
-
-@pytest.fixture
-def config(tmp_path):
-    root = tmp_path
-    config_dir = root / "config"
+    config_dir = tmp_path / "config"
     config_dir.mkdir()
 
     config_file = config_dir / "railroad-conf.json"
@@ -75,7 +37,7 @@ def config(tmp_path):
         json.dumps(
             {
                 "application": {
-                    "name": "test"
+                    "name": "union-pacific-layout"
                 },
                 "paths": {
                     "config": "config",
@@ -87,7 +49,23 @@ def config(tmp_path):
                     "loco": {
                         "path": "loco",
                         "prefix": "L",
-                    }
+                    },
+                    "car": {
+                        "path": "car",
+                        "prefix": "C",
+                    },
+                    "mow": {
+                        "path": "mow",
+                        "prefix": "M",
+                    },
+                    "signal": {
+                        "path": "signal",
+                        "prefix": "G",
+                    },
+                    "turnout": {
+                        "path": "turnout",
+                        "prefix": "T",
+                    },
                 },
                 "resources": {
                     "drawings": "resources/drawings",
@@ -102,142 +80,247 @@ def config(tmp_path):
 
 
 @pytest.fixture
-def dao(config):
-    return LocoDAO(config)
+def dao(tmp_path: Path) -> LocoDAO:
+    """Return a LocoDAO using an isolated test configuration."""
+
+    return LocoDAO(create_config(tmp_path))
 
 
-def test_save_creates_json_file(dao, config):
-    loco = make_loco()
+def create_loco(
+    loco_id: str = "L001",
+    status: AssetStatus = AssetStatus.OWNED,
+    acquired: date | None = date(2026, 1, 1),
+) -> Loco:
+    """Create a test locomotive."""
+
+    identity = Identity(
+        id=loco_id,
+        entity_type=EntityType.LOCO,
+        railroad="Union Pacific",
+        reporting_mark="UP",
+        road_number="4014",
+    )
+
+    prototype = Prototype(
+        builder="ALCo",
+        model="4-8-8-4",
+        nickname="Big Boy",
+        purpose=Purpose.FREIGHT,
+    )
+
+    model = Model(
+        manufacturer="Athearn",
+        product="Genesis Big Boy",
+    )
+
+    control = Control(
+        type=ControlType.DCC,
+        light=True,
+        sound=True,
+        smoke=False,
+        decoder="Paragon4",
+        address=4014,
+    )
+
+    asset = Asset(
+        status=status,
+        source="Model Train Stuff",
+        price=599.99,
+        acquired=acquired,
+    )
+
+    return Loco(
+        identity=identity,
+        loco_type=LocoType.STEAM,
+        prototype=prototype,
+        model=model,
+        control=control,
+        asset=asset,
+    )
+
+
+def test_save_and_get(dao: LocoDAO) -> None:
+    """A locomotive can be saved and retrieved."""
+
+    loco = create_loco()
 
     dao.save(loco)
+    result = dao.get("L001")
 
-    path = config.data / "loco" / "L001.json"
+    assert result.id == "L001"
+    assert result.entity_type == EntityType.LOCO
+    assert result.loco_type == LocoType.STEAM
+
+    assert result.railroad == "Union Pacific"
+    assert result.reporting_mark == "UP"
+    assert result.road_number == "4014"
+
+    assert result.prototype.builder == "ALCo"
+    assert result.prototype.model == "4-8-8-4"
+    assert result.prototype.nickname == "Big Boy"
+    assert result.prototype.purpose == Purpose.FREIGHT
+
+    assert result.model.manufacturer == "Athearn"
+    assert result.model.product == "Genesis Big Boy"
+
+    assert result.control.type == ControlType.DCC
+    assert result.control.light is True
+    assert result.control.sound is True
+    assert result.control.smoke is False
+    assert result.control.decoder == "Paragon4"
+    assert result.control.address == 4014
+
+    assert result.asset.status == AssetStatus.OWNED
+    assert result.asset.source == "Model Train Stuff"
+    assert result.asset.price == 599.99
+    assert result.asset.acquired == date(2026, 1, 1)
+
+
+def test_save_creates_json(dao: LocoDAO, tmp_path: Path) -> None:
+    """Saving a locomotive creates its JSON persistence file."""
+
+    dao.save(create_loco())
+
+    path = tmp_path / "data" / "loco" / "L001.json"
 
     assert path.exists()
 
 
-def test_save_writes_expected_json(dao, config):
-    loco = make_loco()
+def test_json_uses_control_and_asset(
+    dao: LocoDAO,
+    tmp_path: Path,
+) -> None:
+    """Persisted JSON uses the current domain names."""
 
-    dao.save(loco)
+    dao.save(create_loco())
 
-    path = config.data / "loco" / "L001.json"
+    path = tmp_path / "data" / "loco" / "L001.json"
     payload = json.loads(path.read_text(encoding="utf-8"))
 
-    assert payload["identity"]["id"] == "L001"
-    assert payload["identity"]["entity_type"] == "loco"
-    assert payload["identity"]["reporting_mark"] == "UP"
-    assert payload["identity"]["road_number"] == "4014"
+    assert "control" in payload
+    assert "asset" in payload
 
-    assert payload["loco_type"] == "steam"
-
-    assert payload["prototype"]["builder"] == "ALCo"
-    assert payload["prototype"]["model"] == "4-8-8-4"
-    assert payload["prototype"]["nickname"] == "big boy"
-    assert payload["prototype"]["purpose"] == "freight"
-
-    assert payload["model"]["manufacturer"] == "Athearn"
-    assert payload["model"]["product"] == "Genesis"
-
-    assert payload["electronics"]["dcc"] is True
-    assert payload["electronics"]["decoder"] == "tsunami"
-    assert payload["electronics"]["address"] == 3
-    assert payload["electronics"]["sound"] is True
-    assert payload["electronics"]["light"] is False
-    assert payload["electronics"]["smoke"] is False
-
-    assert payload["ownership"]["status"] == "owned"
-    assert payload["ownership"]["source"] == "model train stuff"
-    assert payload["ownership"]["price"] == 655.0
-    assert payload["ownership"]["acquired"] == "2020-11-20"
+    assert "electronics" not in payload
+    assert "ownership" not in payload
 
 
-def test_get_reconstructs_loco(dao):
-    original = make_loco()
+def test_json_control(dao: LocoDAO, tmp_path: Path) -> None:
+    """Control data is persisted correctly."""
 
-    dao.save(original)
-    restored = dao.get("L001")
+    dao.save(create_loco())
 
-    assert restored.id == original.id
-    assert restored.entity_type == EntityType.LOCO
-    assert restored.loco_type == LocoType.STEAM
-    assert restored.prototype.purpose == Purpose.FREIGHT
-    assert restored.electronics.smoke is False
-    assert restored.ownership.acquired == date(2020, 11, 20)
+    path = tmp_path / "data" / "loco" / "L001.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
 
-
-def test_exists(dao):
-    loco = make_loco()
-
-    assert dao.exists("L001") is False
-
-    dao.save(loco)
-
-    assert dao.exists("L001") is True
+    assert payload["control"] == {
+        "type": "dcc",
+        "light": True,
+        "sound": True,
+        "smoke": False,
+        "decoder": "Paragon4",
+        "address": 4014,
+    }
 
 
-def test_get_missing_loco_raises(dao):
-    with pytest.raises(FileNotFoundError):
-        dao.get("L001")
+def test_json_asset(dao: LocoDAO, tmp_path: Path) -> None:
+    """Asset data is persisted correctly."""
+
+    dao.save(create_loco())
+
+    path = tmp_path / "data" / "loco" / "L001.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+
+    assert payload["asset"] == {
+        "status": "owned",
+        "source": "Model Train Stuff",
+        "price": 599.99,
+        "acquired": "2026-01-01",
+    }
 
 
-def test_list_returns_all_locos(dao):
-    dao.save(make_loco("L001"))
-    dao.save(make_loco("L002"))
+def test_intent_without_acquisition_date(dao: LocoDAO) -> None:
+    """An intended locomotive may have no acquisition date."""
 
-    locos = dao.list()
-
-    assert [loco.id for loco in locos] == ["L001", "L002"]
-
-
-def test_next_id_empty_directory(dao):
-    assert dao.next_id() == "L001"
-
-
-def test_next_id_follows_existing_files(dao):
-    dao.save(make_loco("L001"))
-    dao.save(make_loco("L003"))
-
-    assert dao.next_id() == "L004"
-
-
-def test_save_replaces_existing_loco(dao):
-    loco = make_loco()
-    dao.save(loco)
-
-    replacement = Loco(
-        identity=loco.identity,
-        loco_type=loco.loco_type,
-        prototype=Prototype(
-            builder="ALCo",
-            model="4-8-8-4",
-            nickname="updated",
-            purpose=Purpose.FREIGHT,
-        ),
-        model=loco.model,
-        electronics=loco.electronics,
-        ownership=loco.ownership,
-    )
-
-    dao.save(replacement)
-
-    restored = dao.get("L001")
-
-    assert restored.nickname == "updated"
-
-def test_get_loco_without_acquisition_date(dao):
-    loco = make_loco()
-
-    loco.ownership = Ownership(
-        status=OwnershipStatus.INTENT,
-        source="model train stuff",
-        price=0,
+    loco = create_loco(
+        status=AssetStatus.INTENT,
         acquired=None,
     )
 
     dao.save(loco)
 
-    restored = dao.get("L001")
+    result = dao.get("L001")
 
-    assert restored.ownership.status == OwnershipStatus.INTENT
-    assert restored.ownership.acquired is None
+    assert result.asset.status == AssetStatus.INTENT
+    assert result.asset.acquired is None
+
+
+def test_dc_loco_round_trip(dao: LocoDAO) -> None:
+    """A DC locomotive round-trips without decoder or address."""
+
+    loco = create_loco()
+
+    loco.control = Control(
+        type=ControlType.DC,
+        light=True,
+        sound=False,
+        smoke=False,
+        decoder=None,
+        address=None,
+    )
+
+    dao.save(loco)
+
+    result = dao.get("L001")
+
+    assert result.control.type == ControlType.DC
+    assert result.control.light is True
+    assert result.control.sound is False
+    assert result.control.smoke is False
+    assert result.control.decoder is None
+    assert result.control.address is None
+
+
+def test_exists(dao: LocoDAO) -> None:
+    """DAO reports whether a locomotive exists."""
+
+    assert dao.exists("L001") is False
+
+    dao.save(create_loco())
+
+    assert dao.exists("L001") is True
+
+
+def test_missing_loco(dao: LocoDAO) -> None:
+    """Getting a missing locomotive raises FileNotFoundError."""
+
+    with pytest.raises(FileNotFoundError):
+        dao.get("L001")
+
+
+def test_next_id(dao: LocoDAO) -> None:
+    """DAO generates the next available locomotive ID."""
+
+    assert dao.next_id() == "L001"
+
+    dao.save(create_loco("L001"))
+    assert dao.next_id() == "L002"
+
+    dao.save(create_loco("L002"))
+    assert dao.next_id() == "L003"
+
+
+def test_list(dao: LocoDAO) -> None:
+    """DAO lists all persisted locomotives."""
+
+    dao.save(create_loco("L001"))
+    dao.save(create_loco("L002"))
+    dao.save(create_loco("L003"))
+
+    locos = dao.list()
+
+    assert len(locos) == 3
+    assert [loco.id for loco in locos] == [
+        "L001",
+        "L002",
+        "L003",
+    ]

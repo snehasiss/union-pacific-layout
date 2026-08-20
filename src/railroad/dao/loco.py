@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# railroad/dao/loco.py
+#
 
 """
 Data access object for locomotive persistence.
@@ -12,10 +14,10 @@ from pathlib import Path
 
 from railroad.config import Config
 from railroad.dao.iostream import IOStream
-from railroad.domain.electronics import Electronics
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco
 from railroad.rs.loco_type import LocoType
@@ -179,21 +181,21 @@ class LocoDAO:
                 "manufacturer": loco.model.manufacturer,
                 "product": loco.model.product,
             },
-            "electronics": {
-                "dcc": loco.electronics.dcc,
-                "decoder": loco.electronics.decoder,
-                "address": loco.electronics.address,
-                "sound": loco.electronics.sound,
-                "light": loco.electronics.light,
-                "smoke": loco.electronics.smoke,
+            "control": {
+                "type": loco.control.type.value,
+                "light": loco.control.light,
+                "sound": loco.control.sound,
+                "smoke": loco.control.smoke,
+                "decoder": loco.control.decoder,
+                "address": loco.control.address,
             },
-            "ownership": {
-                "status": loco.ownership.status.value,
-                "source": loco.ownership.source,
-                "price": loco.ownership.price,
+            "asset": {
+                "status": loco.asset.status.value,
+                "source": loco.asset.source,
+                "price": loco.asset.price,
                 "acquired": (
-                    loco.ownership.acquired.isoformat()
-                    if loco.ownership.acquired is not None
+                    loco.asset.acquired.isoformat()
+                    if loco.asset.acquired is not None
                     else None
                 ),
             },
@@ -206,10 +208,10 @@ class LocoDAO:
         identity_data = payload["identity"]
         prototype_data = payload["prototype"]
         model_data = payload["model"]
-        electronics_data = payload["electronics"]
-        ownership_data = payload["ownership"]
+        control_data = payload["control"]
+        asset_data = payload["asset"]
 
-        acquired = ownership_data.get("acquired")
+        acquired = asset_data.get("acquired")
 
         if acquired is not None:
             acquired = date.fromisoformat(acquired)
@@ -225,7 +227,7 @@ class LocoDAO:
         prototype = Prototype(
             builder=prototype_data["builder"],
             model=prototype_data["model"],
-            nickname=prototype_data["nickname"],
+            nickname=prototype_data.get("nickname"),
             purpose=Purpose(prototype_data["purpose"]),
         )
 
@@ -234,19 +236,19 @@ class LocoDAO:
             product=model_data.get("product"),
         )
 
-        electronics = Electronics(
-            dcc=electronics_data["dcc"],
-            decoder=electronics_data.get("decoder"),
-            address=electronics_data.get("address"),
-            sound=electronics_data["sound"],
-            light=electronics_data["light"],
-            smoke=electronics_data["smoke"],
+        control = Control(
+            type=ControlType(control_data["type"]),
+            light=control_data["light"],
+            sound=control_data["sound"],
+            smoke=control_data["smoke"],
+            decoder=control_data.get("decoder"),
+            address=control_data.get("address"),
         )
 
-        ownership = Ownership(
-            status=OwnershipStatus(ownership_data["status"]),
-            source=ownership_data.get("source"),
-            price=ownership_data.get("price"),
+        asset = Asset(
+            status=AssetStatus(asset_data["status"]),
+            source=asset_data.get("source"),
+            price=asset_data.get("price"),
             acquired=acquired,
         )
 
@@ -255,6 +257,6 @@ class LocoDAO:
             loco_type=LocoType(payload["loco_type"]),
             prototype=prototype,
             model=model,
-            electronics=electronics,
-            ownership=ownership,
+            control=control,
+            asset=asset,
         )

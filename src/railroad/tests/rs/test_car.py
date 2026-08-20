@@ -1,113 +1,139 @@
 #!/usr/bin/env python3
-# test_car.py
+#
+# railroad/tests/rs/test_car.py
+#
 
 """
 Tests for the Car domain entity.
 """
 
+from __future__ import annotations
+
+from datetime import date
+
 import pytest
 
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
+from railroad.domain.identity import EntityType, Identity
+from railroad.domain.model import Model
+from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.car import Car
 from railroad.rs.car_type import CarType
-from railroad.domain.electronics import Electronics
-from railroad.domain.identity import Identity, EntityType
-from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
-from railroad.domain.prototype import Prototype, Purpose
 
 
-def create_car(
-    road_number: str = "12345",
-    car_type: CarType = CarType.WAGON,
-) -> Car:
-    """Create a representative car for testing."""
+def create_car() -> Car:
+    """Create a valid Car for testing."""
 
-    identity = Identity.create(
-        prefix="C",
+    identity = Identity(
+        id="C001",
         entity_type=EntityType.CAR,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=road_number,
+        road_number="12345",
     )
 
     prototype = Prototype(
         builder="ACF",
-        model="box wagon",
+        model="Covered Hopper",
         nickname=None,
         purpose=Purpose.FREIGHT,
     )
 
     model = Model(
-        manufacturer="Atlas",
-        product=f"UP {road_number}",
+        manufacturer="Athearn",
+        product="Genesis Covered Hopper",
     )
 
-    electronics = Electronics(
-        dcc=False,
+    control = Control(
+        type=ControlType.DC,
+        light=True,
+        sound=False,
+        smoke=False,
     )
 
-    ownership = Ownership(
-        status=OwnershipStatus.OWNED,
+    asset = Asset(
+        status=AssetStatus.OWNED,
+        source="Model Train Stuff",
+        price=49.99,
+        acquired=date(2026, 1, 1),
     )
 
     return Car(
         identity=identity,
         prototype=prototype,
         model=model,
-        electronics=electronics,
-        ownership=ownership,
-        car_type=car_type,
+        control=control,
+        asset=asset,
+        car_type=CarType.HOPPER,
     )
 
 
-def test_car_can_be_created() -> None:
-    """A car can be constructed from domain components."""
+def test_car_creation() -> None:
+    """A valid Car can be created."""
 
     car = create_car()
 
     assert isinstance(car, Car)
 
 
-def test_car_contains_domain_components() -> None:
-    """A car contains all required domain components."""
+def test_car_components() -> None:
+    """A Car contains the expected domain components."""
 
     car = create_car()
 
     assert isinstance(car.identity, Identity)
     assert isinstance(car.prototype, Prototype)
     assert isinstance(car.model, Model)
-    assert isinstance(car.electronics, Electronics)
-    assert isinstance(car.ownership, Ownership)
+    assert isinstance(car.control, Control)
+    assert isinstance(car.asset, Asset)
     assert isinstance(car.car_type, CarType)
 
 
-def test_car_identity_properties() -> None:
-    """Identity information is exposed through the car."""
-
-    car = create_car(road_number="54321")
-
-    assert car.id.startswith("C")
-    assert car.entity_type == EntityType.CAR
-    assert car.railroad == "Union Pacific"
-    assert car.reporting_mark == "UP"
-    assert car.road_number == "54321"
-
-
-def test_car_prototype_properties() -> None:
-    """Prototype information is exposed through the car."""
+def test_car_properties() -> None:
+    """Car properties expose identity and prototype information."""
 
     car = create_car()
 
-    assert car.prototype_model == "box wagon"
+    assert car.id == "C001"
+    assert car.entity_type == EntityType.CAR
+    assert car.railroad == "Union Pacific"
+    assert car.reporting_mark == "UP"
+    assert car.road_number == "12345"
+    assert car.prototype_model == "Covered Hopper"
     assert car.nickname is None
 
 
+def test_car_control() -> None:
+    """Car control information is preserved."""
+
+    car = create_car()
+
+    assert car.control.type == ControlType.DC
+    assert car.control.light is True
+    assert car.control.sound is False
+    assert car.control.smoke is False
+    assert car.control.decoder is None
+    assert car.control.address is None
+
+
+def test_car_asset() -> None:
+    """Car asset information is preserved."""
+
+    car = create_car()
+
+    assert car.asset.status == AssetStatus.OWNED
+    assert car.asset.source == "Model Train Stuff"
+    assert car.asset.price == 49.99
+    assert car.asset.acquired == date(2026, 1, 1)
+
+
 def test_car_type() -> None:
-    """The car exposes its CarType."""
+    """Car type is preserved."""
 
-    car = create_car(car_type=CarType.HOPPER)
+    car = create_car()
 
-    assert car.car_type is CarType.HOPPER
+    assert car.car_type == CarType.HOPPER
 
 
 def test_car_rejects_invalid_identity() -> None:
@@ -120,8 +146,8 @@ def test_car_rejects_invalid_identity() -> None:
             identity="invalid",
             prototype=car.prototype,
             model=car.model,
-            electronics=car.electronics,
-            ownership=car.ownership,
+            control=car.control,
+            asset=car.asset,
             car_type=car.car_type,
         )
 
@@ -136,8 +162,8 @@ def test_car_rejects_invalid_prototype() -> None:
             identity=car.identity,
             prototype="invalid",
             model=car.model,
-            electronics=car.electronics,
-            ownership=car.ownership,
+            control=car.control,
+            asset=car.asset,
             car_type=car.car_type,
         )
 
@@ -152,14 +178,14 @@ def test_car_rejects_invalid_model() -> None:
             identity=car.identity,
             prototype=car.prototype,
             model="invalid",
-            electronics=car.electronics,
-            ownership=car.ownership,
+            control=car.control,
+            asset=car.asset,
             car_type=car.car_type,
         )
 
 
-def test_car_rejects_invalid_electronics() -> None:
-    """Car requires an Electronics object."""
+def test_car_rejects_invalid_control() -> None:
+    """Car requires a Control object."""
 
     car = create_car()
 
@@ -168,14 +194,14 @@ def test_car_rejects_invalid_electronics() -> None:
             identity=car.identity,
             prototype=car.prototype,
             model=car.model,
-            electronics="invalid",
-            ownership=car.ownership,
+            control="invalid",
+            asset=car.asset,
             car_type=car.car_type,
         )
 
 
-def test_car_rejects_invalid_ownership() -> None:
-    """Car requires an Ownership object."""
+def test_car_rejects_invalid_asset() -> None:
+    """Car requires an Asset object."""
 
     car = create_car()
 
@@ -184,8 +210,8 @@ def test_car_rejects_invalid_ownership() -> None:
             identity=car.identity,
             prototype=car.prototype,
             model=car.model,
-            electronics=car.electronics,
-            ownership="invalid",
+            control=car.control,
+            asset="invalid",
             car_type=car.car_type,
         )
 
@@ -200,7 +226,7 @@ def test_car_rejects_invalid_car_type() -> None:
             identity=car.identity,
             prototype=car.prototype,
             model=car.model,
-            electronics=car.electronics,
-            ownership=car.ownership,
-            car_type="wagon",
+            control=car.control,
+            asset=car.asset,
+            car_type="hopper",
         )

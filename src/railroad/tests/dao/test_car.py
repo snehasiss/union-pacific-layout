@@ -3,76 +3,32 @@
 # railroad/tests/dao/test_car.py
 #
 
+"""
+Tests for CarDAO.
+"""
+
 from __future__ import annotations
 
 import json
 from datetime import date
+from pathlib import Path
 
 import pytest
 
 from railroad.config import Config
 from railroad.dao.car import CarDAO
-from railroad.domain.electronics import Electronics
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.car import Car
 from railroad.rs.car_type import CarType
 
 
-def make_car(
-    entity_id: str = "C001",
-    acquired: date | None = date(2026, 1, 1),
-) -> Car:
-    identity = Identity.from_existing(
-        id=entity_id,
-        entity_type=EntityType.CAR,
-        railroad="union pacific",
-        reporting_mark="UP",
-        road_number="12345",
-    )
+def create_config(tmp_path: Path) -> Config:
+    """Create an isolated test configuration."""
 
-    prototype = Prototype(
-        builder="ACF",
-        model="70-ton covered hopper",
-        nickname=None,
-        purpose=Purpose.FREIGHT,
-    )
-
-    model = Model(
-        manufacturer="Athearn",
-        product="Genesis",
-    )
-
-    electronics = Electronics(
-        dcc=False,
-        decoder=None,
-        address=None,
-        sound=False,
-        light=False,
-        smoke=False,
-    )
-
-    ownership = Ownership(
-        status=OwnershipStatus.OWNED,
-        source="model train stuff",
-        price=45.0,
-        acquired=acquired,
-    )
-
-    return Car(
-        identity=identity,
-        prototype=prototype,
-        model=model,
-        electronics=electronics,
-        ownership=ownership,
-        car_type=CarType.HOPPER,
-    )
-
-
-@pytest.fixture
-def config(tmp_path):
     config_dir = tmp_path / "config"
     config_dir.mkdir()
 
@@ -82,7 +38,7 @@ def config(tmp_path):
         json.dumps(
             {
                 "application": {
-                    "name": "test"
+                    "name": "test-railroad",
                 },
                 "paths": {
                     "config": "config",
@@ -94,7 +50,7 @@ def config(tmp_path):
                     "car": {
                         "path": "car",
                         "prefix": "C",
-                    }
+                    },
                 },
                 "resources": {
                     "drawings": "resources/drawings",
@@ -108,191 +64,266 @@ def config(tmp_path):
     return Config(config_file)
 
 
-@pytest.fixture
-def dao(config):
-    return CarDAO(config)
+def create_car(
+    car_id: str = "C001",
+    status: AssetStatus = AssetStatus.OWNED,
+    acquired: date | None = date(2026, 1, 1),
+) -> Car:
+    """Create a representative Car for testing."""
 
-
-def test_save_creates_json_file(dao, config):
-    car = make_car()
-
-    dao.save(car)
-
-    path = config.data / "car" / "C001.json"
-
-    assert path.exists()
-
-
-def test_save_writes_expected_json(dao, config):
-    car = make_car()
-
-    dao.save(car)
-
-    path = config.data / "car" / "C001.json"
-    payload = json.loads(path.read_text(encoding="utf-8"))
-
-    assert payload["identity"]["id"] == "C001"
-    assert payload["identity"]["entity_type"] == "car"
-    assert payload["identity"]["railroad"] == "union pacific"
-    assert payload["identity"]["reporting_mark"] == "UP"
-    assert payload["identity"]["road_number"] == "12345"
-
-    assert payload["car_type"] == "hopper"
-
-    assert payload["prototype"]["builder"] == "ACF"
-    assert payload["prototype"]["model"] == "70-ton covered hopper"
-    assert payload["prototype"]["nickname"] is None
-    assert payload["prototype"]["purpose"] == "freight"
-
-    assert payload["model"]["manufacturer"] == "Athearn"
-    assert payload["model"]["product"] == "Genesis"
-
-    assert payload["electronics"]["dcc"] is False
-    assert payload["electronics"]["decoder"] is None
-    assert payload["electronics"]["address"] is None
-    assert payload["electronics"]["sound"] is False
-    assert payload["electronics"]["light"] is False
-    assert payload["electronics"]["smoke"] is False
-
-    assert payload["ownership"]["status"] == "owned"
-    assert payload["ownership"]["source"] == "model train stuff"
-    assert payload["ownership"]["price"] == 45.0
-    assert payload["ownership"]["acquired"] == "2026-01-01"
-
-
-def test_get_reconstructs_car(dao):
-    original = make_car()
-
-    dao.save(original)
-
-    restored = dao.get("C001")
-
-    assert restored.id == original.id
-    assert restored.entity_type == EntityType.CAR
-    assert restored.car_type == CarType.HOPPER
-    assert restored.prototype.purpose == Purpose.FREIGHT
-
-    assert restored.electronics.dcc is False
-    assert restored.electronics.smoke is False
-
-    assert restored.ownership.status == OwnershipStatus.OWNED
-    assert restored.ownership.acquired == date(2026, 1, 1)
-
-
-def test_get_car_without_acquisition_date(dao):
-    car = make_car(acquired=None)
-
-    dao.save(car)
-
-    restored = dao.get("C001")
-
-    assert restored.ownership.status == OwnershipStatus.OWNED
-    assert restored.ownership.acquired is None
-
-
-def test_exists(dao):
-    car = make_car()
-
-    assert dao.exists("C001") is False
-
-    dao.save(car)
-
-    assert dao.exists("C001") is True
-
-
-def test_get_missing_car_raises(dao):
-    with pytest.raises(FileNotFoundError):
-        dao.get("C001")
-
-
-def test_list_returns_all_cars(dao):
-    dao.save(make_car("C001"))
-    dao.save(make_car("C002"))
-
-    cars = dao.list()
-
-    assert [car.id for car in cars] == ["C001", "C002"]
-
-
-def test_next_id_empty_directory(dao):
-    assert dao.next_id() == "C001"
-
-
-def test_next_id_follows_existing_files(dao):
-    dao.save(make_car("C001"))
-    dao.save(make_car("C003"))
-
-    assert dao.next_id() == "C004"
-
-
-def test_save_replaces_existing_car(dao):
-    car = make_car()
-    dao.save(car)
-
-    replacement = Car(
-        identity=car.identity,
-        prototype=Prototype(
-            builder="ACF",
-            model="70-ton covered hopper",
-            nickname="replacement",
-            purpose=Purpose.FREIGHT,
-        ),
-        model=car.model,
-        electronics=car.electronics,
-        ownership=car.ownership,
-        car_type=car.car_type,
-    )
-
-    dao.save(replacement)
-
-    restored = dao.get("C001")
-
-    assert restored.nickname == "replacement"
-
-
-def test_save_rejects_non_car(dao):
-    with pytest.raises(TypeError):
-        dao.save("not a car")
-
-
-def test_save_rejects_wrong_entity_type(dao):
-    identity = Identity.from_existing(
-        id="C001",
-        entity_type=EntityType.LOCO,
-        railroad="union pacific",
+    identity = Identity(
+        id=car_id,
+        entity_type=EntityType.CAR,
+        railroad="Union Pacific",
         reporting_mark="UP",
         road_number="12345",
     )
 
-    car = Car(
+    prototype = Prototype(
+        builder="ACF",
+        model="2-Bay Hopper",
+        nickname=None,
+        purpose=Purpose.FREIGHT,
+    )
+
+    model = Model(
+        manufacturer="Athearn",
+        product="Genesis Hopper",
+    )
+
+    control = Control(
+        type=ControlType.DCC,
+        light=True,
+        sound=False,
+        smoke=False,
+        decoder="LokSound",
+        address=12345,
+    )
+
+    asset = Asset(
+        status=status,
+        source="Model Train Stuff",
+        price=49.99,
+        acquired=acquired,
+    )
+
+    return Car(
         identity=identity,
-        prototype=Prototype(
-            builder="ACF",
-            model="70-ton covered hopper",
-            nickname=None,
-            purpose=Purpose.FREIGHT,
-        ),
-        model=Model(
-            manufacturer="Athearn",
-            product="Genesis",
-        ),
-        electronics=Electronics(
-            dcc=False,
-            decoder=None,
-            address=None,
-            sound=False,
-            light=False,
-            smoke=False,
-        ),
-        ownership=Ownership(
-            status=OwnershipStatus.OWNED,
-            source="model train stuff",
-            price=45.0,
-            acquired=date(2026, 1, 1),
-        ),
+        prototype=prototype,
+        model=model,
+        control=control,
+        asset=asset,
         car_type=CarType.HOPPER,
+    )
+
+
+def test_save_creates_json_file(tmp_path: Path) -> None:
+    """Saving a Car creates its JSON file."""
+
+    dao = CarDAO(create_config(tmp_path))
+
+    dao.save(create_car())
+
+    assert (tmp_path / "data" / "car" / "C001.json").is_file()
+
+
+def test_save_writes_expected_json(tmp_path: Path) -> None:
+    """Saving a Car writes the current domain structure."""
+
+    dao = CarDAO(create_config(tmp_path))
+
+    dao.save(create_car())
+
+    path = tmp_path / "data" / "car" / "C001.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+
+    assert payload["identity"] == {
+        "id": "C001",
+        "entity_type": "car",
+        "railroad": "Union Pacific",
+        "reporting_mark": "UP",
+        "road_number": "12345",
+    }
+
+    assert payload["car_type"] == "hopper"
+
+    assert payload["prototype"] == {
+        "builder": "ACF",
+        "model": "2-Bay Hopper",
+        "nickname": None,
+        "purpose": "freight",
+    }
+
+    assert payload["model"] == {
+        "manufacturer": "Athearn",
+        "product": "Genesis Hopper",
+    }
+
+    assert payload["control"] == {
+        "type": "dcc",
+        "decoder": "LokSound",
+        "address": 12345,
+        "sound": False,
+        "light": True,
+        "smoke": False,
+    }
+
+    assert payload["asset"] == {
+        "status": "owned",
+        "source": "Model Train Stuff",
+        "price": 49.99,
+        "acquired": "2026-01-01",
+    }
+
+    assert "electronics" not in payload
+    assert "ownership" not in payload
+
+
+def test_get_reconstructs_car(tmp_path: Path) -> None:
+    """A persisted Car can be reconstructed."""
+
+    dao = CarDAO(create_config(tmp_path))
+    original = create_car()
+
+    dao.save(original)
+
+    car = dao.get("C001")
+
+    assert car.id == original.id
+    assert car.entity_type == EntityType.CAR
+    assert car.railroad == "Union Pacific"
+    assert car.reporting_mark == "UP"
+    assert car.road_number == "12345"
+
+    assert car.car_type == CarType.HOPPER
+
+    assert car.prototype.builder == "ACF"
+    assert car.prototype.model == "2-Bay Hopper"
+    assert car.prototype.nickname is None
+    assert car.prototype.purpose == Purpose.FREIGHT
+
+    assert car.model.manufacturer == "Athearn"
+    assert car.model.product == "Genesis Hopper"
+
+    assert car.control.type == ControlType.DCC
+    assert car.control.decoder == "LokSound"
+    assert car.control.address == 12345
+    assert car.control.light is True
+    assert car.control.sound is False
+    assert car.control.smoke is False
+
+    assert car.asset.status == AssetStatus.OWNED
+    assert car.asset.source == "Model Train Stuff"
+    assert car.asset.price == 49.99
+    assert car.asset.acquired == date(2026, 1, 1)
+
+
+def test_get_car_without_acquisition_date(tmp_path: Path) -> None:
+    """A Car without an acquisition date can be persisted."""
+
+    dao = CarDAO(create_config(tmp_path))
+
+    dao.save(
+        create_car(
+            status=AssetStatus.INTENT,
+            acquired=None,
+        )
+    )
+
+    car = dao.get("C001")
+
+    assert car.asset.status == AssetStatus.INTENT
+    assert car.asset.acquired is None
+
+
+def test_exists(tmp_path: Path) -> None:
+    """exists() correctly identifies persisted Cars."""
+
+    dao = CarDAO(create_config(tmp_path))
+
+    assert dao.exists("C001") is False
+
+    dao.save(create_car())
+
+    assert dao.exists("C001") is True
+
+
+def test_list_returns_all_cars(tmp_path: Path) -> None:
+    """list() returns all persisted Cars."""
+
+    dao = CarDAO(create_config(tmp_path))
+
+    dao.save(create_car("C001"))
+    dao.save(create_car("C002"))
+    dao.save(create_car("C003"))
+
+    cars = dao.list()
+
+    assert len(cars) == 3
+    assert [car.id for car in cars] == [
+        "C001",
+        "C002",
+        "C003",
+    ]
+
+
+def test_next_id(tmp_path: Path) -> None:
+    """next_id() returns the next available Car ID."""
+
+    dao = CarDAO(create_config(tmp_path))
+
+    assert dao.next_id() == "C001"
+
+    dao.save(create_car("C001"))
+    assert dao.next_id() == "C002"
+
+    dao.save(create_car("C002"))
+    assert dao.next_id() == "C003"
+
+
+def test_save_replaces_existing_car(tmp_path: Path) -> None:
+    """Saving the same ID replaces the existing Car."""
+
+    dao = CarDAO(create_config(tmp_path))
+
+    dao.save(create_car())
+
+    replacement = create_car()
+    replacement.model = Model(
+        manufacturer="Bachmann",
+        product="Hopper",
+    )
+
+    dao.save(replacement)
+
+    car = dao.get("C001")
+
+    assert car.model.manufacturer == "Bachmann"
+    assert car.model.product == "Hopper"
+
+
+def test_save_rejects_wrong_entity_type(tmp_path: Path) -> None:
+    """CarDAO rejects a Car with a non-CAR identity."""
+
+    dao = CarDAO(create_config(tmp_path))
+    car = create_car()
+
+    car.identity = Identity(
+        id="C001",
+        entity_type=EntityType.MOW,
+        railroad="Union Pacific",
+        reporting_mark="UP",
+        road_number="12345",
     )
 
     with pytest.raises(ValueError):
         dao.save(car)
 
+
+def test_get_missing_car_raises(tmp_path: Path) -> None:
+    """Getting a missing Car raises FileNotFoundError."""
+
+    dao = CarDAO(create_config(tmp_path))
+
+    with pytest.raises(FileNotFoundError):
+        dao.get("C001")

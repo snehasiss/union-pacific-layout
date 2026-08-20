@@ -15,10 +15,10 @@ from pathlib import Path
 
 from railroad.config import Config
 from railroad.dao.iostream import IOStream
-from railroad.domain.electronics import Electronics
+from railroad.domain.asset import Asset, AssetStatus
+from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.ownership import Ownership, OwnershipStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.mow import MOW
 from railroad.rs.mow_type import MOWType
@@ -180,21 +180,21 @@ class MowDAO:
                 "manufacturer": mow.model.manufacturer,
                 "product": mow.model.product,
             },
-            "electronics": {
-                "dcc": mow.electronics.dcc,
-                "decoder": mow.electronics.decoder,
-                "address": mow.electronics.address,
-                "sound": mow.electronics.sound,
-                "light": mow.electronics.light,
-                "smoke": mow.electronics.smoke,
+            "control": {
+                "type": mow.control.type.value,
+                "decoder": mow.control.decoder,
+                "address": mow.control.address,
+                "sound": mow.control.sound,
+                "light": mow.control.light,
+                "smoke": mow.control.smoke,
             },
-            "ownership": {
-                "status": mow.ownership.status.value,
-                "source": mow.ownership.source,
-                "price": mow.ownership.price,
+            "asset": {
+                "status": mow.asset.status.value,
+                "source": mow.asset.source,
+                "price": mow.asset.price,
                 "acquired": (
-                    mow.ownership.acquired.isoformat()
-                    if mow.ownership.acquired is not None
+                    mow.asset.acquired.isoformat()
+                    if mow.asset.acquired is not None
                     else None
                 ),
             },
@@ -207,10 +207,10 @@ class MowDAO:
         identity_data = payload["identity"]
         prototype_data = payload["prototype"]
         model_data = payload["model"]
-        electronics_data = payload["electronics"]
-        ownership_data = payload["ownership"]
+        control_data = payload["control"]
+        asset_data = payload["asset"]
 
-        acquired = ownership_data.get("acquired")
+        acquired = asset_data.get("acquired")
 
         if acquired is not None:
             acquired = date.fromisoformat(acquired)
@@ -235,19 +235,19 @@ class MowDAO:
             product=model_data.get("product"),
         )
 
-        electronics = Electronics(
-            dcc=electronics_data["dcc"],
-            decoder=electronics_data.get("decoder"),
-            address=electronics_data.get("address"),
-            sound=electronics_data["sound"],
-            light=electronics_data["light"],
-            smoke=electronics_data["smoke"],
+        control = Control(
+            type=ControlType(control_data["type"]),
+            decoder=control_data.get("decoder"),
+            address=control_data.get("address"),
+            sound=control_data["sound"],
+            light=control_data["light"],
+            smoke=control_data["smoke"],
         )
 
-        ownership = Ownership(
-            status=OwnershipStatus(ownership_data["status"]),
-            source=ownership_data.get("source"),
-            price=ownership_data.get("price"),
+        asset = Asset(
+            status=AssetStatus(asset_data["status"]),
+            source=asset_data.get("source"),
+            price=asset_data.get("price"),
             acquired=acquired,
         )
 
@@ -255,8 +255,8 @@ class MowDAO:
             identity=identity,
             prototype=prototype,
             model=model,
-            electronics=electronics,
-            ownership=ownership,
+            control=control,
+            asset=asset,
             mow_type=MOWType(payload["mow_type"]),
             self_propelled=payload["self_propelled"],
         )
