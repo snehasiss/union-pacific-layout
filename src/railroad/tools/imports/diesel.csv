@@ -41,8 +41,8 @@ passenger,diesel,EMD,Union Pacific,F7B,UP,910B,Intermountain,yes,yes,no,loksound
 freight,diesel,EMD,Union Pacific,F9A,UP,523,Stewart,yes,yes,no,loksound,3,owned,ebay,100,2023-12-08
 freight,diesel,EMD,Union Pacific,F9B,UP,523B,Stewart,yes,yes,no,loksound,3,owned,ebay,100,2023-12-08
 freight,diesel,EMD,Union Pacific,F9C,UP,523C,Stewart,no,no,no,dc,0,owned,ebay,65,2023-12-08
-freight,diesel,Alco,Union Pacific,FA1,UP,1603,Rapido,yes,yes,no,LokSound5,3,owned,SpringCreek,270,2026-01-02
-freight,diesel,Alco,Union Pacific,FB1,UP,1622B,Rapido,yes,yes,no,LokSound5,3,owned,SpringCreek,270,2026-01-02
+freight,diesel,ALCo,Union Pacific,FA1,UP,1603,Rapido,yes,yes,no,LokSound5,3,owned,SpringCreek,270,2026-01-02
+freight,diesel,ALCo,Union Pacific,FB1,UP,1622B,Rapido,yes,yes,no,LokSound5,3,owned,SpringCreek,270,2026-01-02
 passenger,diesel,EMD,Union Pacific,FP7A,UP,912,Intermountain,yes,yes,no,loksound,3,owned,SpringCreek,216,2021-12-15
 switcher,diesel,GE,Union Pacific,GE 44 Tonner,UP,903999,Rapido,yes,yes,no,LokSound5,3,owned,the train exchange,298,2026-03-15
 switcher,diesel,EMD,Union Pacific,GP15-1,UP,574,Athearn Genesis,yes,yes,no,tsunami,3,owned,SpringCreek,240,2021-11-30
