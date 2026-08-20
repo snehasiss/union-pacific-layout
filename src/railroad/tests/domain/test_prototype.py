@@ -46,6 +46,22 @@ def test_create_diesel_prototype():
     _log(f"Diesel prototype created: {prototype}")
 
 
+def test_create_turbine_prototype():
+    prototype = Prototype(
+        builder="GE",
+        model="GTEL8500",
+        nickname="Big Blow",
+        purpose=Purpose.FREIGHT,
+    )
+
+    assert prototype.builder == "GE"
+    assert prototype.model == "GTEL8500"
+    assert prototype.nickname is "Big Blow"
+    assert prototype.purpose == Purpose.FREIGHT
+
+    _log(f"Diesel prototype created: {prototype}")
+
+
 def test_purpose_values():
     assert Purpose.PASSENGER.value == "passenger"
     assert Purpose.FREIGHT.value == "freight"

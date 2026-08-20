@@ -19,3 +19,8 @@ def test_loco_type_diesel() -> None:
 
     assert LocoType.DIESEL.value == "diesel"
 
+
+def test_loco_type_turbine() -> None:
+    """Diesel is a valid locomotive type."""
+
+    assert LocoType.TURBINE.value == "turbine"
