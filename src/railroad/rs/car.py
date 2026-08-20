@@ -80,7 +80,7 @@ class Car:
         return self.identity.reporting_mark
 
     @property
-    def road_number(self) -> int:
+    def road_number(self) -> str:
         """Return the car road number."""
         return self.identity.road_number
 

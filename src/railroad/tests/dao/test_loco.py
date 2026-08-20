@@ -22,7 +22,7 @@ def make_loco(entity_id="L001") -> Loco:
         entity_type=EntityType.LOCO,
         railroad="union pacific",
         reporting_mark="UP",
-        road_number=4014,
+        road_number="4014",
     )
 
     prototype = Prototype(
@@ -127,7 +127,7 @@ def test_save_writes_expected_json(dao, config):
     assert payload["identity"]["id"] == "L001"
     assert payload["identity"]["entity_type"] == "loco"
     assert payload["identity"]["reporting_mark"] == "UP"
-    assert payload["identity"]["road_number"] == 4014
+    assert payload["identity"]["road_number"] == "4014"
 
     assert payload["loco_type"] == "steam"
 

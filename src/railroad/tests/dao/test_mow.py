@@ -30,7 +30,7 @@ def make_mow(
         entity_type=EntityType.MOW,
         railroad="union pacific",
         reporting_mark="UP",
-        road_number=1,
+        road_number="1",
     )
 
     prototype = Prototype(
@@ -136,7 +136,7 @@ def test_save_writes_expected_json(dao, config):
     assert payload["identity"]["entity_type"] == "mow"
     assert payload["identity"]["railroad"] == "union pacific"
     assert payload["identity"]["reporting_mark"] == "UP"
-    assert payload["identity"]["road_number"] == 1
+    assert payload["identity"]["road_number"] == "1"
 
     assert payload["mow_type"] == "tamper"
     assert payload["self_propelled"] is True
@@ -266,7 +266,7 @@ def test_save_rejects_wrong_entity_type(dao):
         entity_type=EntityType.LOCO,
         railroad="union pacific",
         reporting_mark="UP",
-        road_number=1,
+        road_number="1",
     )
 
     mow = MOW(

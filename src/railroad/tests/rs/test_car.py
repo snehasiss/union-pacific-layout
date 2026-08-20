@@ -17,7 +17,7 @@ from railroad.domain.prototype import Prototype, Purpose
 
 
 def create_car(
-    road_number: int = 12345,
+    road_number: str = "12345",
     car_type: CarType = CarType.WAGON,
 ) -> Car:
     """Create a representative car for testing."""
@@ -84,13 +84,13 @@ def test_car_contains_domain_components() -> None:
 def test_car_identity_properties() -> None:
     """Identity information is exposed through the car."""
 
-    car = create_car(road_number=54321)
+    car = create_car(road_number="54321")
 
     assert car.id.startswith("C")
     assert car.entity_type == EntityType.CAR
     assert car.railroad == "Union Pacific"
     assert car.reporting_mark == "UP"
-    assert car.road_number == 54321
+    assert car.road_number == "54321"
 
 
 def test_car_prototype_properties() -> None:

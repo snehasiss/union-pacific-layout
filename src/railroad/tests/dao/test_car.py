@@ -30,7 +30,7 @@ def make_car(
         entity_type=EntityType.CAR,
         railroad="union pacific",
         reporting_mark="UP",
-        road_number=12345,
+        road_number="12345",
     )
 
     prototype = Prototype(
@@ -135,7 +135,7 @@ def test_save_writes_expected_json(dao, config):
     assert payload["identity"]["entity_type"] == "car"
     assert payload["identity"]["railroad"] == "union pacific"
     assert payload["identity"]["reporting_mark"] == "UP"
-    assert payload["identity"]["road_number"] == 12345
+    assert payload["identity"]["road_number"] == "12345"
 
     assert payload["car_type"] == "hopper"
 
@@ -261,7 +261,7 @@ def test_save_rejects_wrong_entity_type(dao):
         entity_type=EntityType.LOCO,
         railroad="union pacific",
         reporting_mark="UP",
-        road_number=12345,
+        road_number="12345",
     )
 
     car = Car(

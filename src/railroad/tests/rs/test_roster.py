@@ -16,7 +16,7 @@ from railroad.rs.roster import Roster
 
 
 def create_loco(
-    road_number: int,
+    road_number: str,
 ) -> Loco:
     """Create a representative locomotive for testing."""
 
@@ -73,7 +73,7 @@ def test_empty_roster() -> None:
 def test_roster_can_be_initialized_with_locos() -> None:
     """A roster can be initialized with locomotives."""
 
-    loco = create_loco(844)
+    loco = create_loco("844")
     roster = Roster([loco])
 
     assert len(roster) == 1
@@ -84,7 +84,7 @@ def test_add_loco() -> None:
     """A locomotive can be added to a roster."""
 
     roster = Roster()
-    loco = create_loco(844)
+    loco = create_loco("844")
 
     roster.add(loco)
 
@@ -96,7 +96,7 @@ def test_add_duplicate_loco_id_is_rejected() -> None:
     """Duplicate locomotive IDs are not allowed."""
 
     roster = Roster()
-    loco = create_loco(844)
+    loco = create_loco("844")
 
     roster.add(loco)
 
@@ -117,7 +117,7 @@ def test_contains_id() -> None:
     """Roster can determine whether an ID exists."""
 
     roster = Roster()
-    loco = create_loco(844)
+    loco = create_loco("844")
 
     assert not roster.contains_id(loco.id)
 
@@ -130,7 +130,7 @@ def test_remove_loco() -> None:
     """A locomotive can be removed from the roster."""
 
     roster = Roster()
-    loco = create_loco(844)
+    loco = create_loco("844")
 
     roster.add(loco)
 
@@ -153,8 +153,8 @@ def test_remove_missing_loco() -> None:
 def test_roster_iteration() -> None:
     """Roster iteration preserves insertion order."""
 
-    first = create_loco(844)
-    second = create_loco(4014)
+    first = create_loco("844")
+    second = create_loco("4014")
 
     roster = Roster()
     roster.add(first)

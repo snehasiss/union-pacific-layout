@@ -17,7 +17,7 @@ from railroad.rs.mow_type import MOWType
 
 
 def create_mow(
-    road_number: int = 100,
+    road_number: str = "100",
     mow_type: MOWType = MOWType.TAMPER,
     self_propelled: bool = True,
 ) -> MOW:
@@ -88,13 +88,13 @@ def test_mow_contains_domain_components() -> None:
 def test_mow_identity_properties() -> None:
     """Identity information is exposed through MOW."""
 
-    mow = create_mow(road_number=123)
+    mow = create_mow(road_number="123")
 
     assert mow.id.startswith("M")
     assert mow.entity_type == EntityType.MOW
     assert mow.railroad == "Union Pacific"
     assert mow.reporting_mark == "UP"
-    assert mow.road_number == 123
+    assert mow.road_number == "123"
 
 
 def test_mow_prototype_properties() -> None:
@@ -119,7 +119,7 @@ def test_self_propelled() -> None:
 
     powered = create_mow(self_propelled=True)
     unpowered = create_mow(
-        road_number=200,
+        road_number="200",
         mow_type=MOWType.CRANE,
         self_propelled=False,
     )

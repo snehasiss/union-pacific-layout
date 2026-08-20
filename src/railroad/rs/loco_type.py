@@ -7,3 +7,4 @@ from enum import Enum
 class LocoType(Enum):
     STEAM = "steam"
     DIESEL = "diesel"
+    TURBINE = "turbine"

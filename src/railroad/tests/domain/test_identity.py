@@ -21,7 +21,7 @@ def test_create_generates_id():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=4014,
+        road_number="4014",
     )
 
     assert identity.id.startswith("L")
@@ -40,16 +40,92 @@ def test_identity_contains_all_fields():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=4014,
+        road_number="4014",
     )
 
     assert identity.entity_type == EntityType.LOCO
     assert identity.railroad == "Union Pacific"
     assert identity.reporting_mark == "UP"
-    assert identity.road_number == 4014
+    assert identity.road_number == "4014"
 
     _log(f"Identity fields validated: {identity}")
 
+# --
+def test_identity_accepts_numeric_road_number_as_string():
+    identity = Identity(
+        id="L001",
+        entity_type=EntityType.LOCO,
+        railroad="Union Pacific",
+        reporting_mark="UP",
+        road_number="4014",
+    )
+
+    assert identity.road_number == "4014"
+
+
+@pytest.mark.parametrize(
+    "road_number",
+    [
+        "4014",
+        "1201",
+        "190B",
+        "605B",
+        "S300",
+        "94B",
+        "M32",
+    ],
+)
+def test_identity_accepts_alphanumeric_road_numbers(road_number):
+    identity = Identity(
+        id="L001",
+        entity_type=EntityType.LOCO,
+        railroad="Union Pacific",
+        reporting_mark="UP",
+        road_number=road_number,
+    )
+
+    assert identity.road_number == road_number
+
+
+@pytest.mark.parametrize(
+    "road_number",
+    [
+        "",
+        "   ",
+    ],
+)
+def test_identity_rejects_empty_road_number(road_number):
+    with pytest.raises(ValueError):
+        Identity(
+            id="L001",
+            entity_type=EntityType.LOCO,
+            railroad="Union Pacific",
+            reporting_mark="UP",
+            road_number=road_number,
+        )
+
+
+@pytest.mark.parametrize(
+    "road_number",
+    [
+        4014,
+        1201,
+        190,
+        True,
+        False,
+    ],
+)
+def test_identity_rejects_non_string_road_number(road_number):
+    with pytest.raises(TypeError):
+        Identity(
+            id="L001",
+            entity_type=EntityType.LOCO,
+            railroad="Union Pacific",
+            reporting_mark="UP",
+            road_number=road_number,
+        )
+
+# --
 
 def test_generated_ids_are_sequential():
     first = Identity.create(
@@ -57,7 +133,7 @@ def test_generated_ids_are_sequential():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=4014,
+        road_number="4014",
     )
 
     second = Identity.create(
@@ -65,7 +141,7 @@ def test_generated_ids_are_sequential():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=7082,
+        road_number="7082",
     )
 
     first_number = int(first.id[1:])
@@ -82,7 +158,7 @@ def test_different_entity_namespaces_are_independent():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=844,
+        road_number="844",
     )
 
     car = Identity.create(
@@ -90,7 +166,7 @@ def test_different_entity_namespaces_are_independent():
         entity_type=EntityType.CAR,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=123456,
+        road_number="123456",
     )
 
     assert locomotive.id.startswith("L")
@@ -108,7 +184,7 @@ def test_existing_identity_retains_id():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=4014,
+        road_number="4014",
     )
 
     assert identity.id == "L100"
@@ -122,7 +198,7 @@ def test_existing_id_advances_generator():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=4014,
+        road_number="4014",
     )
 
     identity = Identity.create(
@@ -130,7 +206,7 @@ def test_existing_id_advances_generator():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=7082,
+        road_number="7082",
     )
 
     assert identity.id == "L201"
@@ -144,7 +220,7 @@ def test_identity_is_immutable():
         entity_type=EntityType.LOCO,
         railroad="Union Pacific",
         reporting_mark="UP",
-        road_number=4014,
+        road_number="4014",
     )
 
     try:
@@ -163,7 +239,7 @@ def test_invalid_id_is_rejected():
             entity_type=EntityType.LOCO,
             railroad="Union Pacific",
             reporting_mark="UP",
-            road_number=4014,
+            road_number="4014",
         )
         assert False, "Invalid ID should be rejected."
     except ValueError:
@@ -177,7 +253,7 @@ def test_identity_accepts_valid_entity_type():
         entity_type=EntityType.CAR,
         railroad="union pacific",
         reporting_mark="UP",
-        road_number=123
+        road_number="123"
     )
 
     assert identity.entity_type == EntityType.CAR
@@ -189,7 +265,7 @@ def test_identity_rejects_invalid_entity_type():
             entity_type="hopper",
             railroad="union pacific",
             reporting_mark="UP",
-            road_number=123
+            road_number="123"
         )
 
 def test_maximum_id_is_three_digits():

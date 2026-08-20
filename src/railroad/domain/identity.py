@@ -154,7 +154,7 @@ class Identity:
     entity_type: EntityType
     railroad: str
     reporting_mark: str
-    road_number: int
+    road_number: str 
 
     @classmethod
     def create(
@@ -163,7 +163,7 @@ class Identity:
         entity_type: EntityType,
         railroad: str,
         reporting_mark: str,
-        road_number: int,
+        road_number: str,
     ) -> "Identity":
         """
         Create a new identity and allocate a new persistent ID.
@@ -185,7 +185,7 @@ class Identity:
         entity_type: EntityType,
         railroad: str,
         reporting_mark: str,
-        road_number: int,
+        road_number: str,
     ) -> "Identity":
         """
         Reconstruct an identity from persisted data.
@@ -221,11 +221,11 @@ class Identity:
                 "reporting_mark must be a non-empty string."
             )
 
-        if not isinstance(self.road_number, int) or isinstance(
-            self.road_number, bool
-        ):
-            raise TypeError("road_number must be an integer.")
+        if not isinstance(self.road_number, str):
+            raise TypeError("road_number must be a string.")
 
-        if self.road_number <= 0:
-            raise ValueError("road_number must be greater than zero.")
+        if not self.road_number.strip():
+            raise ValueError(
+                "road_number must be a non-empty string."
+            )
 
