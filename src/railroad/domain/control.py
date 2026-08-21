@@ -61,6 +61,7 @@ class Control:
                     "decoder must be a non-empty string when provided."
                 )
 
+
         if self.type == ControlType.DCC:
             if self.decoder is None:
                 raise ValueError(
@@ -72,21 +73,30 @@ class Control:
 
             if not isinstance(self.address, int):
                 raise TypeError(
-                    "address must be an integer when control type is DCC."
+                    "address must be an integer."
                 )
 
             if self.address < 1:
                 raise ValueError(
-                    "address must be greater than zero."
+                    "address must be greater than zero for DCC."
                 )
 
-        else:
+        elif self.type == ControlType.DC:
             if self.decoder is not None:
                 raise ValueError(
-                    "decoder must be None when control type is DC."
+                    "decoder is not allowed when control type is DC."
                 )
 
-            if self.address is not None:
-                raise ValueError(
-                    "address must be None when control type is DC."
+            if self.address is None:
+                self.address = 0
+
+            if not isinstance(self.address, int):
+                raise TypeError(
+                    "address must be an integer."
                 )
+
+            if self.address < 0:
+                raise ValueError(
+                    "address must not be negative."
+                )
+        

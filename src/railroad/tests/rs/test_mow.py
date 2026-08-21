@@ -115,7 +115,7 @@ def test_mow_control() -> None:
     assert mow.control.sound is False
     assert mow.control.smoke is False
     assert mow.control.decoder is None
-    assert mow.control.address is None
+    assert mow.control.address == 0
 
 
 def test_mow_asset() -> None:

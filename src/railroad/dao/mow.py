@@ -178,6 +178,7 @@ class MowDAO:
             },
             "model": {
                 "manufacturer": mow.model.manufacturer,
+            #    "scale": mow.model.scale,
                 "product": mow.model.product,
             },
             "control": {
@@ -232,6 +233,7 @@ class MowDAO:
 
         model = Model(
             manufacturer=model_data.get("manufacturer"),
+        #    scale=model_data.get("scale"),
             product=model_data.get("product"),
         )
 

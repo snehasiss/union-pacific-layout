@@ -179,6 +179,7 @@ class LocoDAO:
             },
             "model": {
                 "manufacturer": loco.model.manufacturer,
+                "scale": loco.model.SCALE,
                 "product": loco.model.product,
             },
             "control": {
@@ -233,6 +234,7 @@ class LocoDAO:
 
         model = Model(
             manufacturer=model_data.get("manufacturer"),
+            # SCALE=model_data.get("scale"),
             product=model_data.get("product"),
         )
 

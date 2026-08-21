@@ -66,9 +66,9 @@ freight,diesel,EMD,GP7,,Union Pacific,UP,102,Proto2000,no,no,yes,no,dc,0,owned,e
 freight,diesel,EMD,GP9,,Union Pacific,UP,206,Athearn Genesis,yes,yes,yes,no,tsunami2,3,owned,lombard,215,2021-07-09
 freight,diesel,EMD,GP9B,,Union Pacific,UP,190B,Athearn Genesis,no,no,yes,no,dc,0,owned,engine house services,170,2021-07-29
 freight,diesel,EMD,GP9B,,Union Pacific,UP,146B,Athearn Genesis,yes,yes,yes,no,tsunami,3,owned,SpringCreek,240,2023-10-05
-switcher,diesel,FM,H10-44,,Union Pacific,UP,1304,Walthers Proto,yes,yes,yes,no,qsi,0,owned,ebay,143,2022-01-01
+switcher,diesel,FM,H10-44,,Union Pacific,UP,1304,Walthers Proto,yes,yes,yes,no,qsi,3,owned,ebay,143,2022-01-01
 switcher,diesel,FM,H15-44,,Union Pacific,UP,1329,Atlas,yes,yes,yes,no,loksound,3,owned,lombard,180,2021-10-06
-switcher,diesel,FM,H16-44,,Union Pacific,UP,1340,Atlas,yes,no,yes,no,dcc,0,owned,ebay,140,2021-07-26
+switcher,diesel,FM,H16-44,,Union Pacific,UP,1340,Atlas,yes,no,yes,no,dcc,3,owned,ebay,140,2021-07-26
 switcher,diesel,EMD,MP15AC,,Union Pacific,UP,1400,Athearn Genesis,yes,yes,yes,no,tsunami,3,owned,lombard,255,2023-07-06
 switcher,diesel,EMD,MP15DC,,Union Pacific,UP,1342,Atlas,yes,yes,yes,no,loksound,3,owned,pwrs-ca,190,2021-07-03
 switcher,diesel,EMD,NW2,,Union Pacific,UP,1086,Broadway Limited,yes,yes,yes,no,paragon4,3,owned,TrainWorld,200,2021-12-17

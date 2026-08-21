@@ -114,7 +114,7 @@ def test_car_control() -> None:
     assert car.control.sound is False
     assert car.control.smoke is False
     assert car.control.decoder is None
-    assert car.control.address is None
+    assert car.control.address == 0
 
 
 def test_car_asset() -> None:

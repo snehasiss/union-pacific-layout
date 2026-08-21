@@ -17,7 +17,7 @@ def test_default_control_is_dc():
     assert control.sound is False
     assert control.smoke is False
     assert control.decoder is None
-    assert control.address is None
+    assert control.address == 0
 
 
 def test_dc_control():
@@ -26,6 +26,7 @@ def test_dc_control():
         light=True,
         sound=False,
         smoke=False,
+        address=0,
     )
 
     assert control.type == ControlType.DC
@@ -33,7 +34,7 @@ def test_dc_control():
     assert control.sound is False
     assert control.smoke is False
     assert control.decoder is None
-    assert control.address is None
+    assert control.address == 0
 
 
 def test_dcc_control():
@@ -63,6 +64,31 @@ def test_dcc_address_defaults_to_three():
     assert control.address == 3
 
 
+def test_dcc_zero_address_is_invalid():
+    with pytest.raises(ValueError):
+        Control(
+            type=ControlType.DCC,
+            decoder="soundtraxx",
+            address=0,
+        )
+
+def test_dcc_default_address():
+    control = Control(
+        type=ControlType.DCC,
+        decoder="soundtraxx",
+    )
+
+    assert control.address == 3
+
+
+def test_negative_address_is_invalid():
+    with pytest.raises(ValueError):
+        Control(
+            type=ControlType.DC,
+            address=-1,
+        )
+
+
 def test_dcc_requires_decoder():
     with pytest.raises(ValueError):
         Control(type=ControlType.DCC)
@@ -76,13 +102,20 @@ def test_dc_rejects_decoder():
         )
 
 
-def test_dc_rejects_address():
-    with pytest.raises(ValueError):
-        Control(
-            type=ControlType.DC,
-            address=3,
-        )
+def test_dc_default_address():
+    control = Control(
+        type=ControlType.DC,
+    )
 
+    assert control.address == 0
+
+def test_dc_zero_address_is_valid():
+    control = Control(
+        type=ControlType.DC,
+        address=0,
+    )
+
+    assert control.address == 0
 
 def test_invalid_control_type():
     with pytest.raises(TypeError):
@@ -133,3 +166,4 @@ def test_smoke_is_independent_of_dcc():
 def test_control_type_values():
     assert ControlType.DC.value == "dc"
     assert ControlType.DCC.value == "dcc"
+

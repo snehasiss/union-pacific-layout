@@ -110,6 +110,7 @@ def create_loco(
 
     model = Model(
         manufacturer="Athearn",
+        # SCALE="HO",
         product="Genesis Big Boy",
     )
 
@@ -161,6 +162,7 @@ def test_save_and_get(dao: LocoDAO) -> None:
     assert result.prototype.purpose == Purpose.FREIGHT
 
     assert result.model.manufacturer == "Athearn"
+    #assert result.model.SCALE == "HO"
     assert result.model.product == "Genesis Big Boy"
 
     assert result.control.type == ControlType.DCC
@@ -265,7 +267,7 @@ def test_dc_loco_round_trip(dao: LocoDAO) -> None:
         sound=False,
         smoke=False,
         decoder=None,
-        address=None,
+        address=0,
     )
 
     dao.save(loco)
@@ -277,7 +279,7 @@ def test_dc_loco_round_trip(dao: LocoDAO) -> None:
     assert result.control.sound is False
     assert result.control.smoke is False
     assert result.control.decoder is None
-    assert result.control.address is None
+    assert result.control.address == 0
 
 
 def test_exists(dao: LocoDAO) -> None:

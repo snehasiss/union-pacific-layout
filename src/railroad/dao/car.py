@@ -177,6 +177,7 @@ class CarDAO:
             },
             "model": {
                 "manufacturer": car.model.manufacturer,
+                # "scale": car.model.SCALE,
                 "product": car.model.product,
             },
             "control": {
@@ -231,6 +232,7 @@ class CarDAO:
 
         model = Model(
             manufacturer=model_data.get("manufacturer"),
+            # scale=model_data.get("SCALE"),
             product=model_data.get("product"),
         )
 

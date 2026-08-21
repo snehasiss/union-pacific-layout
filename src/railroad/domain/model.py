@@ -1,27 +1,24 @@
 #!/usr/bin/env python3
-# model.py
-# 
+# railroad/domain/model.py
+#
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import ClassVar
 
-
 @dataclass
 class Model:
     """
-    Physical HO-scale model representing a railroad prototype.
+    Physical model representing a railroad prototype.
     """
 
     manufacturer: str | None = None
-    product: str | None = None
-
     SCALE: ClassVar[str] = "HO"
+    product: str | None = None
 
     def __post_init__(self) -> None:
         """Validate model attributes."""
-
         if self.manufacturer is not None:
             if (
                 not isinstance(self.manufacturer, str)
@@ -39,4 +36,3 @@ class Model:
                 raise ValueError(
                     "product must be a non-empty string when provided."
                 )
-

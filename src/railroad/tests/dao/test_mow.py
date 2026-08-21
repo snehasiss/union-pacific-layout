@@ -88,6 +88,7 @@ def create_mow(
 
     model = Model(
         manufacturer="Athearn",
+        # scale="HO",
         product="MOW Spreader",
     )
 
@@ -97,7 +98,7 @@ def create_mow(
         sound=False,
         smoke=False,
         decoder=None,
-        address=None,
+        address=0,
     )
 
     asset = Asset(
@@ -158,13 +159,14 @@ def test_save_writes_expected_json(tmp_path: Path) -> None:
 
     assert payload["model"] == {
         "manufacturer": "Athearn",
+        # "scale": "HO",
         "product": "MOW Spreader",
     }
 
     assert payload["control"] == {
         "type": "dc",
         "decoder": None,
-        "address": None,
+        "address": 0,
         "sound": False,
         "light": True,
         "smoke": False,
@@ -204,11 +206,12 @@ def test_get_reconstructs_mow(tmp_path: Path) -> None:
     assert mow.prototype.purpose == Purpose.FREIGHT
 
     assert mow.model.manufacturer == "Athearn"
+    # assert mow.model.scale == "HO"
     assert mow.model.product == "MOW Spreader"
 
     assert mow.control.type == ControlType.DC
     assert mow.control.decoder is None
-    assert mow.control.address is None
+    assert mow.control.address == 0
     assert mow.control.light is True
     assert mow.control.sound is False
     assert mow.control.smoke is False
@@ -292,6 +295,7 @@ def test_save_replaces_existing_mow(tmp_path: Path) -> None:
     replacement = create_mow()
     replacement.model = Model(
         manufacturer="Bachmann",
+        # scale="HO",
         product="MOW Equipment",
     )
 
@@ -300,6 +304,7 @@ def test_save_replaces_existing_mow(tmp_path: Path) -> None:
     mow = dao.get("M001")
 
     assert mow.model.manufacturer == "Bachmann"
+    # assert mow.model.scale == "HO"
     assert mow.model.product == "MOW Equipment"
 
 
