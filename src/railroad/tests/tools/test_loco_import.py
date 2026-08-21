@@ -11,7 +11,7 @@ from railroad.domain.control import ControlType
 from railroad.domain.model import Model
 from railroad.domain.prototype import Purpose
 from railroad.rs.loco_type import LocoType
-from railroad.tools.loco_import import LocoImporter
+from railroad.tools.loco_import import LocoImport
 
 
 IMPORT_DIRECTORY = (
@@ -22,7 +22,7 @@ IMPORT_DIRECTORY = (
 
 
 def test_import_steam_file():
-    locos = LocoImporter.import_file(
+    locos = LocoImport.import_file(
         IMPORT_DIRECTORY / "steam.csv"
     )
 
@@ -59,7 +59,7 @@ def test_import_steam_file():
 
 
 def test_import_dc_locomotive_translates_decoder_and_address():
-    locos = LocoImporter.import_file(
+    locos = LocoImport.import_file(
         IMPORT_DIRECTORY / "steam.csv"
     )
 
@@ -84,7 +84,7 @@ def test_import_dc_locomotive_translates_decoder_and_address():
 
 
 def test_import_diesel_file_1():
-    locos = LocoImporter.import_file(
+    locos = LocoImport.import_file(
         IMPORT_DIRECTORY / "diesel.csv"
     )
 
@@ -106,7 +106,7 @@ def test_import_diesel_file_1():
 
 
 def test_import_turbine():
-    locos = LocoImporter.import_file(
+    locos = LocoImport.import_file(
         IMPORT_DIRECTORY / "diesel.csv"
     )
 
@@ -123,7 +123,7 @@ def test_import_turbine():
 
 
 def test_reporting_mark_is_normalised_to_uppercase():
-    locos = LocoImporter.import_file(
+    locos = LocoImport.import_file(
         IMPORT_DIRECTORY / "steam.csv"
     )
 
@@ -133,7 +133,7 @@ def test_reporting_mark_is_normalised_to_uppercase():
 
 
 def test_optional_values_are_none():
-    locos = LocoImporter.import_file(
+    locos = LocoImport.import_file(
         IMPORT_DIRECTORY / "steam.csv"
     )
 
@@ -159,11 +159,11 @@ def test_invalid_boolean_raises():
     }
 
     with pytest.raises(ValueError):
-        LocoImporter._create_control(row)
+        LocoImport._create_control(row)
 
 
 def test_import_diesel_file():
-    locos = LocoImporter.import_file(
+    locos = LocoImport.import_file(
         IMPORT_DIRECTORY / "diesel.csv"
     )
 

@@ -25,7 +25,7 @@ from railroad.rs.loco import Loco
 from railroad.rs.loco_type import LocoType
 
 
-class LocoImporter:
+class LocoImport:
     """Import locomotives from the railroad CSV import files."""
 
     IMPORT_DIRECTORY = Path(__file__).resolve().parent / "imports"
@@ -132,30 +132,30 @@ class LocoImporter:
     @staticmethod
     def _create_control(row: dict[str, str]) -> Control:
         """Translate CSV control information into Control."""
-        is_dcc = LocoImporter._boolean(row["dcc"])
+        is_dcc = LocoImport._boolean(row["dcc"])
 
         control_type = (
             ControlType.DCC if is_dcc else ControlType.DC
         )
 
         if control_type == ControlType.DCC:
-            decoder = LocoImporter._optional_string(row["decoder"])
-            address = LocoImporter._optional_int(row["address"])
+            decoder = LocoImport._optional_string(row["decoder"])
+            address = LocoImport._optional_int(row["address"])
 
             return Control(
                 type=control_type,
-                light=LocoImporter._boolean(row["light"]),
-                sound=LocoImporter._boolean(row["sound"]),
-                smoke=LocoImporter._boolean(row["smoke"]),
+                light=LocoImport._boolean(row["light"]),
+                sound=LocoImport._boolean(row["sound"]),
+                smoke=LocoImport._boolean(row["smoke"]),
                 decoder=decoder,
                 address=address,
             )
 
         return Control(
             type=ControlType.DC,
-            light=LocoImporter._boolean(row["light"]),
-            sound=LocoImporter._boolean(row["sound"]),
-            smoke=LocoImporter._boolean(row["smoke"]),
+            light=LocoImport._boolean(row["light"]),
+            sound=LocoImport._boolean(row["sound"]),
+            smoke=LocoImport._boolean(row["smoke"]),
             decoder=None,
             address=0,
         )
@@ -163,12 +163,12 @@ class LocoImporter:
     @staticmethod
     def _create_asset(row: dict[str, str]) -> Asset:
         """Translate CSV acquisition information into Asset."""
-        price = LocoImporter._optional_float(row["price"])
-        acquired = LocoImporter._optional_date(row["dated"])
+        price = LocoImport._optional_float(row["price"])
+        acquired = LocoImport._optional_date(row["dated"])
 
         return Asset(
             status=AssetStatus(row["status"].lower()),
-            source=LocoImporter._optional_string(row["store"]),
+            source=LocoImport._optional_string(row["store"]),
             price=price,
             acquired=acquired,
         )
