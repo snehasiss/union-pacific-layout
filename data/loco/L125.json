@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L125",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "3672"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Baldwin",
+        "model": "2-8-8-2",
+        "nickname": "mallet",
+        "purpose": "freight"
+    },
+    "model": {
+        "manufacturer": "Proto2000",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "esu loksound",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "ebay",
+        "price": 240.0,
+        "acquired": "2026-06-23"
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L145",
+        "entity_type": "loco",
+        "railroad": "Baltimore and Ohio",
+        "reporting_mark": "B&O",
+        "road_number": "5301"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Baldwin",
+        "model": "4-6-2",
+        "nickname": "president adams",
+        "purpose": "passenger"
+    },
+    "model": {
+        "manufacturer": "Mantua",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dc",
+        "light": true,
+        "sound": false,
+        "smoke": false,
+        "decoder": null,
+        "address": 0
+    },
+    "asset": {
+        "status": "owned",
+        "source": "ebay",
+        "price": null,
+        "acquired": null
+    }
+}

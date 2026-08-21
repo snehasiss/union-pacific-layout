@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L123",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "4014"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "ALCo",
+        "model": "4-8-8-4",
+        "nickname": "big boy",
+        "purpose": "freight"
+    },
+    "model": {
+        "manufacturer": "Athearn",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "tsunami",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "model train stuff",
+        "price": 655.0,
+        "acquired": "2020-11-20"
+    }
+}

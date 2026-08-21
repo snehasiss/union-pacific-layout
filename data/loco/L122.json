@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L122",
+        "entity_type": "loco",
+        "railroad": "Southern Pacific",
+        "reporting_mark": "SP",
+        "road_number": "9102"
+    },
+    "loco_type": "diesel",
+    "prototype": {
+        "builder": "KM",
+        "model": "ML4000",
+        "nickname": null,
+        "purpose": "freight"
+    },
+    "model": {
+        "manufacturer": "Piko",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "smartdecoder5.1",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "lombard",
+        "price": 370.0,
+        "acquired": "2026-02-18"
+    }
+}

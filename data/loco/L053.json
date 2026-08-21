@@ -1,35 +1,35 @@
 {
     "identity": {
-        "id": "L001",
+        "id": "L053",
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "6560"
+        "road_number": "760"
     },
     "loco_type": "diesel",
     "prototype": {
-        "builder": "Plymouth",
-        "model": "35T switcher",
+        "builder": "EMD",
+        "model": "GP35",
         "nickname": null,
-        "purpose": "switcher"
+        "purpose": "freight"
     },
     "model": {
-        "manufacturer": "Broadway Limited",
+        "manufacturer": "Athearn",
         "scale": "HO",
         "product": null
     },
     "control": {
-        "type": "dcc",
+        "type": "dc",
         "light": true,
         "sound": false,
         "smoke": false,
-        "decoder": "dcc",
-        "address": 3
+        "decoder": null,
+        "address": 0
     },
     "asset": {
         "status": "owned",
-        "source": "FactoryDirect",
-        "price": 100.0,
-        "acquired": "2021-06-19"
+        "source": "SpringCreek",
+        "price": 96.0,
+        "acquired": "2021-12-15"
     }
 }

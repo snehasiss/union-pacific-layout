@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L148",
+        "entity_type": "loco",
+        "railroad": "Baltimore and Ohio",
+        "reporting_mark": "B&O",
+        "road_number": "5311"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Baldwin",
+        "model": "4-6-2",
+        "nickname": "president fillmore",
+        "purpose": "passenger"
+    },
+    "model": {
+        "manufacturer": "Rivarossi",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "loksound",
+        "address": 5311
+    },
+    "asset": {
+        "status": "owned",
+        "source": "SFO hobby shop",
+        "price": null,
+        "acquired": "2010-07-01"
+    }
+}

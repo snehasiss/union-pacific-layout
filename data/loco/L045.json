@@ -1,35 +1,35 @@
 {
     "identity": {
-        "id": "L001",
+        "id": "L045",
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "6560"
+        "road_number": "912"
     },
     "loco_type": "diesel",
     "prototype": {
-        "builder": "Plymouth",
-        "model": "35T switcher",
+        "builder": "EMD",
+        "model": "FP7A",
         "nickname": null,
-        "purpose": "switcher"
+        "purpose": "passenger"
     },
     "model": {
-        "manufacturer": "Broadway Limited",
+        "manufacturer": "Intermountain",
         "scale": "HO",
         "product": null
     },
     "control": {
         "type": "dcc",
         "light": true,
-        "sound": false,
+        "sound": true,
         "smoke": false,
-        "decoder": "dcc",
+        "decoder": "loksound",
         "address": 3
     },
     "asset": {
         "status": "owned",
-        "source": "FactoryDirect",
-        "price": 100.0,
-        "acquired": "2021-06-19"
+        "source": "SpringCreek",
+        "price": 216.0,
+        "acquired": "2021-12-15"
     }
 }

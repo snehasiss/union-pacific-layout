@@ -1,35 +1,35 @@
 {
     "identity": {
-        "id": "L001",
+        "id": "L040",
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "6560"
+        "road_number": "523"
     },
     "loco_type": "diesel",
     "prototype": {
-        "builder": "Plymouth",
-        "model": "35T switcher",
+        "builder": "EMD",
+        "model": "F9A",
         "nickname": null,
-        "purpose": "switcher"
+        "purpose": "freight"
     },
     "model": {
-        "manufacturer": "Broadway Limited",
+        "manufacturer": "Stewart",
         "scale": "HO",
         "product": null
     },
     "control": {
         "type": "dcc",
         "light": true,
-        "sound": false,
+        "sound": true,
         "smoke": false,
-        "decoder": "dcc",
+        "decoder": "loksound",
         "address": 3
     },
     "asset": {
         "status": "owned",
-        "source": "FactoryDirect",
+        "source": "ebay",
         "price": 100.0,
-        "acquired": "2021-06-19"
+        "acquired": "2023-12-08"
     }
 }

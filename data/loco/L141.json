@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L141",
+        "entity_type": "loco",
+        "railroad": "mower lumber co",
+        "reporting_mark": "MLC",
+        "road_number": "12"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Lima",
+        "model": "4-truck shay",
+        "nickname": "shay loco",
+        "purpose": "logger"
+    },
+    "model": {
+        "manufacturer": "BLI",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": true,
+        "decoder": "paragon4",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "lombard",
+        "price": 480.0,
+        "acquired": "2026-01-14"
+    }
+}

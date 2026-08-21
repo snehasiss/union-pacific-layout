@@ -1,17 +1,17 @@
 {
     "identity": {
-        "id": "L001",
+        "id": "L018",
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "6560"
+        "road_number": "1601A"
     },
     "loco_type": "diesel",
     "prototype": {
-        "builder": "Plymouth",
-        "model": "35T switcher",
+        "builder": "Baldwin",
+        "model": "Centipede",
         "nickname": null,
-        "purpose": "switcher"
+        "purpose": "freight"
     },
     "model": {
         "manufacturer": "Broadway Limited",
@@ -21,15 +21,15 @@
     "control": {
         "type": "dcc",
         "light": true,
-        "sound": false,
+        "sound": true,
         "smoke": false,
-        "decoder": "dcc",
+        "decoder": "paragon4",
         "address": 3
     },
     "asset": {
         "status": "owned",
-        "source": "FactoryDirect",
-        "price": 100.0,
-        "acquired": "2021-06-19"
+        "source": "SpringCreek",
+        "price": 240.0,
+        "acquired": "2023-08-17"
     }
 }

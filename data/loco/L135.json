@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L135",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "2485"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "ALCo",
+        "model": "2-8-2",
+        "nickname": "mikado",
+        "purpose": "freight"
+    },
+    "model": {
+        "manufacturer": "BLI",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "paragon2",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "ebay",
+        "price": 290.0,
+        "acquired": "2026-07-06"
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L137",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "40"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Baldwin",
+        "model": "2-6-0",
+        "nickname": "mogul",
+        "purpose": "passenger"
+    },
+    "model": {
+        "manufacturer": "Athearn",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dc",
+        "light": true,
+        "sound": false,
+        "smoke": false,
+        "decoder": null,
+        "address": 0
+    },
+    "asset": {
+        "status": "intent",
+        "source": "Trainworld",
+        "price": 0.0,
+        "acquired": null
+    }
+}

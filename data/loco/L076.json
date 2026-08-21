@@ -1,35 +1,35 @@
 {
     "identity": {
-        "id": "L001",
+        "id": "L076",
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "6560"
+        "road_number": "1214"
     },
     "loco_type": "diesel",
     "prototype": {
-        "builder": "Plymouth",
-        "model": "35T switcher",
+        "builder": "ALCo",
+        "model": "RS-1",
         "nickname": null,
         "purpose": "switcher"
     },
     "model": {
-        "manufacturer": "Broadway Limited",
+        "manufacturer": "Atlas",
         "scale": "HO",
         "product": null
     },
     "control": {
-        "type": "dcc",
+        "type": "dc",
         "light": true,
         "sound": false,
         "smoke": false,
-        "decoder": "dcc",
-        "address": 3
+        "decoder": null,
+        "address": 0
     },
     "asset": {
         "status": "owned",
-        "source": "FactoryDirect",
-        "price": 100.0,
-        "acquired": "2021-06-19"
+        "source": "ebay",
+        "price": 69.0,
+        "acquired": "2022-02-11"
     }
 }

@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L139",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "4455"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Lima",
+        "model": "0-6-0",
+        "nickname": "S-6 switcher",
+        "purpose": "switcher"
+    },
+    "model": {
+        "manufacturer": "Bachmann",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dc",
+        "light": false,
+        "sound": false,
+        "smoke": false,
+        "decoder": null,
+        "address": 0
+    },
+    "asset": {
+        "status": "intent",
+        "source": "unknown",
+        "price": 0.0,
+        "acquired": null
+    }
+}

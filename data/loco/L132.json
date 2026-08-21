@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L132",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "7002"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "ALCo",
+        "model": "4-8-2",
+        "nickname": "mountain MT-73",
+        "purpose": "passenger"
+    },
+    "model": {
+        "manufacturer": "BLI",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "paragon2",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "ebay",
+        "price": 429.0,
+        "acquired": "2026-07-03"
+    }
+}

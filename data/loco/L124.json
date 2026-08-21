@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L124",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "3826"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "ALCo",
+        "model": "4-6-6-4",
+        "nickname": "challenger",
+        "purpose": "freight"
+    },
+    "model": {
+        "manufacturer": "BLI",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "paragon4",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "ebay",
+        "price": 700.0,
+        "acquired": "2026-06-11"
+    }
+}

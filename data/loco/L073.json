@@ -1,15 +1,15 @@
 {
     "identity": {
-        "id": "L001",
+        "id": "L073",
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "6560"
+        "road_number": "1086"
     },
     "loco_type": "diesel",
     "prototype": {
-        "builder": "Plymouth",
-        "model": "35T switcher",
+        "builder": "EMD",
+        "model": "NW2",
         "nickname": null,
         "purpose": "switcher"
     },
@@ -21,15 +21,15 @@
     "control": {
         "type": "dcc",
         "light": true,
-        "sound": false,
+        "sound": true,
         "smoke": false,
-        "decoder": "dcc",
+        "decoder": "paragon4",
         "address": 3
     },
     "asset": {
         "status": "owned",
-        "source": "FactoryDirect",
-        "price": 100.0,
-        "acquired": "2021-06-19"
+        "source": "TrainWorld",
+        "price": 200.0,
+        "acquired": "2021-12-17"
     }
 }

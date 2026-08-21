@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L140",
+        "entity_type": "loco",
+        "railroad": "canadian forest products",
+        "reporting_mark": "CFPX",
+        "road_number": "3"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Baldwin",
+        "model": "2-6-6-2T",
+        "nickname": "articulated logger",
+        "purpose": "logger"
+    },
+    "model": {
+        "manufacturer": "mantua",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "loksound",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "ebay",
+        "price": 180.0,
+        "acquired": "2020-05-11"
+    }
+}

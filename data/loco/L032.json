@@ -1,35 +1,35 @@
 {
     "identity": {
-        "id": "L001",
+        "id": "L032",
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "6560"
+        "road_number": "706"
     },
     "loco_type": "diesel",
     "prototype": {
-        "builder": "Plymouth",
-        "model": "35T switcher",
+        "builder": "FM",
+        "model": "Erie A",
         "nickname": null,
-        "purpose": "switcher"
+        "purpose": "passenger"
     },
     "model": {
-        "manufacturer": "Broadway Limited",
+        "manufacturer": "Walthers Proto",
         "scale": "HO",
         "product": null
     },
     "control": {
-        "type": "dcc",
+        "type": "dc",
         "light": true,
         "sound": false,
         "smoke": false,
-        "decoder": "dcc",
-        "address": 3
+        "decoder": null,
+        "address": 0
     },
     "asset": {
         "status": "owned",
-        "source": "FactoryDirect",
+        "source": "ebay",
         "price": 100.0,
-        "acquired": "2021-06-19"
+        "acquired": "2022-05-02"
     }
 }

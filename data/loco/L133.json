@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L133",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "3203"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Baldwin",
+        "model": "4-6-2",
+        "nickname": "pacific",
+        "purpose": "passenger"
+    },
+    "model": {
+        "manufacturer": "brass",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dc",
+        "light": false,
+        "sound": false,
+        "smoke": false,
+        "decoder": null,
+        "address": 0
+    },
+    "asset": {
+        "status": "intent",
+        "source": "unknown",
+        "price": 0.0,
+        "acquired": null
+    }
+}

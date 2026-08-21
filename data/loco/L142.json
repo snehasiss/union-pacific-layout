@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L142",
+        "entity_type": "loco",
+        "railroad": "clear lake lumber co",
+        "reporting_mark": "CLLC",
+        "road_number": "12"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Climax",
+        "model": "3-truck climax",
+        "nickname": "climax steam loco",
+        "purpose": "logger"
+    },
+    "model": {
+        "manufacturer": "Bachmann",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "econami",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "ebay",
+        "price": 550.0,
+        "acquired": "2026-04-07"
+    }
+}

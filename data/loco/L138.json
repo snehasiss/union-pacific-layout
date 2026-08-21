@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L138",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "119"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Rogers",
+        "model": "4-4-0",
+        "nickname": "american",
+        "purpose": "passenger"
+    },
+    "model": {
+        "manufacturer": "Bachmann",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "econami",
+        "address": 3
+    },
+    "asset": {
+        "status": "intent",
+        "source": "Trainworld",
+        "price": 0.0,
+        "acquired": null
+    }
+}

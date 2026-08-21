@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L128",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "5053"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "Baldwin",
+        "model": "2-10-2",
+        "nickname": "TTT-6",
+        "purpose": "freight"
+    },
+    "model": {
+        "manufacturer": "BLI",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "qsi",
+        "address": 3
+    },
+    "asset": {
+        "status": "owned",
+        "source": "ebay",
+        "price": 525.0,
+        "acquired": "2026-06-23"
+    }
+}

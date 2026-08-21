@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "L131",
+        "entity_type": "loco",
+        "railroad": "union pacific",
+        "reporting_mark": "UP",
+        "road_number": "844"
+    },
+    "loco_type": "steam",
+    "prototype": {
+        "builder": "ALCo",
+        "model": "4-8'4",
+        "nickname": "northern FEF",
+        "purpose": "passenger"
+    },
+    "model": {
+        "manufacturer": "BLI",
+        "scale": "HO",
+        "product": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": true,
+        "decoder": "paragon3",
+        "address": 844
+    },
+    "asset": {
+        "status": "owned",
+        "source": "trainworld",
+        "price": 560.0,
+        "acquired": "2021-12-21"
+    }
+}
