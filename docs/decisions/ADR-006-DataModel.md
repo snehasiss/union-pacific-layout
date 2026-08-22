@@ -8,7 +8,7 @@
 
 ---
 
-## 1. Context
+# 1. Context
 
 The railroad application needs a domain model capable of representing the physical HO-scale locomotive collection, its prototype information, model information, control/electronics configuration, and procurement/ownership lifecycle.
 
@@ -38,7 +38,10 @@ Prototype
 Model
 Control
 Asset
+```
 
+The broader railroad software architecture remains:
+```text
 railroad/
 ├── domain/
 ├── dao/
@@ -46,3 +49,101 @@ railroad/
 ├── tools/
 └── tests/
 ```
+
+The five domain classes have distinct responsibilities.
+
+# Domain Model
+## Identity
+`Identity` establishes the identity of the physical railroad asset within the application.
+Typical attributes include:
+
++ `id`
++ `entity_type`
++ `railroad`
++ `reporting_mark`
++ `road_number`
+
+`Identity` should normally remain stable throughout the life of the record.
+
+For example:
+```
+id = L341
+reporting_mark = UP
+road_number = 1203
+```
+The application identity is independent of the manufacturer's product identity.
+
+## Prototype
+`Prototype` describes the real-world railroad locomotive represented by the model.
+Typical attributes include:
++ `builder`
++ `model`
++ `nickname`
++ `purpose`
+For steam locomotives, the prototype model may be represented by the wheel arrangement.
+
+Examples:
+```
+4-8-8-4
+4-6-6-4
+4-8-2
+```
+For diesel locomotives, the prototype model may be represented by the manufacturer's model designation.
+Examples:
+```
+SD40-2
+GP30
+H10-44
+```
+
+The locomotive type remains associated with the prototype/domain definition rather than being treated as a property of the physical HO model.
+--
+
+# Model
+`Model` describes the actual physical HO-scale model in the collection.
+
+The current model attributes are:
+```
+manufacturer
+scale
+product
+state
+notes
+```
+** manufacturer **
+The manufacturer of the physical model.
+
+Examples:
+```
+Broadway Limited
+Athearn
+Atlas
+Bowser
+scale
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
