@@ -95,7 +95,6 @@ SD40-2
 GP30
 H10-44
 ```
-
 The locomotive type remains associated with the prototype/domain definition rather than being treated as a property of the physical HO model.
 --
 
@@ -110,7 +109,8 @@ product
 state
 notes
 ```
-** manufacturer **
+
+### `manufacturer`
 The manufacturer of the physical model.
 
 Examples:
@@ -119,10 +119,47 @@ Broadway Limited
 Athearn
 Atlas
 Bowser
-scale
 ```
 
+### `scale`
 
+
+The model scale.
+
+The current railroad project is HO scale.
+
+### `product`
+A string containing useful product/model information supplied by the manufacturer or retailer.
+
+This deliberately remains a string rather than becoming a detailed product sub-model at this stage.
+
+### `state`
+The current physical/service state of the model.
+
+See `ModelState` below.
+
+### `notes`
+Free-form notes concerning the physical model.
+
+This provides a place for model-specific observations without adding additional specialized attributes prematurely.
+
+--
+
+## 3.4 ModelState
+`ModelState` represents the current state of the physical model.
+
+The values are:
+
+Value	Meaning
+--------------------
+ACTIVE	Model is available for normal operation and is on the layout/roster duty.
+--------------------
+OFFLINE	Model is temporarily unavailable for operation, for example because of maintenance, cleaning, decoder installation/programming, repair, or other work.
+--------------------
+STORED	Model is physically owned but kept in storage, such as a box, cabinet, shelf, or other storage location, and is not currently in service.
+--------------------
+RETIRED	Model has permanently been removed from active service/roster, whether retained as a spare, discarded, or otherwise no longer intended for operation.
+--------------------
 
 
 
