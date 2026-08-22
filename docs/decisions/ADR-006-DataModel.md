@@ -52,8 +52,8 @@ railroad/
 
 The five domain classes have distinct responsibilities.
 
-# Domain Model
-## Identity
+# 3. Domain Model
+## 3.1 Identity
 `Identity` establishes the identity of the physical railroad asset within the application.
 Typical attributes include:
 
@@ -73,7 +73,7 @@ road_number = 1203
 ```
 The application identity is independent of the manufacturer's product identity.
 
-## Prototype
+## 3.2 Prototype
 `Prototype` describes the real-world railroad locomotive represented by the model.
 Typical attributes include:
 + `builder`
@@ -99,7 +99,7 @@ H10-44
 The locomotive type remains associated with the prototype/domain definition rather than being treated as a property of the physical HO model.
 --
 
-# Model
+## 3.3 Model
 `Model` describes the actual physical HO-scale model in the collection.
 
 The current model attributes are:
