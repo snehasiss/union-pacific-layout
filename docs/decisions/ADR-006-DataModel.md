@@ -89,13 +89,16 @@ Examples:
 4-8-2
 ```
 For diesel locomotives, the prototype model may be represented by the manufacturer's model designation.
+
 Examples:
 ```
 SD40-2
 GP30
 H10-44
 ```
+
 The locomotive type remains associated with the prototype/domain definition rather than being treated as a property of the physical HO model.
+
 --
 
 ## 3.3 Model
@@ -151,15 +154,25 @@ This provides a place for model-specific observations without adding additional 
 The values are:
 
 Value	Meaning
---------------------
+
+--
+
 ACTIVE	Model is available for normal operation and is on the layout/roster duty.
---------------------
+
+--
+
 OFFLINE	Model is temporarily unavailable for operation, for example because of maintenance, cleaning, decoder installation/programming, repair, or other work.
---------------------
+
+--
+
 STORED	Model is physically owned but kept in storage, such as a box, cabinet, shelf, or other storage location, and is not currently in service.
---------------------
+
+--
+
 RETIRED	Model has permanently been removed from active service/roster, whether retained as a spare, discarded, or otherwise no longer intended for operation.
---------------------
+
+--
+
 
 
 
