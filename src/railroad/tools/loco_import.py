@@ -2,12 +2,7 @@
 # railroad/tools/loco_import.py
 #
 
-"""
-Import locomotive data from CSV into Loco domain objects.
-
-The importer translates the external CSV representation into the
-railroad domain model. Persistence is deliberately handled by LocoDAO.
-"""
+"""Import locomotive data from CSV into Loco domain objects."""
 
 from __future__ import annotations
 
@@ -16,10 +11,9 @@ from datetime import date, datetime
 from pathlib import Path
 
 from railroad.dao.loco import LocoDAO
-from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model, ModelStatus
+from railroad.domain.model import Model, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco, LocoType
 
@@ -87,10 +81,24 @@ class LocoImport:
                 nickname=cls._optional_string(row["nickname"]),
                 purpose=Purpose(row["purpose"].lower()),
             ),
-            model=Model(maker=cls._optional_string(row["make"]), product=None),
+            model=Model(
+                maker=cls._optional_string(row["make"]),
+                product=None,
+                status=cls._status(row["status"]),
+                source=cls._optional_string(row["store"]),
+                price=cls._optional_float(row["price"]),
+                acquired=cls._optional_date(row["dated"]),
+            ),
             control=cls._create_control(row),
-            asset=cls._create_asset(row),
         )
+
+    @staticmethod
+    def _status(value: str) -> Status:
+        """Translate a CSV lifecycle status into the normalized Status enum."""
+        value = value.strip().lower()
+        if value == "owned":
+            value = Status.STORED.value
+        return Status(value)
 
     @staticmethod
     def _create_control(row: dict[str, str]) -> Control:
@@ -113,16 +121,6 @@ class LocoImport:
             smoke=LocoImport._boolean(row["smoke"]),
             decoder=None,
             address=0,
-        )
-
-    @staticmethod
-    def _create_asset(row: dict[str, str]) -> Asset:
-        """Translate CSV acquisition information into Asset."""
-        return Asset(
-            status=AssetStatus(row["status"].lower()),
-            source=LocoImport._optional_string(row["store"]),
-            price=LocoImport._optional_float(row["price"]),
-            acquired=LocoImport._optional_date(row["dated"]),
         )
 
     @staticmethod
