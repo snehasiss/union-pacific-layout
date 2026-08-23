@@ -338,6 +338,9 @@ CarType
     HOPPER
     TANKER
     INTERMODAL
+    PASSENGER
+    LUGGAGE
+    CABOOSE
     ...
 ```
 
@@ -347,6 +350,11 @@ CarType
 Prototype.type = MOW
 
 MOWType
+    CRANE
+    SNOWPLOW
+    CLEANER
+    TAMPER
+    MPV
     ...
 ```
 
