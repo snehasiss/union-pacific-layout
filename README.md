@@ -27,7 +27,7 @@ tools/                  # Generators, converters, and automation scripts
 ---
 
 ### Roadmap:
-Here is the [Roadmap document]{docs/designs/080-roadmap.md} to know more about the objective or intent and tentative final destination of this project.
+Here is the [Roadmap document](docs/designs/080-roadmap.md) to know more about the objective or intent and tentative final destination of this project.
 
 
 ### Current Directory Structure:
