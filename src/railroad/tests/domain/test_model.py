@@ -2,125 +2,101 @@
 # test_model.py
 #
 
+from datetime import date
 from dataclasses import fields
 
-from railroad.domain.model import Model
+import pytest
 
-
-SHOW_TEST_OUTPUT = True
-
-
-def _log(message: str) -> None:
-    if SHOW_TEST_OUTPUT:
-        print(f"[ModelTest] {message}")
+from railroad.domain.model import Model, ModelStatus
 
 
 def test_model_scale_is_ho():
     model = Model()
-
     assert Model.SCALE == "HO"
     assert model.SCALE == "HO"
 
-    _log(f"Model scale validated: {Model.SCALE}")
-
 
 def test_scale_is_class_constant():
-    model = Model()
-
-    field_names = {field.name for field in fields(model)}
-
+    field_names = {field.name for field in fields(Model())}
     assert "SCALE" not in field_names
 
-    _log("SCALE correctly excluded from dataclass instance fields")
 
-
-def test_model_can_be_created_without_maker_or_product():
+def test_default_model_is_stored():
     model = Model()
-
-    assert model.maker is None
-    assert model.product is None
-
-    _log("Model created with no maker/product")
-
-
-def test_maker_and_product_can_be_assigned_later():
-    model = Model()
-
-    model.maker = "Athearn"
-    model.product = "Genesis Big Boy"
-
-    assert model.maker == "Athearn"
-    assert model.product == "Genesis Big Boy"
-
-    _log(
-        f"Late assignment validated: "
-        f"{model.maker} / {model.product}"
-    )
+    assert model.status == ModelStatus.STORED
+    assert model.source is None
+    assert model.price is None
+    assert model.acquired is None
+    assert model.note is None
 
 
-def test_maker_can_be_assigned_at_creation():
+def test_model_can_be_created_with_complete_data():
+    acquired = date(2026, 8, 1)
     model = Model(
         maker="Broadway Limited Imports",
         product="4801",
+        status=ModelStatus.STORED,
+        source="Broadway Limited Imports",
+        price=599.99,
+        acquired=acquired,
+        note="Prototype-correct model",
     )
 
     assert model.maker == "Broadway Limited Imports"
     assert model.product == "4801"
-
-    _log(f"Model created with source data: {model}")
-
-
-def test_scale_cannot_be_changed():
-    model = Model()
-
-    try:
-        model.SCALE = "N"
-        assert True, "SCALE should not be assignable."
-    except AttributeError:
-        pass
-
-    assert Model.SCALE == "HO"
-
-    _log("SCALE immutability validated")
+    assert model.status == ModelStatus.STORED
+    assert model.source == "Broadway Limited Imports"
+    assert model.price == 599.99
+    assert model.acquired == acquired
+    assert model.note == "Prototype-correct model"
 
 
-def test_invalid_maker_is_rejected():
-    try:
+@pytest.mark.parametrize(
+    "status",
+    [
+        ModelStatus.INTENT,
+        ModelStatus.SPOTTED,
+        ModelStatus.SHIPPED,
+        ModelStatus.STORED,
+        ModelStatus.ACTIVE,
+        ModelStatus.REPAIR,
+        ModelStatus.RETIRED,
+    ],
+)
+def test_valid_model_statuses(status):
+    assert Model(status=status).status == status
+
+
+def test_invalid_status():
+    with pytest.raises(TypeError):
+        Model(status="stored")
+
+
+def test_invalid_maker():
+    with pytest.raises(ValueError):
         Model(maker="")
-        assert False, "Empty maker should be rejected."
-    except ValueError:
-        pass
-
-    _log("Invalid maker correctly rejected")
 
 
-def test_invalid_product_is_rejected():
-    try:
+def test_invalid_product():
+    with pytest.raises(ValueError):
         Model(product="")
-        assert False, "Empty product should be rejected."
-    except ValueError:
-        pass
-
-    _log("Invalid product correctly rejected")
 
 
-def test_json_scale_source_is_available():
-    """
-    Verify that the serializer will have access to the project scale.
+def test_invalid_source():
+    with pytest.raises(ValueError):
+        Model(source="")
 
-    Persistence will later explicitly serialize Model.SCALE as
-    the JSON 'scale' property.
-    """
 
-    model = Model(
-        maker="Athearn",
-        product="Genesis Big Boy",
-    )
+def test_invalid_price():
+    with pytest.raises(ValueError):
+        Model(price=-1)
 
-    assert model.SCALE == "HO"
 
-    _log(
-        f"JSON scale source validated: "
-        f'"scale": "{model.SCALE}"'
-    )
+def test_invalid_acquired():
+    with pytest.raises(TypeError):
+        Model(acquired="2026-08-01")
 
+
+def test_invalid_note():
+    with pytest.raises(TypeError):
+        Model(note=123)
