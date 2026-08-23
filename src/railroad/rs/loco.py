@@ -2,19 +2,13 @@
 # railroad/rs/loco.py
 #
 
-"""
-Loco domain entity.
-
-A Loco represents a physical locomotive in the railroad's
-digital model.
-"""
+"""Loco domain entity."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
 
-from railroad.domain.asset import Asset
 from railroad.domain.control import Control
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
@@ -31,80 +25,58 @@ class LocoType(Enum):
 
 @dataclass
 class Loco:
-    """
-    Digital representation of a physical locomotive.
-
-    A locomotive is composed of shared domain objects describing
-    its identity, prototype, physical model, control, and asset
-    information.
-    """
+    """Digital representation of a physical locomotive."""
 
     identity: Identity
     loco_type: LocoType
     prototype: Prototype
     model: Model
     control: Control
-    asset: Asset
 
     def __post_init__(self) -> None:
         """Validate locomotive invariants."""
-
         if not isinstance(self.identity, Identity):
             raise TypeError("identity must be an Identity.")
-
         if not isinstance(self.loco_type, LocoType):
             raise TypeError("loco_type must be a LocoType.")
-
         if not isinstance(self.prototype, Prototype):
             raise TypeError("prototype must be a Prototype.")
-
         if not isinstance(self.model, Model):
             raise TypeError("model must be a Model.")
-
         if not isinstance(self.control, Control):
             raise TypeError("control must be an Control.")
-
-        if not isinstance(self.asset, Asset):
-            raise TypeError("asset must be an Asset.")
 
     @property
     def id(self) -> str:
         """Return the persistent digital identity."""
-
         return self.identity.id
 
     @property
     def entity_type(self) -> EntityType:
         """Return the locomotive entity type."""
-
         return self.identity.entity_type
 
     @property
     def railroad(self) -> str:
         """Return the represented railroad."""
-
         return self.identity.railroad
 
     @property
     def reporting_mark(self) -> str:
         """Return the railroad reporting mark."""
-
         return self.identity.reporting_mark
 
     @property
     def road_number(self) -> str:
         """Return the locomotive road number."""
-
         return self.identity.road_number
 
     @property
     def prototype_model(self) -> str:
         """Return the prototype model or wheel arrangement."""
-
         return self.prototype.model
 
     @property
     def nickname(self) -> str | None:
         """Return the prototype nickname."""
-
         return self.prototype.nickname
