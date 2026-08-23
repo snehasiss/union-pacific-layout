@@ -37,9 +37,12 @@ def test_owned_asset():
 @pytest.mark.parametrize(
     "status",
     [
-        AssetStatus.OWNED,
+        AssetStatus.TARGET,
         AssetStatus.INTENT,
-        AssetStatus.RETIRED,
+        AssetStatus.SHIPPED,
+        AssetStatus.PARKED,
+        AssetStatus.OWNED,
+
     ],
 )
 def test_valid_statuses(status):

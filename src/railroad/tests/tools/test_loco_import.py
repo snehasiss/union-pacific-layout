@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-# tests/tools/test_loco_import.py
+# railroad/tests/tools/test_loco_import.py
 #
+
+from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
@@ -12,6 +14,7 @@ from railroad.domain.model import Model
 from railroad.domain.prototype import Purpose
 from railroad.rs.loco_type import LocoType
 from railroad.tools.loco_import import LocoImport
+from railroad.domain.identity import IdGenerator
 
 
 IMPORT_DIRECTORY = (
@@ -20,6 +23,10 @@ IMPORT_DIRECTORY = (
     / "imports"
 )
 
+@pytest.fixture(autouse=True)
+def reset_id_generator():
+    IdGenerator.reset()
+    
 
 def test_import_steam_file():
     locos = LocoImport.import_file(
@@ -30,7 +37,7 @@ def test_import_steam_file():
 
     loco = locos[0]
 
-    assert loco.id == "L301"
+    assert loco.id == "L001"
     assert loco.loco_type == LocoType.STEAM
     assert loco.railroad == "union pacific"
     assert loco.reporting_mark == "UP"
@@ -41,7 +48,7 @@ def test_import_steam_file():
     assert loco.prototype.nickname == "big boy"
     assert loco.prototype.purpose == Purpose.FREIGHT
 
-    assert loco.model.manufacturer == "Athearn"
+    assert loco.model.maker == "Athearn"
     assert loco.model.product is None
     # assert loco.model.scale == "HO"
 
@@ -96,7 +103,7 @@ def test_import_diesel_file_1():
     assert loco.prototype.builder == "Plymouth"
     assert loco.prototype.model == "35T switcher"
 
-    assert loco.model.manufacturer == "Broadway Limited"
+    assert loco.model.maker == "Broadway Limited"
     assert loco.model.product is None
     # assert loco.model.scale == "HO"
 

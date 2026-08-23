@@ -41,7 +41,7 @@ def create_car() -> Car:
     )
 
     model = Model(
-        manufacturer="Athearn",
+        maker="Athearn",
         product="Genesis Covered Hopper",
     )
 

@@ -36,7 +36,7 @@ def make_prototype() -> Prototype:
 
 def make_model() -> Model:
     return Model(
-        manufacturer="Athearn",
+        maker="Athearn",
         product="Genesis Big Boy",
     )
 
@@ -78,7 +78,7 @@ def test_loco_creation():
     assert isinstance(loco, Loco)
     assert loco.loco_type == LocoType.STEAM
     assert loco.prototype.model == "4-8-8-4"
-    assert loco.model.manufacturer == "Athearn"
+    assert loco.model.maker == "Athearn"
     assert loco.control.type == ControlType.DCC
     assert loco.asset.status == AssetStatus.OWNED
 

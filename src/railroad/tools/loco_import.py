@@ -19,7 +19,7 @@ from railroad.dao.loco import LocoDAO
 from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model
+from railroad.domain.model import Model, ModelStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco
 from railroad.rs.loco_type import LocoType
@@ -113,7 +113,7 @@ class LocoImport:
         )
 
         model = Model(
-            manufacturer=cls._optional_string(row["make"]),
+            maker=cls._optional_string(row["make"]),
             product=None,
         )
 

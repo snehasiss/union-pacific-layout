@@ -109,7 +109,7 @@ def create_loco(
     )
 
     model = Model(
-        manufacturer="Athearn",
+        maker="Athearn",
         # SCALE="HO",
         product="Genesis Big Boy",
     )
@@ -161,7 +161,7 @@ def test_save_and_get(dao: LocoDAO) -> None:
     assert result.prototype.nickname == "Big Boy"
     assert result.prototype.purpose == Purpose.FREIGHT
 
-    assert result.model.manufacturer == "Athearn"
+    assert result.model.maker == "Athearn"
     #assert result.model.SCALE == "HO"
     assert result.model.product == "Genesis Big Boy"
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#
 # railroad/tests/dao/test_mow.py
 #
 
@@ -20,7 +19,7 @@ from railroad.dao.mow import MowDAO
 from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model
+from railroad.domain.model import Model, ModelStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.mow import MOW
 from railroad.rs.mow_type import MOWType
@@ -87,9 +86,10 @@ def create_mow(
     )
 
     model = Model(
-        manufacturer="Athearn",
+        maker="Athearn",
         # scale="HO",
         product="MOW Spreader",
+        status=ModelStatus.ACTIVE,
     )
 
     control = Control(
@@ -103,6 +103,7 @@ def create_mow(
 
     asset = Asset(
         status=status,
+        #status=AssetStatus.OWNED,
         source="Model Train Stuff",
         price=79.99,
         acquired=acquired,
@@ -158,9 +159,10 @@ def test_save_writes_expected_json(tmp_path: Path) -> None:
     }
 
     assert payload["model"] == {
-        "manufacturer": "Athearn",
+        "maker": "Athearn",
         # "scale": "HO",
         "product": "MOW Spreader",
+        "status": "active",
     }
 
     assert payload["control"] == {
@@ -205,9 +207,10 @@ def test_get_reconstructs_mow(tmp_path: Path) -> None:
     assert mow.prototype.nickname is None
     assert mow.prototype.purpose == Purpose.FREIGHT
 
-    assert mow.model.manufacturer == "Athearn"
+    assert mow.model.maker == "Athearn"
     # assert mow.model.scale == "HO"
     assert mow.model.product == "MOW Spreader"
+    assert mow.model.status == ModelStatus.ACTIVE
 
     assert mow.control.type == ControlType.DC
     assert mow.control.decoder is None
@@ -294,7 +297,7 @@ def test_save_replaces_existing_mow(tmp_path: Path) -> None:
 
     replacement = create_mow()
     replacement.model = Model(
-        manufacturer="Bachmann",
+        maker="Bachmann",
         # scale="HO",
         product="MOW Equipment",
     )
@@ -303,7 +306,7 @@ def test_save_replaces_existing_mow(tmp_path: Path) -> None:
 
     mow = dao.get("M001")
 
-    assert mow.model.manufacturer == "Bachmann"
+    assert mow.model.maker == "Bachmann"
     # assert mow.model.scale == "HO"
     assert mow.model.product == "MOW Equipment"
 

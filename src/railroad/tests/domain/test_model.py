@@ -34,37 +34,37 @@ def test_scale_is_class_constant():
     _log("SCALE correctly excluded from dataclass instance fields")
 
 
-def test_model_can_be_created_without_manufacturer_or_product():
+def test_model_can_be_created_without_maker_or_product():
     model = Model()
 
-    assert model.manufacturer is None
+    assert model.maker is None
     assert model.product is None
 
-    _log("Model created with no manufacturer/product")
+    _log("Model created with no maker/product")
 
 
-def test_manufacturer_and_product_can_be_assigned_later():
+def test_maker_and_product_can_be_assigned_later():
     model = Model()
 
-    model.manufacturer = "Athearn"
+    model.maker = "Athearn"
     model.product = "Genesis Big Boy"
 
-    assert model.manufacturer == "Athearn"
+    assert model.maker == "Athearn"
     assert model.product == "Genesis Big Boy"
 
     _log(
         f"Late assignment validated: "
-        f"{model.manufacturer} / {model.product}"
+        f"{model.maker} / {model.product}"
     )
 
 
-def test_manufacturer_can_be_assigned_at_creation():
+def test_maker_can_be_assigned_at_creation():
     model = Model(
-        manufacturer="Broadway Limited Imports",
+        maker="Broadway Limited Imports",
         product="4801",
     )
 
-    assert model.manufacturer == "Broadway Limited Imports"
+    assert model.maker == "Broadway Limited Imports"
     assert model.product == "4801"
 
     _log(f"Model created with source data: {model}")
@@ -84,14 +84,14 @@ def test_scale_cannot_be_changed():
     _log("SCALE immutability validated")
 
 
-def test_invalid_manufacturer_is_rejected():
+def test_invalid_maker_is_rejected():
     try:
-        Model(manufacturer="")
-        assert False, "Empty manufacturer should be rejected."
+        Model(maker="")
+        assert False, "Empty maker should be rejected."
     except ValueError:
         pass
 
-    _log("Invalid manufacturer correctly rejected")
+    _log("Invalid maker correctly rejected")
 
 
 def test_invalid_product_is_rejected():
@@ -113,7 +113,7 @@ def test_json_scale_source_is_available():
     """
 
     model = Model(
-        manufacturer="Athearn",
+        maker="Athearn",
         product="Genesis Big Boy",
     )
 

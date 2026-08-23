@@ -99,7 +99,7 @@ H10-44
 
 The locomotive type remains associated with the prototype/domain definition rather than being treated as a property of the physical HO model.
 
---
+---
 
 ## 3.3 Model
 `Model` describes the actual physical HO-scale model in the collection.
@@ -149,32 +149,43 @@ This provides a place for model-specific observations without adding additional 
 ---
 
 ## 3.4 ModelState
+
 `ModelState` represents the current state of the physical model.
 
 The values are:
 
 Value	Meaning
 
---
+---
 
-ACTIVE	Model is available for normal operation and is on the layout/roster duty.
+`ACTIVE`	Model is available for normal operation and is on the layout/roster duty.
 
---
+---
 
-OFFLINE	Model is temporarily unavailable for operation, for example because of maintenance, cleaning, decoder installation/programming, repair, or other work.
+`OFFLINE`	Model is temporarily unavailable for operation, for example because of maintenance, cleaning, decoder installation/programming, repair, or other work.
 
---
+---
 
-STORED	Model is physically owned but kept in storage, such as a box, cabinet, shelf, or other storage location, and is not currently in service.
+`STORED`	Model is physically owned but kept in storage, such as a box, cabinet, shelf, or other storage location, and is not currently in service.
 
---
+---
 
-RETIRED	Model has permanently been removed from active service/roster, whether retained as a spare, discarded, or otherwise no longer intended for operation.
+`RETIRED`	Model has permanently been removed from active service/roster, whether retained as a spare, discarded, or otherwise no longer intended for operation.
 
---
+---
 
+The distinction between `ModelState` and `AssetStatus` is intentional.
 
+For example:
+```
+asset.status = OWNED
+model.state  = OFFLINE
+```
+means that the locomotive is owned but currently unavailable for operation.
 
+---
+
+### 3.5 Control
 
 
 

@@ -42,7 +42,7 @@ def create_loco(loco_id: str = "L001") -> Loco:
     )
 
     model = Model(
-        manufacturer="Athearn",
+        maker="Athearn",
         product="Genesis Big Boy",
     )
 

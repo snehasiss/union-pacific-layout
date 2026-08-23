@@ -18,7 +18,7 @@ from railroad.dao.iostream import IOStream
 from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model
+from railroad.domain.model import Model, ModelStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.mow import MOW
 from railroad.rs.mow_type import MOWType
@@ -177,9 +177,10 @@ class MowDAO:
                 "purpose": mow.prototype.purpose.value,
             },
             "model": {
-                "manufacturer": mow.model.manufacturer,
+                "maker": mow.model.maker,
             #    "scale": mow.model.scale,
                 "product": mow.model.product,
+                "status": mow.model.status.value,
             },
             "control": {
                 "type": mow.control.type.value,
@@ -232,9 +233,10 @@ class MowDAO:
         )
 
         model = Model(
-            manufacturer=model_data.get("manufacturer"),
+            maker=model_data.get("maker"),
         #    scale=model_data.get("scale"),
             product=model_data.get("product"),
+            status=ModelStatus(model_data["status"]),
         )
 
         control = Control(

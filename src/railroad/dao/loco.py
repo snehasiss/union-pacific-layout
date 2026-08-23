@@ -17,7 +17,7 @@ from railroad.dao.iostream import IOStream
 from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model
+from railroad.domain.model import Model, ModelStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco
 from railroad.rs.loco_type import LocoType
@@ -178,9 +178,10 @@ class LocoDAO:
                 "purpose": loco.prototype.purpose.value,
             },
             "model": {
-                "manufacturer": loco.model.manufacturer,
+                "maker": loco.model.maker,
                 "scale": loco.model.SCALE,
                 "product": loco.model.product,
+                "status": loco.model.status.value,
             },
             "control": {
                 "type": loco.control.type.value,
@@ -233,9 +234,10 @@ class LocoDAO:
         )
 
         model = Model(
-            manufacturer=model_data.get("manufacturer"),
+            maker=model_data.get("maker"),
             # SCALE=model_data.get("scale"),
             product=model_data.get("product"),
+            status=ModelStatus(model_data["status"]),
         )
 
         control = Control(

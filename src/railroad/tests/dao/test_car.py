@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#
 # railroad/tests/dao/test_car.py
 #
 
@@ -20,7 +19,7 @@ from railroad.dao.car import CarDAO
 from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model
+from railroad.domain.model import Model, ModelStatus
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.car import Car
 from railroad.rs.car_type import CarType
@@ -87,8 +86,9 @@ def create_car(
     )
 
     model = Model(
-        manufacturer="Athearn",
+        maker="Athearn",
         product="Genesis Hopper",
+        status=ModelStatus.ACTIVE,
     )
 
     control = Control(
@@ -155,8 +155,9 @@ def test_save_writes_expected_json(tmp_path: Path) -> None:
     }
 
     assert payload["model"] == {
-        "manufacturer": "Athearn",
+        "maker": "Athearn",
         "product": "Genesis Hopper",
+        "status": "active",
     }
 
     assert payload["control"] == {
@@ -202,8 +203,9 @@ def test_get_reconstructs_car(tmp_path: Path) -> None:
     assert car.prototype.nickname is None
     assert car.prototype.purpose == Purpose.FREIGHT
 
-    assert car.model.manufacturer == "Athearn"
+    assert car.model.maker == "Athearn"
     assert car.model.product == "Genesis Hopper"
+    assert car.model.status == ModelStatus.ACTIVE
 
     assert car.control.type == ControlType.DCC
     assert car.control.decoder == "LokSound"
@@ -290,16 +292,18 @@ def test_save_replaces_existing_car(tmp_path: Path) -> None:
 
     replacement = create_car()
     replacement.model = Model(
-        manufacturer="Bachmann",
+        maker="Bachmann",
         product="Hopper",
+        status=ModelStatus.ACTIVE,
     )
 
     dao.save(replacement)
 
     car = dao.get("C001")
 
-    assert car.model.manufacturer == "Bachmann"
+    assert car.model.maker == "Bachmann"
     assert car.model.product == "Hopper"
+    assert car.model.status == ModelStatus.ACTIVE
 
 
 def test_save_rejects_wrong_entity_type(tmp_path: Path) -> None:

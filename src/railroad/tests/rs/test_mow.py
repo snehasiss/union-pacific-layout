@@ -41,7 +41,7 @@ def create_mow() -> MOW:
     )
 
     model = Model(
-        manufacturer="Kibri",
+        maker="Kibri",
         product="MOW Tamper",
     )
 

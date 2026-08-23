@@ -16,9 +16,11 @@ from enum import Enum
 class AssetStatus(Enum):
     """Lifecycle status of a physical railroad model asset."""
 
-    OWNED = "owned"
+    TARGET = "target"
     INTENT = "intent"
-    RETIRED = "retired"
+    SHIPPED = "shipped"
+    PARKED = "parked"
+    OWNED = "owned"
 
 
 @dataclass

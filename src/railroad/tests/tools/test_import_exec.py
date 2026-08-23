@@ -1,12 +1,21 @@
 #!/usr/bin/env python3
-# tests/tools/test_import_exec.py
+# railroad/tests/tools/test_import_exec.py
 #
+
+from __future__ import annotations
 
 import json
 from pathlib import Path
 
+import pytest
+from railroad.domain.identity import IdGenerator
+
 from railroad.config import Config
 from railroad.tools.import_exec import import_locos
+
+@pytest.fixture(autouse=True)
+def reset_id_generator():
+    IdGenerator._next_numbers.clear()
 
 
 def create_config(tmp_path: Path) -> Config:
@@ -46,6 +55,10 @@ def create_config(tmp_path: Path) -> Config:
 
     return Config(config_file)
 
+@pytest.fixture(autouse=True)
+def reset_id_generator():
+    IdGenerator.reset()
+
 
 def test_import_locos_discovers_csv_files(tmp_path):
     """All CSV files in the import directory are processed."""
@@ -56,16 +69,16 @@ def test_import_locos_discovers_csv_files(tmp_path):
     import_directory.mkdir()
 
     (import_directory / "steam.csv").write_text(
-        """purpose,locotype,builder,loco_model,nickname,railroad,reporting_mark,road_number,make,dcc,sound,light,smoke,decoder,address,status,store,price,dated
-            freight,steam,ALCo,4-8-8-4,Big Boy,Union Pacific,UP,4014,Athearn,yes,yes,yes,no,tsunami,3,owned,Model Train Stuff,655,2020-11-20
-        """,
-        encoding="utf-8",
+    """purpose,locotype,builder,loco_model,nickname,railroad,reporting_mark,road_number,make,dcc,sound,light,smoke,decoder,address,status,store,price,dated
+freight,steam,ALCo,4-8-8-4,Big Boy,Union Pacific,UP,4014,Athearn,yes,yes,yes,no,tsunami,3,owned,Model Train Stuff,655,2020-11-20
+""",
+    encoding="utf-8",
     )
-
+    
     (import_directory / "diesel.csv").write_text(
         """purpose,locotype,builder,loco_model,nickname,railroad,reporting_mark,road_number,make,dcc,sound,light,smoke,decoder,address,status,store,price,dated
-            switcher,diesel,Plymouth,35T switcher,,Union Pacific,UP,6560,Broadway Limited,yes,no,yes,no,dcc,3,owned,FactoryDirect,100,2021-06-19
-        """,
+switcher,diesel,Plymouth,35T switcher,,Union Pacific,UP,6560,Broadway Limited,yes,no,yes,no,dcc,3,owned,FactoryDirect,100,2021-06-19
+""",
         encoding="utf-8",
     )
 
@@ -85,6 +98,10 @@ def test_import_locos_discovers_csv_files(tmp_path):
 def test_import_locos_writes_expected_json(tmp_path):
     """Imported locomotives are persisted through LocoDAO."""
 
+#    @pytest.fixture(autouse=True)
+#    def reset_id_generator():
+#        IdGenerator.reset()
+
     config = create_config(tmp_path)
 
     import_directory = tmp_path / "imports"
@@ -102,6 +119,12 @@ freight,steam,ALCo,4-8-8-4,Big Boy,Union Pacific,up,4014,Athearn,yes,yes,yes,no,
         import_directory=import_directory,
     )
 
+    # temp debug begins
+    # print("count:", count)
+    # print("data:", config.data)
+    # print("loco data:", config.data_config("loco").path)
+    # print("files:", list(config.data_config("loco").path.glob("*")))
+    # temp debug ends
     assert count == 1
 
     path = config.data / "loco" / "L001.json"

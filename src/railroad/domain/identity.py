@@ -65,6 +65,14 @@ class IdGenerator:
         return entity_id
 
     @classmethod
+    def reset(cls) -> None:
+        """Reset generated ID state.
+
+        Intended primarily for test isolation.
+        """
+        cls._next_numbers.clear()
+
+    @classmethod
     def observe(cls, entity_id: str) -> None:
         """
         Register an existing entity ID.
