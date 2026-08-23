@@ -11,7 +11,6 @@ from pathlib import Path
 
 from railroad.config import Config
 from railroad.dao.iostream import IOStream
-from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model, ModelStatus
@@ -76,14 +75,14 @@ class LocoDAO:
     def _parse_id(entity_id: str) -> tuple[str, int]:
         if not isinstance(entity_id, str):
             raise TypeError("entity_id must be a string.")
-        if len(entity_id) < 4:
+        if len(entity_id) != 4:
             raise ValueError(f"Invalid entity ID '{entity_id}'.")
         prefix = entity_id[0]
         try:
             number = int(entity_id[1:])
         except ValueError as exc:
             raise ValueError(f"Invalid entity ID '{entity_id}'.") from exc
-        if len(entity_id[1:]) != 3 or number < 1 or number > 999:
+        if number < 1 or number > 999:
             raise ValueError(f"Invalid entity ID '{entity_id}'.")
         return prefix, number
 
@@ -93,9 +92,8 @@ class LocoDAO:
             "identity": {"id": loco.identity.id, "entity_type": loco.identity.entity_type.value, "railroad": loco.identity.railroad, "reporting_mark": loco.identity.reporting_mark, "road_number": loco.identity.road_number},
             "loco_type": loco.loco_type.value,
             "prototype": {"builder": loco.prototype.builder, "model": loco.prototype.model, "nickname": loco.prototype.nickname, "purpose": loco.prototype.purpose.value},
-            "model": {"maker": loco.model.maker, "scale": loco.model.SCALE, "product": loco.model.product, "status": loco.model.status.value},
+            "model": {"maker": loco.model.maker, "scale": loco.model.SCALE, "product": loco.model.product, "status": loco.model.status.value, "source": loco.model.source, "price": loco.model.price, "acquired": loco.model.acquired.isoformat() if loco.model.acquired is not None else None, "note": loco.model.note},
             "control": {"type": loco.control.type.value, "light": loco.control.light, "sound": loco.control.sound, "smoke": loco.control.smoke, "decoder": loco.control.decoder, "address": loco.control.address},
-            "asset": {"status": loco.asset.status.value, "source": loco.asset.source, "price": loco.asset.price, "acquired": loco.asset.acquired.isoformat() if loco.asset.acquired is not None else None},
         }
 
     @staticmethod
@@ -104,13 +102,11 @@ class LocoDAO:
         prototype_data = payload["prototype"]
         model_data = payload["model"]
         control_data = payload["control"]
-        asset_data = payload["asset"]
-        acquired = asset_data.get("acquired")
-        if acquired is not None:
-            acquired = date.fromisoformat(acquired)
+        model_acquired = model_data.get("acquired")
+        if model_acquired is not None:
+            model_acquired = date.fromisoformat(model_acquired)
         identity = Identity.from_existing(id=identity_data["id"], entity_type=EntityType(identity_data["entity_type"]), railroad=identity_data["railroad"], reporting_mark=identity_data["reporting_mark"], road_number=identity_data["road_number"])
         prototype = Prototype(builder=prototype_data["builder"], model=prototype_data["model"], nickname=prototype_data.get("nickname"), purpose=Purpose(prototype_data["purpose"]))
-        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), status=ModelStatus(model_data["status"]))
+        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), status=ModelStatus(model_data.get("status", ModelStatus.STORED.value)), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
         control = Control(type=ControlType(control_data["type"]), light=control_data["light"], sound=control_data["sound"], smoke=control_data["smoke"], decoder=control_data.get("decoder"), address=control_data.get("address"))
-        asset = Asset(status=AssetStatus(asset_data["status"]), source=asset_data.get("source"), price=asset_data.get("price"), acquired=acquired)
-        return Loco(identity=identity, loco_type=LocoType(payload["loco_type"]), prototype=prototype, model=model, control=control, asset=asset)
+        return Loco(identity=identity, loco_type=LocoType(payload["loco_type"]), prototype=prototype, model=model, control=control)
