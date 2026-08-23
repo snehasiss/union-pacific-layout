@@ -2,9 +2,9 @@
 # railroad/tests/rs/test_mow.py
 
 from __future__ import annotations
-from datetime import date
+
 import pytest
-from railroad.domain.asset import Asset, AssetStatus
+
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
@@ -18,7 +18,6 @@ def create_mow() -> MOW:
         prototype=Prototype(builder="Plasser & Theurer", model="Tamper", nickname=None, purpose=Purpose.FREIGHT),
         model=Model(maker="Kibri", product="MOW Tamper"),
         control=Control(type=ControlType.DC, light=True, sound=False, smoke=False),
-        asset=Asset(status=AssetStatus.OWNED, source="Model Train Stuff", price=89.99, acquired=date(2026, 1, 1)),
         mow_type=MOWType.TAMPER,
         self_propelled=True,
     )
@@ -34,7 +33,6 @@ def test_mow_components():
     assert isinstance(mow.prototype, Prototype)
     assert isinstance(mow.model, Model)
     assert isinstance(mow.control, Control)
-    assert isinstance(mow.asset, Asset)
     assert isinstance(mow.mow_type, MOWType)
 
 
@@ -55,14 +53,6 @@ def test_mow_control():
     assert mow.control.address == 0
 
 
-def test_mow_asset():
-    mow = create_mow()
-    assert mow.asset.status == AssetStatus.OWNED
-    assert mow.asset.source == "Model Train Stuff"
-    assert mow.asset.price == 89.99
-    assert mow.asset.acquired == date(2026, 1, 1)
-
-
 def test_mow_type():
     mow = create_mow()
     assert mow.mow_type == MOWType.TAMPER
@@ -72,40 +62,34 @@ def test_mow_type():
 def test_mow_rejects_invalid_identity():
     mow = create_mow()
     with pytest.raises(TypeError):
-        MOW("invalid", mow.prototype, mow.model, mow.control, mow.asset, mow.mow_type, mow.self_propelled)
+        MOW("invalid", mow.prototype, mow.model, mow.control, mow.mow_type, mow.self_propelled)
 
 
 def test_mow_rejects_invalid_prototype():
     mow = create_mow()
     with pytest.raises(TypeError):
-        MOW(mow.identity, "invalid", mow.model, mow.control, mow.asset, mow.mow_type, mow.self_propelled)
+        MOW(mow.identity, "invalid", mow.model, mow.control, mow.mow_type, mow.self_propelled)
 
 
 def test_mow_rejects_invalid_model():
     mow = create_mow()
     with pytest.raises(TypeError):
-        MOW(mow.identity, mow.prototype, "invalid", mow.control, mow.asset, mow.mow_type, mow.self_propelled)
+        MOW(mow.identity, mow.prototype, "invalid", mow.control, mow.mow_type, mow.self_propelled)
 
 
 def test_mow_rejects_invalid_control():
     mow = create_mow()
     with pytest.raises(TypeError):
-        MOW(mow.identity, mow.prototype, mow.model, "invalid", mow.asset, mow.mow_type, mow.self_propelled)
-
-
-def test_mow_rejects_invalid_asset():
-    mow = create_mow()
-    with pytest.raises(TypeError):
-        MOW(mow.identity, mow.prototype, mow.model, mow.control, "invalid", mow.mow_type, mow.self_propelled)
+        MOW(mow.identity, mow.prototype, mow.model, "invalid", mow.mow_type, mow.self_propelled)
 
 
 def test_mow_rejects_invalid_mow_type():
     mow = create_mow()
     with pytest.raises(TypeError):
-        MOW(mow.identity, mow.prototype, mow.model, mow.control, mow.asset, "tamper", mow.self_propelled)
+        MOW(mow.identity, mow.prototype, mow.model, mow.control, "tamper", mow.self_propelled)
 
 
 def test_mow_rejects_invalid_self_propelled():
     mow = create_mow()
     with pytest.raises(TypeError):
-        MOW(mow.identity, mow.prototype, mow.model, mow.control, mow.asset, mow.mow_type, "yes")
+        MOW(mow.identity, mow.prototype, mow.model, mow.control, mow.mow_type, "yes")
