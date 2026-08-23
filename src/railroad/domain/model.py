@@ -9,26 +9,21 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
 from enum import Enum
-from typing import ClassVar
 
 
-class ModelStatus(Enum):
-    """Lifecycle of a physical railroad model.
-
-    SPOTTED and INTENT describe acquisition activity before a model is
-    obtained. SHIPPED means the model is in transit. STORED means the
-    model has arrived and is in the collection, whether in its original
-    box or stored elsewhere. ACTIVE and REPAIR describe post-acquisition
-    operation. RETIRED removes the model from the active roster.
-    """
+class Status(Enum):
+    """Lifecycle status of a physical scaled model."""
 
     INTENT = "intent"
     SPOTTED = "spotted"
+    BOUGHT = "bought"
     SHIPPED = "shipped"
+    PARKED = "parked"
     STORED = "stored"
     ACTIVE = "active"
     REPAIR = "repair"
     RETIRED = "retired"
+    MISSED = "missed"
 
 
 @dataclass
@@ -36,9 +31,9 @@ class Model:
     """Describe the physical scaled model of a railroad prototype."""
 
     maker: str | None = None
-    SCALE: ClassVar[str] = "HO"
     product: str | None = None
-    status: ModelStatus = ModelStatus.STORED
+    scale: str = "HO"
+    status: Status = Status.STORED
     source: str | None = None
     price: float | None = None
     acquired: date | None = None
@@ -54,8 +49,11 @@ class Model:
             if not isinstance(self.product, str) or not self.product.strip():
                 raise ValueError("product must be a non-empty string when provided.")
 
-        if not isinstance(self.status, ModelStatus):
-            raise TypeError("status must be a ModelStatus.")
+        if not isinstance(self.scale, str) or not self.scale.strip():
+            raise ValueError("scale must be a non-empty string.")
+
+        if not isinstance(self.status, Status):
+            raise TypeError("status must be a Status.")
 
         if self.source is not None:
             if not isinstance(self.source, str) or not self.source.strip():
