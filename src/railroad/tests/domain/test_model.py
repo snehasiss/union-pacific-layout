@@ -7,23 +7,18 @@ from dataclasses import fields
 
 import pytest
 
-from railroad.domain.model import Model, ModelStatus
+from railroad.domain.model import Model, Status
 
 
-def test_model_scale_is_ho():
+def test_model_default_scale_is_ho():
     model = Model()
-    assert Model.SCALE == "HO"
-    assert model.SCALE == "HO"
-
-
-def test_scale_is_class_constant():
-    field_names = {field.name for field in fields(Model())}
-    assert "SCALE" not in field_names
+    assert model.scale == "HO"
+    assert "scale" in {field.name for field in fields(Model)}
 
 
 def test_default_model_is_stored():
     model = Model()
-    assert model.status == ModelStatus.STORED
+    assert model.status == Status.STORED
     assert model.source is None
     assert model.price is None
     assert model.acquired is None
@@ -35,7 +30,8 @@ def test_model_can_be_created_with_complete_data():
     model = Model(
         maker="Broadway Limited Imports",
         product="4801",
-        status=ModelStatus.STORED,
+        scale="OO",
+        status=Status.STORED,
         source="Broadway Limited Imports",
         price=599.99,
         acquired=acquired,
@@ -44,25 +40,15 @@ def test_model_can_be_created_with_complete_data():
 
     assert model.maker == "Broadway Limited Imports"
     assert model.product == "4801"
-    assert model.status == ModelStatus.STORED
+    assert model.scale == "OO"
+    assert model.status == Status.STORED
     assert model.source == "Broadway Limited Imports"
     assert model.price == 599.99
     assert model.acquired == acquired
     assert model.note == "Prototype-correct model"
 
 
-@pytest.mark.parametrize(
-    "status",
-    [
-        ModelStatus.INTENT,
-        ModelStatus.SPOTTED,
-        ModelStatus.SHIPPED,
-        ModelStatus.STORED,
-        ModelStatus.ACTIVE,
-        ModelStatus.REPAIR,
-        ModelStatus.RETIRED,
-    ],
-)
+@pytest.mark.parametrize("status", list(Status))
 def test_valid_model_statuses(status):
     assert Model(status=status).status == status
 
@@ -70,6 +56,11 @@ def test_valid_model_statuses(status):
 def test_invalid_status():
     with pytest.raises(TypeError):
         Model(status="stored")
+
+
+def test_invalid_scale():
+    with pytest.raises(ValueError):
+        Model(scale="")
 
 
 def test_invalid_maker():
