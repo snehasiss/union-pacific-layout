@@ -12,13 +12,21 @@ digital model.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import Enum
 
 from railroad.domain.asset import Asset
 from railroad.domain.control import Control
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
 from railroad.domain.prototype import Prototype
-from railroad.rs.loco_type import LocoType
+
+
+class LocoType(Enum):
+    """Classification of locomotive types."""
+
+    STEAM = "steam"
+    DIESEL = "diesel"
+    TURBINE = "turbine"
 
 
 @dataclass
@@ -54,7 +62,7 @@ class Loco:
             raise TypeError("model must be a Model.")
 
         if not isinstance(self.control, Control):
-            raise TypeError("control must be a Control.")
+            raise TypeError("control must be an Control.")
 
         if not isinstance(self.asset, Asset):
             raise TypeError("asset must be an Asset.")
@@ -100,4 +108,3 @@ class Loco:
         """Return the prototype nickname."""
 
         return self.prototype.nickname
-
