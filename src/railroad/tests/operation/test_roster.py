@@ -43,4 +43,4 @@ def test_search_can_match_nested_model_attributes():
         loco("L001", "UP", "4014", Status.ACTIVE),
         loco("L002", "UP", "844", Status.REPAIR),
     ])
-    assert roster.search(model.status=Status.ACTIVE) == ["L001"]
+    assert roster.search(**{"model.status": Status.ACTIVE}) == ["L001"]
