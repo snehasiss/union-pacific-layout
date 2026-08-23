@@ -5,7 +5,7 @@ import pytest
 
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model, ModelStatus
+from railroad.domain.model import Model, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco, LocoType
 
@@ -19,7 +19,7 @@ def make_prototype() -> Prototype:
 
 
 def make_model() -> Model:
-    return Model(maker="Athearn", product="Genesis Big Boy", status=ModelStatus.STORED, source="Model Train Stuff", price=599.99)
+    return Model(maker="Athearn", product="Genesis Big Boy", status=Status.STORED, source="Model Train Stuff", price=599.99)
 
 
 def make_control() -> Control:
@@ -31,13 +31,7 @@ def make_loco() -> Loco:
 
 
 def test_loco_creation():
-    loco = make_loco()
-    assert isinstance(loco, Loco)
-    assert loco.loco_type == LocoType.STEAM
-    assert loco.prototype.model == "4-8-8-4"
-    assert loco.model.maker == "Athearn"
-    assert loco.model.status == ModelStatus.STORED
-    assert loco.control.type == ControlType.DCC
+    assert isinstance(make_loco(), Loco)
 
 
 def test_loco_identity_properties():
@@ -53,6 +47,28 @@ def test_loco_prototype_properties():
     loco = make_loco()
     assert loco.prototype_model == "4-8-8-4"
     assert loco.nickname == "Big Boy"
+
+
+def test_loco_components():
+    loco = make_loco()
+    assert isinstance(loco.identity, Identity)
+    assert isinstance(loco.prototype, Prototype)
+    assert isinstance(loco.model, Model)
+    assert isinstance(loco.control, Control)
+
+
+def test_loco_control():
+    loco = make_loco()
+    assert loco.control.type == ControlType.DCC
+    assert loco.control.decoder == "Paragon4"
+    assert loco.control.address == 4014
+
+
+def test_loco_model():
+    loco = make_loco()
+    assert loco.model.maker == "Athearn"
+    assert loco.model.product == "Genesis Big Boy"
+    assert loco.model.status == Status.STORED
 
 
 def test_loco_accepts_diesel():
