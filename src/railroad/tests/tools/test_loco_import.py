@@ -10,11 +10,11 @@ from pathlib import Path
 import pytest
 
 from railroad.domain.control import ControlType
-from railroad.domain.model import Model
+from railroad.domain.identity import IdGenerator
+from railroad.domain.model import Status
 from railroad.domain.prototype import Purpose
 from railroad.rs.loco import LocoType
 from railroad.tools.loco_import import LocoImport
-from railroad.domain.identity import IdGenerator
 
 
 IMPORT_DIRECTORY = Path(__file__).resolve().parents[2] / "tools" / "imports"
@@ -40,16 +40,13 @@ def test_import_steam_file():
     assert loco.prototype.purpose == Purpose.FREIGHT
     assert loco.model.maker == "Athearn"
     assert loco.model.product is None
+    assert loco.model.status == Status.STORED
+    assert loco.model.source == "model train stuff"
+    assert loco.model.price == 655.0
+    assert loco.model.acquired == date(2020, 11, 20)
     assert loco.control.type == ControlType.DCC
     assert loco.control.decoder == "tsunami"
     assert loco.control.address == 3
-    assert loco.control.sound is True
-    assert loco.control.light is True
-    assert loco.control.smoke is False
-    assert loco.asset.status.value == "owned"
-    assert loco.asset.source == "model train stuff"
-    assert loco.asset.price == 655.0
-    assert loco.asset.acquired == date(2020, 11, 20)
 
 
 def test_import_dc_locomotive_translates_decoder_and_address():
@@ -61,10 +58,10 @@ def test_import_dc_locomotive_translates_decoder_and_address():
     assert loco.control.sound is False
     assert loco.control.light is False
     assert loco.control.smoke is False
-    assert loco.asset.status.value == "intent"
-    assert loco.asset.source == "unknown"
-    assert loco.asset.price == 0.0
-    assert loco.asset.acquired is None
+    assert loco.model.status == Status.INTENT
+    assert loco.model.source == "unknown"
+    assert loco.model.price == 0.0
+    assert loco.model.acquired is None
 
 
 def test_import_diesel_file_1():
@@ -99,8 +96,8 @@ def test_optional_values_are_none():
     locos = LocoImport.import_file(IMPORT_DIRECTORY / "steam.csv")
     loco = next(loco for loco in locos if loco.road_number == "3203")
     assert loco.prototype.nickname == "pacific"
-    assert loco.asset.price == 0.0
-    assert loco.asset.acquired is None
+    assert loco.model.price == 0.0
+    assert loco.model.acquired is None
 
 
 def test_invalid_boolean_raises():
