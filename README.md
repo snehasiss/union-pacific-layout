@@ -5,7 +5,7 @@
 _This repository is the authoritative digital representation of a physical Union Pacific HO scale model railroad. It contains the engineering documentation, software, configuration, operational procedures, and inventory necessary to reproduce the layout in whole or in part. The physical railroad is the deployed system; this repository is its source of truth._
 
 ### Under construction:
-#### This project has just started and is currently under development as the physical layout is under construction.
+#### This project has started and is currently under development as the physical layout is under construction.
 ---
 
 <pre><code>
@@ -13,7 +13,8 @@ union-pacific-layout/
 
 README.md
 
-config/                 # JSON source of truth
+config/                 # Application config JSON
+data/                   # JSON representation of all railroad assets
 docs/                   # Engineering documentation
 inventory/              # Physical assets and procurement
 operations/             # Deployment and maintenance procedures
@@ -23,3 +24,56 @@ src/                    # Firmware, Python, AI, utilities
 tests/                  # Validation, simulations, and hardware tests
 tools/                  # Generators, converters, and automation scripts
 </code></pre>
+---
+
+```
+union-pacific-layout/
+├── config
+├── data
+│ ├── car
+│   ├── loco
+│   ├── mow
+│   ├── signal
+│   └── turnout
+├── docs
+│   ├── dcc
+│   ├── decisions
+│   └── designs
+├── inventory
+│   ├── electronics
+│   ├── locomotives
+│   ├── rolling-stock
+│   └── track
+├── operations
+│   └── jmri
+├── resources
+│   ├── drawings
+│   ├── photos
+│   └── references
+├── src
+│   ├── esp32
+│   │   ├── device
+│   │   ├── signal
+│   │   ├── tests
+│   │   └── turnout
+│   ├── railroad
+│   │   ├── dao
+│   │   ├── domain
+│   │   ├── infra
+│   │   ├── operation
+│   │   ├── rs
+│   │   ├── service
+│   │   ├── tests
+│   │   │   ├── dao
+│   │   │   ├── domain
+│   │   │   ├── rs
+│   │   │   └── tools
+│   │   └── tools
+│   │       └── imports
+│   └── sbc
+│       ├── dcc
+│       ├── jmri
+│       ├── service
+│       └── tests
+└── tmp
+```
