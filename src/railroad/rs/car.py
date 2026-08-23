@@ -12,8 +12,8 @@ digital model.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import Enum
 
-from railroad.rs.car_type import CarType
 from railroad.domain.control import Control
 from railroad.domain.identity import Identity, EntityType
 from railroad.domain.model import Model
@@ -21,15 +21,33 @@ from railroad.domain.asset import Asset
 from railroad.domain.prototype import Prototype
 
 
+class CarType(Enum):
+    """Classification of railroad cars."""
+
+    # Passenger
+    PASSENGER = "passenger"
+    OBSERVATION = "observation"
+    LUGGAGE = "luggage"
+    BRAKEVAN = "brakevan"
+
+    # Freight
+    HOPPER = "hopper"
+    GONDOLA = "gondola"
+    WAGON = "wagon"
+    TANKER = "tanker"
+    FLATCAR = "flatcar"
+    INTERMODAL = "intermodal"
+    REEFER = "reefer"
+
+    # Special
+    POWER = "power"
+    PANTRY = "pantry"
+    CABOOSE = "caboose"
+
+
 @dataclass
 class Car:
-    """
-    Digital representation of a physical railroad car.
-
-    A car is composed of shared domain objects describing its
-    identity, prototype, physical model, control, asset,
-    and car type.
-    """
+    """Digital representation of a physical railroad car."""
 
     identity: Identity
     prototype: Prototype
@@ -43,19 +61,14 @@ class Car:
 
         if not isinstance(self.identity, Identity):
             raise TypeError("identity must be an Identity.")
-
         if not isinstance(self.prototype, Prototype):
             raise TypeError("prototype must be a Prototype.")
-
         if not isinstance(self.model, Model):
             raise TypeError("model must be a Model.")
-
         if not isinstance(self.control, Control):
             raise TypeError("control must be an Control.")
-
         if not isinstance(self.asset, Asset):
             raise TypeError("asset must be an Asset.")
-
         if not isinstance(self.car_type, CarType):
             raise TypeError("car_type must be a CarType.")
 
@@ -67,7 +80,7 @@ class Car:
     @property
     def entity_type(self) -> EntityType:
         """Return the car entity type."""
-        return self.identity.entity_type 
+        return self.identity.entity_type
 
     @property
     def railroad(self) -> str:
@@ -93,4 +106,3 @@ class Car:
     def nickname(self) -> str | None:
         """Return the prototype nickname."""
         return self.prototype.nickname
-
