@@ -11,7 +11,6 @@ from pathlib import Path
 
 from railroad.config import Config
 from railroad.dao.iostream import IOStream
-from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model, ModelStatus
@@ -89,7 +88,13 @@ class CarDAO:
 
     @staticmethod
     def _to_dict(car: Car) -> dict:
-        return {"identity": {"id": car.identity.id, "entity_type": car.identity.entity_type.value, "railroad": car.identity.railroad, "reporting_mark": car.identity.reporting_mark, "road_number": car.identity.road_number}, "car_type": car.car_type.value, "prototype": {"builder": car.prototype.builder, "model": car.prototype.model, "nickname": car.prototype.nickname, "purpose": car.prototype.purpose.value}, "model": {"maker": car.model.maker, "product": car.model.product, "status": car.model.status.value}, "control": {"type": car.control.type.value, "decoder": car.control.decoder, "address": car.control.address, "sound": car.control.sound, "light": car.control.light, "smoke": car.control.smoke}, "asset": {"status": car.asset.status.value, "source": car.asset.source, "price": car.asset.price, "acquired": car.asset.acquired.isoformat() if car.asset.acquired is not None else None}}
+        return {
+            "identity": {"id": car.identity.id, "entity_type": car.identity.entity_type.value, "railroad": car.identity.railroad, "reporting_mark": car.identity.reporting_mark, "road_number": car.identity.road_number},
+            "car_type": car.car_type.value,
+            "prototype": {"builder": car.prototype.builder, "model": car.prototype.model, "nickname": car.prototype.nickname, "purpose": car.prototype.purpose.value},
+            "model": {"maker": car.model.maker, "scale": car.model.SCALE, "product": car.model.product, "status": car.model.status.value, "source": car.model.source, "price": car.model.price, "acquired": car.model.acquired.isoformat() if car.model.acquired is not None else None, "note": car.model.note},
+            "control": {"type": car.control.type.value, "decoder": car.control.decoder, "address": car.control.address, "sound": car.control.sound, "light": car.control.light, "smoke": car.control.smoke},
+        }
 
     @staticmethod
     def _from_dict(payload: dict) -> Car:
@@ -97,13 +102,11 @@ class CarDAO:
         prototype_data = payload["prototype"]
         model_data = payload["model"]
         control_data = payload["control"]
-        asset_data = payload["asset"]
-        acquired = asset_data.get("acquired")
-        if acquired is not None:
-            acquired = date.fromisoformat(acquired)
+        model_acquired = model_data.get("acquired")
+        if model_acquired is not None:
+            model_acquired = date.fromisoformat(model_acquired)
         identity = Identity.from_existing(id=identity_data["id"], entity_type=EntityType(identity_data["entity_type"]), railroad=identity_data["railroad"], reporting_mark=identity_data["reporting_mark"], road_number=identity_data["road_number"])
         prototype = Prototype(builder=prototype_data["builder"], model=prototype_data["model"], nickname=prototype_data.get("nickname"), purpose=Purpose(prototype_data["purpose"]))
-        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), status=ModelStatus(model_data["status"]))
+        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), status=ModelStatus(model_data.get("status", ModelStatus.STORED.value)), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
         control = Control(type=ControlType(control_data["type"]), decoder=control_data.get("decoder"), address=control_data.get("address"), sound=control_data["sound"], light=control_data["light"], smoke=control_data["smoke"])
-        asset = Asset(status=AssetStatus(asset_data["status"]), source=asset_data.get("source"), price=asset_data.get("price"), acquired=acquired)
-        return Car(identity=identity, prototype=prototype, model=model, control=control, asset=asset, car_type=CarType(payload["car_type"]))
+        return Car(identity=identity, prototype=prototype, model=model, control=control, car_type=CarType(payload["car_type"]))
