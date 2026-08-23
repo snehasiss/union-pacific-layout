@@ -26,11 +26,16 @@ tools/                  # Generators, converters, and automation scripts
 </code></pre>
 ---
 
+### Roadmap:
+Here is the [Roadmap document]{docs/designs/080-roadmap.md} to know more about the objective or intent and tentative final destination of this project.
+
+
+### Current Directory Structure:
 ```
 union-pacific-layout/
 ├── config
 ├── data
-│ ├── car
+│   ├── car
 │   ├── loco
 │   ├── mow
 │   ├── signal
@@ -77,3 +82,5 @@ union-pacific-layout/
 │       └── tests
 └── tmp
 ```
+
+Continued...
