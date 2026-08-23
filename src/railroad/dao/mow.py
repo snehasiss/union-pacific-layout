@@ -11,7 +11,6 @@ from pathlib import Path
 
 from railroad.config import Config
 from railroad.dao.iostream import IOStream
-from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model, ModelStatus
@@ -29,7 +28,7 @@ class MowDAO:
 
     def save(self, mow: MOW) -> None:
         if not isinstance(mow, MOW):
-            raise TypeError("mow must be an MOW.")
+            raise TypeError("mow must be a MOW.")
         if mow.identity.entity_type != EntityType.MOW:
             raise ValueError("MOW identity must have EntityType.MOW.")
         self._stream.write(self._path(mow.id), json.dumps(self._to_dict(mow), indent=4))
@@ -94,9 +93,8 @@ class MowDAO:
             "mow_type": mow.mow_type.value,
             "self_propelled": mow.self_propelled,
             "prototype": {"builder": mow.prototype.builder, "model": mow.prototype.model, "nickname": mow.prototype.nickname, "purpose": mow.prototype.purpose.value},
-            "model": {"maker": mow.model.maker, "product": mow.model.product, "status": mow.model.status.value},
+            "model": {"maker": mow.model.maker, "scale": mow.model.SCALE, "product": mow.model.product, "status": mow.model.status.value, "source": mow.model.source, "price": mow.model.price, "acquired": mow.model.acquired.isoformat() if mow.model.acquired is not None else None, "note": mow.model.note},
             "control": {"type": mow.control.type.value, "decoder": mow.control.decoder, "address": mow.control.address, "sound": mow.control.sound, "light": mow.control.light, "smoke": mow.control.smoke},
-            "asset": {"status": mow.asset.status.value, "source": mow.asset.source, "price": mow.asset.price, "acquired": mow.asset.acquired.isoformat() if mow.asset.acquired is not None else None},
         }
 
     @staticmethod
@@ -105,13 +103,11 @@ class MowDAO:
         prototype_data = payload["prototype"]
         model_data = payload["model"]
         control_data = payload["control"]
-        asset_data = payload["asset"]
-        acquired = asset_data.get("acquired")
-        if acquired is not None:
-            acquired = date.fromisoformat(acquired)
+        model_acquired = model_data.get("acquired")
+        if model_acquired is not None:
+            model_acquired = date.fromisoformat(model_acquired)
         identity = Identity.from_existing(id=identity_data["id"], entity_type=EntityType(identity_data["entity_type"]), railroad=identity_data["railroad"], reporting_mark=identity_data["reporting_mark"], road_number=identity_data["road_number"])
         prototype = Prototype(builder=prototype_data["builder"], model=prototype_data["model"], nickname=prototype_data.get("nickname"), purpose=Purpose(prototype_data["purpose"]))
-        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), status=ModelStatus(model_data["status"]))
-        control = Control(type=ControlType(control_data["type"]), decoder=control_data.get("decoder"), address=control_data.get("address"), sound=control_data["sound"], light=control_data["light"], smoke=control_data["smoke"])
-        asset = Asset(status=AssetStatus(asset_data["status"]), source=asset_data.get("source"), price=asset_data.get("price"), acquired=acquired)
-        return MOW(identity=identity, prototype=prototype, model=model, control=control, asset=asset, mow_type=MOWType(payload["mow_type"]), self_propelled=payload["self_propelled"])
+        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), status=ModelStatus(model_data.get("status", ModelStatus.STORED.value)), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
+        control = Control(type=ControlType(control_data["type"]), decoder=control_data.get("decoder"), address=control_data.get("address"), sound=control_data.get("sound"), light=control_data.get("light"), smoke=control_data.get("smoke"))
+        return MOW(identity=identity, prototype=prototype, model=model, control=control, mow_type=MOWType(payload["mow_type"]), self_propelled=payload["self_propelled"])
