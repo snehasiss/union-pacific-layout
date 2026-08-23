@@ -13,7 +13,7 @@ from railroad.config import Config
 from railroad.dao.iostream import IOStream
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model, ModelStatus
+from railroad.domain.model import Model, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.car import Car, CarType
 
@@ -92,7 +92,7 @@ class CarDAO:
             "identity": {"id": car.identity.id, "entity_type": car.identity.entity_type.value, "railroad": car.identity.railroad, "reporting_mark": car.identity.reporting_mark, "road_number": car.identity.road_number},
             "car_type": car.car_type.value,
             "prototype": {"builder": car.prototype.builder, "model": car.prototype.model, "nickname": car.prototype.nickname, "purpose": car.prototype.purpose.value},
-            "model": {"maker": car.model.maker, "scale": car.model.SCALE, "product": car.model.product, "status": car.model.status.value, "source": car.model.source, "price": car.model.price, "acquired": car.model.acquired.isoformat() if car.model.acquired is not None else None, "note": car.model.note},
+            "model": {"maker": car.model.maker, "product": car.model.product, "scale": car.model.scale, "status": car.model.status.value, "source": car.model.source, "price": car.model.price, "acquired": car.model.acquired.isoformat() if car.model.acquired is not None else None, "note": car.model.note},
             "control": {"type": car.control.type.value, "decoder": car.control.decoder, "address": car.control.address, "sound": car.control.sound, "light": car.control.light, "smoke": car.control.smoke},
         }
 
@@ -105,8 +105,11 @@ class CarDAO:
         model_acquired = model_data.get("acquired")
         if model_acquired is not None:
             model_acquired = date.fromisoformat(model_acquired)
+        raw_status = model_data.get("status", Status.STORED.value)
+        if raw_status == "owned":
+            raw_status = Status.STORED.value
         identity = Identity.from_existing(id=identity_data["id"], entity_type=EntityType(identity_data["entity_type"]), railroad=identity_data["railroad"], reporting_mark=identity_data["reporting_mark"], road_number=identity_data["road_number"])
         prototype = Prototype(builder=prototype_data["builder"], model=prototype_data["model"], nickname=prototype_data.get("nickname"), purpose=Purpose(prototype_data["purpose"]))
-        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), status=ModelStatus(model_data.get("status", ModelStatus.STORED.value)), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
+        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), scale=model_data.get("scale", "HO"), status=Status(raw_status), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
         control = Control(type=ControlType(control_data["type"]), decoder=control_data.get("decoder"), address=control_data.get("address"), sound=control_data["sound"], light=control_data["light"], smoke=control_data["smoke"])
-        return Car(identity=identity, prototype=prototype, model=model, control=control, car_type=CarType(payload["car_type"]))
+        return Car(identity=identity, prototype=prototype, model=model, control=control, car_type=CarType(payload["car_type"])),
