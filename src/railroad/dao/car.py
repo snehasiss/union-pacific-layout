@@ -89,14 +89,7 @@ class CarDAO:
 
     @staticmethod
     def _to_dict(car: Car) -> dict:
-        return {
-            "identity": {"id": car.identity.id, "entity_type": car.identity.entity_type.value, "railroad": car.identity.railroad, "reporting_mark": car.identity.reporting_mark, "road_number": car.identity.road_number},
-            "car_type": car.car_type.value,
-            "prototype": {"builder": car.prototype.builder, "model": car.prototype.model, "nickname": car.prototype.nickname, "purpose": car.prototype.purpose.value},
-            "model": {"maker": car.model.maker, "product": car.model.product, "status": car.model.status.value},
-            "control": {"type": car.control.type.value, "decoder": car.control.decoder, "address": car.control.address, "sound": car.control.sound, "light": car.control.light, "smoke": car.control.smoke},
-            "asset": {"status": car.asset.status.value, "source": car.asset.source, "price": car.asset.price, "acquired": car.asset.acquired.isoformat() if car.asset.acquired is not None else None},
-        }
+        return {"identity": {"id": car.identity.id, "entity_type": car.identity.entity_type.value, "railroad": car.identity.railroad, "reporting_mark": car.identity.reporting_mark, "road_number": car.identity.road_number}, "car_type": car.car_type.value, "prototype": {"builder": car.prototype.builder, "model": car.prototype.model, "nickname": car.prototype.nickname, "purpose": car.prototype.purpose.value}, "model": {"maker": car.model.maker, "product": car.model.product, "status": car.model.status.value}, "control": {"type": car.control.type.value, "decoder": car.control.decoder, "address": car.control.address, "sound": car.control.sound, "light": car.control.light, "smoke": car.control.smoke}, "asset": {"status": car.asset.status.value, "source": car.asset.source, "price": car.asset.price, "acquired": car.asset.acquired.isoformat() if car.asset.acquired is not None else None}}
 
     @staticmethod
     def _from_dict(payload: dict) -> Car:
@@ -113,4 +106,4 @@ class CarDAO:
         model = Model(maker=model_data.get("maker"), product=model_data.get("product"), status=ModelStatus(model_data["status"]))
         control = Control(type=ControlType(control_data["type"]), decoder=control_data.get("decoder"), address=control_data.get("address"), sound=control_data["sound"], light=control_data["light"], smoke=control_data["smoke"])
         asset = Asset(status=AssetStatus(asset_data["status"]), source=asset_data.get("source"), price=asset_data.get("price"), acquired=acquired)
-        return Car(identity=identity, prototype=prototype, model=model, control=control, asset=asset, car_type=CarType(payload["car_type"])
+        return Car(identity=identity, prototype=prototype, model=model, control=control, asset=asset, car_type=CarType(payload["car_type"]))
