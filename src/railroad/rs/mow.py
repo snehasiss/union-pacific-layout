@@ -2,9 +2,7 @@
 # railroad/rs/mow.py
 #
 
-"""
-Maintenance-of-Way domain entity.
-"""
+"""Maintenance-of-Way domain entity."""
 
 from __future__ import annotations
 
@@ -12,9 +10,8 @@ from dataclasses import dataclass
 from enum import Enum
 
 from railroad.domain.control import Control
-from railroad.domain.identity import Identity, EntityType
+from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model
-from railroad.domain.asset import Asset
 from railroad.domain.prototype import Prototype
 
 
@@ -36,13 +33,11 @@ class MOW:
     prototype: Prototype
     model: Model
     control: Control
-    asset: Asset
     mow_type: MOWType
     self_propelled: bool
 
     def __post_init__(self) -> None:
         """Validate MOW invariants."""
-
         if not isinstance(self.identity, Identity):
             raise TypeError("identity must be an Identity.")
         if not isinstance(self.prototype, Prototype):
@@ -51,10 +46,8 @@ class MOW:
             raise TypeError("model must be a Model.")
         if not isinstance(self.control, Control):
             raise TypeError("control must be an Control.")
-        if not isinstance(self.asset, Asset):
-            raise TypeError("asset must be an Asset.")
         if not isinstance(self.mow_type, MOWType):
-            raise TypeError("mow_type must be an MOWType.")
+            raise TypeError("mow_type must be a MOWType.")
         if not isinstance(self.self_propelled, bool):
             raise TypeError("self_propelled must be a bool.")
 
