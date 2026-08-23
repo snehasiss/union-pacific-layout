@@ -112,4 +112,4 @@ class CarDAO:
         prototype = Prototype(builder=prototype_data["builder"], model=prototype_data["model"], nickname=prototype_data.get("nickname"), purpose=Purpose(prototype_data["purpose"]))
         model = Model(maker=model_data.get("maker"), product=model_data.get("product"), scale=model_data.get("scale", "HO"), status=Status(raw_status), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
         control = Control(type=ControlType(control_data["type"]), decoder=control_data.get("decoder"), address=control_data.get("address"), sound=control_data["sound"], light=control_data["light"], smoke=control_data["smoke"])
-        return Car(identity=identity, prototype=prototype, model=model, control=control, car_type=CarType(payload["car_type"])),
+        return Car(identity=identity, prototype=prototype, model=model, control=control, car_type=CarType(payload["car_type"]))
