@@ -1,6 +1,33 @@
 <!doctype html>
-<title>{{ asset.id }}</title>
-<p><a href="{{ url_for('web.roster') }}">Roster</a></p>
-<h1>{{ asset.id }}</h1>
-<pre>{{ payload }}</pre>
-{% if asset.model.status.value != 'retired' %}<form method="post" action="{{ url_for('web.retire_asset', entity_id=asset.id) }}"><button type="submit">Retire</button></form>{% endif %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ entity_id }} · Union Pacific Layout</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/railroad.css') }}">
+</head>
+<body data-asset-id="{{ entity_id }}">
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('web.roster') }}" aria-label="Union Pacific Layout roster home"><img class="brand-mark" src="{{ url_for('static', filename='img/union-pacific-logo.png') }}" alt="Union Pacific shield"><span><strong>Union Pacific</strong><small>Layout Operations</small></span></a>
+    <a class="back-link" href="{{ url_for('web.roster') }}">← Roster</a>
+  </header>
+  <main class="page-shell asset-page">
+    <p class="eyebrow">Asset record</p>
+    <div id="asset-loading" class="asset-heading"><p>Loading asset…</p></div>
+    <div id="asset-content" hidden>
+      <nav class="record-tabs" aria-label="Asset record sections" role="tablist">
+        <button id="tab-view" class="record-tab is-selected" type="button" role="tab" aria-selected="true" aria-controls="panel-view" data-tab="view">View</button>
+        <button id="tab-update" class="record-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-update" data-tab="update">Update</button>
+        <button id="tab-retire" class="record-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-retire" data-tab="retire">Retire</button>
+        <button id="tab-media" class="record-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-media" data-tab="media">Media</button>
+      </nav>
+      <section id="panel-view" class="record-panel" role="tabpanel" aria-labelledby="tab-view"></section>
+      <section id="panel-update" class="record-panel" role="tabpanel" aria-labelledby="tab-update" hidden></section>
+      <section id="panel-retire" class="record-panel" role="tabpanel" aria-labelledby="tab-retire" hidden></section>
+      <section id="panel-media" class="record-panel" role="tabpanel" aria-labelledby="tab-media" hidden></section>
+    </div>
+    <p id="asset-error" class="error-state" hidden>This asset could not be loaded.</p>
+  </main>
+  <script src="{{ url_for('static', filename='js/asset.js') }}" defer></script>
+</body>
+</html>

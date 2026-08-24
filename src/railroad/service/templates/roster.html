@@ -1,10 +1,45 @@
 <!doctype html>
-<title>Union Pacific Roster</title>
-<h1>Operational roster</h1>
-<form method="get">
-  <label>Reporting mark <input name="reporting_mark" value="{{ selected.get('reporting_mark', '') }}"></label>
-  <label>Status <select name="status"><option value="">Any</option>{% for status in statuses %}<option value="{{ status.value }}" {% if selected.get('status') == status.value %}selected{% endif %}>{{ status.name }}</option>{% endfor %}</select></label>
-  <button type="submit">Search</button>
-</form>
-<p>{{ ids|length }} matching asset(s)</p>
-<ul>{% for id in ids %}<li><a href="{{ url_for('web.view_asset', entity_id=id) }}">{{ id }}</a></li>{% endfor %}</ul>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roster · Union Pacific Layout</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/railroad.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('web.roster') }}" aria-label="Union Pacific Layout roster home">
+      <img class="brand-mark" src="{{ url_for('static', filename='img/union-pacific-logo.png') }}" alt="Union Pacific shield">
+      <span><strong>Union Pacific</strong><small>Layout Operations</small></span>
+    </a>
+    <span class="header-context">Rolling stock roster</span>
+  </header>
+  <main class="page-shell">
+    <section class="page-intro">
+      <p class="eyebrow">Operations desk</p>
+      <h1>Roster</h1>
+      <p>Find and inspect the track vehicles currently available to the railroad.</p>
+    </section>
+    <section class="filter-panel" aria-label="Roster filters">
+      <div class="type-switcher" role="group" aria-label="Asset type">
+        <button class="type-button is-selected" type="button" data-type="all">All equipment</button>
+        <button class="type-button" type="button" data-type="loco">Locomotives</button>
+        <button class="type-button" type="button" data-type="car">Freight cars</button>
+        <button class="type-button" type="button" data-type="mow">MOW</button>
+      </div>
+      <div class="filter-fields">
+        <label>Search<input id="search" type="search" placeholder="ID, road number, maker, or prototype" autocomplete="off"></label>
+        <label>Reporting mark<input id="reporting-mark" type="search" placeholder="UP" maxlength="8" autocomplete="off"></label>
+        <label>Status<select id="status"><option value="">All active statuses</option>{% for status in statuses %}<option value="{{ status.value }}">{{ status.name|title }}</option>{% endfor %}</select></label>
+      </div>
+    </section>
+    <section class="roster-results" aria-live="polite">
+      <div class="results-header"><p id="result-summary">Loading roster…</p><button id="clear-filters" class="text-button" type="button" hidden>Clear filters</button></div>
+      <div id="roster-grid" class="roster-grid" aria-busy="true"></div>
+      <p id="roster-empty" class="empty-state" hidden>No active equipment matches these filters.</p>
+      <p id="roster-error" class="error-state" hidden>Roster data could not be loaded. Refresh the page to try again.</p>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='js/roster.js') }}" defer></script>
+</body>
+</html>

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 from dataclasses import asdict, is_dataclass, replace
 from datetime import date
 from enum import Enum
@@ -18,6 +17,7 @@ from railroad.operation import Asset, Roster
 from railroad.rs.car import Car, CarType
 from railroad.rs.loco import Loco, LocoType
 from railroad.rs.mow import MOW, MOWType
+from railroad.service.media import media_for
 
 
 web = Blueprint("web", __name__)
@@ -29,23 +29,50 @@ def _config() -> Config:
 
 @web.get("/")
 def roster():
-    criteria = {}
-    if reporting_mark := request.args.get("reporting_mark"):
-        criteria["reporting_mark"] = reporting_mark.upper()
-    if status := request.args.get("status"):
-        criteria["model.status"] = Status(status)
-    collection = Roster.from_config(_config())
-    ids = collection.search(criteria)
-    return render_template("roster.html", ids=ids, statuses=Status, selected=request.args)
+    return render_template("roster.html", statuses=Status, entity_types=EntityType)
 
 
 @web.get("/assets/<entity_id>")
 def view_asset(entity_id: str):
     try:
-        asset = Asset(_config()).view(entity_id)
+        Asset(_config()).view(entity_id)
     except (FileNotFoundError, ValueError, TypeError):
         abort(404)
-    return render_template("asset.html", asset=asset, payload=json.dumps(_jsonable(asset.object), indent=2))
+    return render_template("asset.html", entity_id=entity_id)
+
+
+@web.get("/api/assets")
+def list_assets():
+    try:
+        entity_types = _entity_types(request.args.get("type"))
+        criteria = _criteria(request.args)
+    except ValueError as exc:
+        return jsonify(error=str(exc)), 400
+
+    collection = Roster.from_config(_config(), entity_types)
+    ids = set(collection.search(criteria))
+    return jsonify(
+        assets=[_jsonable(obj) for obj in collection.objects if obj.id in ids],
+        count=len(ids),
+    )
+
+
+@web.get("/api/assets/<entity_id>")
+def get_asset(entity_id: str):
+    try:
+        asset = Asset(_config()).view(entity_id)
+    except (FileNotFoundError, ValueError, TypeError):
+        return jsonify(error=f"Asset '{entity_id}' was not found."), 404
+    return jsonify(_jsonable(asset.object))
+
+
+@web.get("/api/assets/<entity_id>/media")
+def get_asset_media(entity_id: str):
+    try:
+        Asset(_config()).view(entity_id)
+    except (FileNotFoundError, ValueError, TypeError):
+        return jsonify(error=f"Asset '{entity_id}' was not found."), 404
+    return jsonify(media=media_for(entity_id))
 
 
 @web.post("/assets/<entity_id>/retire")
@@ -105,28 +132,58 @@ def _build(entity_type, identity, patch):
     return obj
 
 
+def _entity_types(value: str | None) -> tuple[EntityType, ...]:
+    if not value or value == "all":
+        return (EntityType.LOCO, EntityType.CAR, EntityType.MOW)
+    supported = {entity_type.value: entity_type for entity_type in (EntityType.LOCO, EntityType.CAR, EntityType.MOW)}
+    if value not in supported:
+        raise ValueError("type must be one of: all, loco, car, mow.")
+    return (supported[value],)
+
+
+def _criteria(values) -> dict[str, object]:
+    criteria: dict[str, object] = {}
+    if reporting_mark := values.get("reporting_mark"):
+        criteria["identity.reporting_mark"] = reporting_mark.upper()
+    if status := values.get("status"):
+        try:
+            criteria["model.status"] = Status(status)
+        except ValueError as exc:
+            raise ValueError(f"Unknown status '{status}'.") from exc
+    return criteria
+
+
 def _apply_patch(target, patch):
-    if "identity" in patch:
-        raise ValueError("identity cannot be updated.")
     for name, value in patch.items():
         if not hasattr(target, name):
             raise KeyError(f"Unknown field '{name}'.")
         current = getattr(target, name)
         if is_dataclass(current) and isinstance(value, dict):
+            if name == "identity" and {"id", "entity_type"} & value.keys():
+                raise ValueError("identity id and entity_type cannot be updated.")
             setattr(target, name, _patched_dataclass(current, value))
         else:
-            setattr(target, name, _coerce(current, value))
+            setattr(target, name, _coerce(name, current, value))
 
 
 def _patched_dataclass(value, patch):
-    return replace(value, **{name: _coerce(getattr(value, name), item) for name, item in patch.items()})
+    return replace(
+        value,
+        **{name: _coerce(name, getattr(value, name), item) for name, item in patch.items()},
+    )
 
 
-def _coerce(current, value):
+def _coerce(name, current, value):
+    if value is None:
+        return None
     if isinstance(current, Enum):
         return type(current)(value)
     if isinstance(current, date) and isinstance(value, str):
         return date.fromisoformat(value)
+    if current is None and name == "acquired" and isinstance(value, str):
+        return date.fromisoformat(value)
+    if current is None and name == "price" and isinstance(value, (int, float)):
+        return float(value)
     return value
 
 

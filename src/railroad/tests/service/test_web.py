@@ -33,10 +33,25 @@ def client(tmp_path):
 
 def test_roster_and_asset_pages(client):
     web, _ = client
-    assert b"L001" in web.get("/").data
+    response = web.get("/")
+    assert response.status_code == 200
+    assert b"Operations desk" in response.data
+    assert b"static/css/railroad.css" in response.data
+    assert b"static/img/union-pacific-logo.png" in response.data
     response = web.get("/assets/L001")
     assert response.status_code == 200
-    assert b"<h1>L001</h1>" in response.data
+    assert b'data-asset-id="L001"' in response.data
+
+
+def test_roster_and_asset_json_api(client):
+    web, _ = client
+    response = web.get("/api/assets?type=loco&status=stored&reporting_mark=up")
+    assert response.status_code == 200
+    assert response.json["count"] == 1
+    assert response.json["assets"][0]["identity"]["id"] == "L001"
+    assert web.get("/api/assets?type=signal").status_code == 400
+    assert web.get("/api/assets/L001").json["prototype"]["model"] == "4-8-8-4"
+    assert web.get("/api/assets/L001/media").json == {"media": []}
 
 
 def test_default_configuration_renders_roster():
@@ -44,7 +59,7 @@ def test_default_configuration_renders_roster():
     app.testing = True
     response = app.test_client().get("/")
     assert response.status_code == 200
-    assert b"Operational roster" in response.data
+    assert b"Operations desk" in response.data
 
 
 def test_update_retire_and_view_retired_asset(client):
@@ -53,9 +68,19 @@ def test_update_retire_and_view_retired_asset(client):
     assert response.status_code == 200
     assert response.json["model"]["note"] == "checked"
     assert web.post("/assets/L001/retire").status_code == 302
-    assert b"L001" not in web.get("/").data
+    assert web.get("/api/assets").json["count"] == 0
     assert web.get("/assets/L001").status_code == 200
+    assert web.get("/api/assets/L001").status_code == 200
     assert LocoDAO(railway).get("L001").model.status == Status.RETIRED
+
+
+def test_update_allows_identity_details_but_not_record_id(client):
+    web, railway = client
+    response = web.post("/assets/L001/update", json={"identity": {"road_number": "4014"}})
+    assert response.status_code == 200
+    assert response.json["identity"]["road_number"] == "4014"
+    assert LocoDAO(railway).get("L001").road_number == "4014"
+    assert web.post("/assets/L001/update", json={"identity": {"id": "L002"}}).status_code == 400
 
 
 def test_create_default_locomotive_with_json_patch(client):
