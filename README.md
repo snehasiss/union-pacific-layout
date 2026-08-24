@@ -1,86 +1,66 @@
-# Union Pacific HO scale layout project
+# Union Pacific HO Scale Layout Project
 
----
+![Technical wire diagram of Union Pacific Challenger 3826](resources/photos/UP3626_Challenger_01.png)
 
-_This repository is the authoritative digital representation of a physical Union Pacific HO scale model railroad. It contains the engineering documentation, software, configuration, operational procedures, and inventory necessary to reproduce the layout in whole or in part. The physical railroad is the deployed system; this repository is its source of truth._
+This repository is the authoritative digital representation of a physical
+Union Pacific HO-scale model railroad. It holds the engineering documentation,
+configuration, inventory, operational data, and software used to build and
+operate the layout. The physical railroad is the deployed system; this
+repository is its source of truth.
 
-### Under construction:
-#### This project has started and is currently under development as the physical layout is under construction.
----
+The project is under active development alongside construction of the physical
+layout.
 
-<pre><code>
-union-pacific-layout/
+## Project areas
 
-README.md
+- `config/` — application configuration, including asset-data locations and ID
+  prefixes.
+- `data/` — persisted JSON records for rolling stock and future layout assets.
+- `docs/` — engineering designs, architectural decisions, DCC material, and
+  the roadmap.
+- `inventory/` — physical inventory and procurement information, organized by
+  asset class.
+- `operations/` — operating, deployment, and maintenance procedures, such as
+  JMRI material.
+- `resources/` — drawings, photographs, and external reference material.
+- `src/` — software source: Python railroad domain, operations, and service
+  code; ESP32 firmware; and single-board-computer integrations.
+- `tmp/` — local scratch space; not an authoritative project artifact.
 
-config/                 # Application config JSON
-data/                   # JSON representation of all railroad assets
-docs/                   # Engineering documentation
-inventory/              # Physical assets and procurement
-operations/             # Deployment and maintenance procedures
-resources/              # Photos, drawings, diagrams
-resources/reference/    # External manuals and prototype information
-src/                    # Firmware, Python, AI, utilities
-tests/                  # Validation, simulations, and hardware tests
-tools/                  # Generators, converters, and automation scripts
-</code></pre>
----
+## Software
 
-### Roadmap:
-Here is the [Roadmap document](docs/designs/080-roadmap.md) to know more about the objective or intent and tentative final destination of this project.
+The Python application uses a framework-independent domain and operation layer
+for locomotives, cars, and maintenance-of-way equipment. JSON persistence is
+handled through DAO classes; the Flask service is an optional adapter over the
+operation API.
 
+Run the test suite from the repository root:
 
-### Current Directory Structure:
-```
-union-pacific-layout/
-├── config
-├── data
-│   ├── car
-│   ├── loco
-│   ├── mow
-│   ├── signal
-│   └── turnout
-├── docs
-│   ├── dcc
-│   ├── decisions
-│   └── designs
-├── inventory
-│   ├── electronics
-│   ├── locomotives
-│   ├── rolling-stock
-│   └── track
-├── operations
-│   └── jmri
-├── resources
-│   ├── drawings
-│   ├── photos
-│   └── references
-├── src
-│   ├── esp32
-│   │   ├── device
-│   │   ├── signal
-│   │   ├── tests
-│   │   └── turnout
-│   ├── railroad
-│   │   ├── dao
-│   │   ├── domain
-│   │   ├── infra
-│   │   ├── operation
-│   │   ├── rs
-│   │   ├── service
-│   │   ├── tests
-│   │   │   ├── dao
-│   │   │   ├── domain
-│   │   │   ├── rs
-│   │   │   └── tools
-│   │   └── tools
-│   │       └── imports
-│   └── sbc
-│       ├── dcc
-│       ├── jmri
-│       ├── service
-│       └── tests
-└── tmp
+```bash
+PYTHONPATH=src python3 -m pytest
 ```
 
-Continued...
+Run the operational command-line interface:
+
+```bash
+PYTHONPATH=src python3 -m railroad.operation.cli --help
+```
+
+Run the local web service:
+
+```bash
+python3 -m pip install "Flask>=3.0,<4.0"
+PYTHONPATH=src python3 -m railroad.service --config config/railroad-conf.json
+```
+
+Open `http://127.0.0.1:5000/` to view the movable-vehicle roster. See the
+[web-service design](docs/designs/090-web-service.md) for the web and JSON API
+boundary, and [ADR-007](docs/decisions/ADR-007-OperatingFunctions.md) for the
+operation API.
+
+## Planning and design
+
+The [roadmap](docs/designs/080-roadmap.md) describes the intended destination
+of the project. Architectural choices are recorded in
+[docs/decisions](docs/decisions/), while system and layout designs live in
+[docs/designs](docs/designs/).
