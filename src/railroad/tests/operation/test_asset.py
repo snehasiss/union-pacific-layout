@@ -42,14 +42,14 @@ def make_loco(identity: Identity | None = None, status: Status = Status.STORED) 
 
 def make_ops():
     dao = FakeDAO()
-    return Asset(dao, Loco, EntityType.LOCO, "L"), dao
+    return Asset(None, dao_factory=lambda entity_type, config: dao), dao
 
 
 def test_view_returns_domain_object():
     ops, dao = make_ops()
     loco = make_loco()
     dao.save(loco)
-    assert ops.view("L001") is loco
+    assert ops.view("L001").object is loco
 
 
 def test_view_can_return_retired_object():
@@ -59,18 +59,19 @@ def test_view_can_return_retired_object():
     assert ops.view("L001").model.status == Status.RETIRED
 
 
-def test_view_rejects_wrong_type():
+def test_view_rejects_unbound_prefix():
     ops, _ = make_ops()
     with pytest.raises(ValueError):
-        ops.view("C001")
+        ops.view("X001")
 
 
 def test_update_persists_same_object():
     ops, dao = make_ops()
     loco = make_loco()
     dao.save(loco)
-    loco.model.note = "updated"
-    assert ops.update(loco).model.note == "updated"
+    asset = ops.view("L001")
+    asset.model.note = "updated"
+    assert asset.update().model.note == "updated"
     assert dao.objects["L001"].model.note == "updated"
 
 
@@ -78,15 +79,17 @@ def test_retire_updates_model_status():
     ops, dao = make_ops()
     loco = make_loco()
     dao.save(loco)
-    result = ops.retire(loco)
+    result = ops.view("L001").retire()
     assert result.model.status == Status.RETIRED
     assert dao.objects["L001"].model.status == Status.RETIRED
 
 
-def test_retire_accepts_id():
-    ops, dao = make_ops()
-    dao.save(make_loco())
-    assert ops.retire("L001").model.status == Status.RETIRED
+def test_unbound_asset_cannot_persist_or_retire():
+    ops, _ = make_ops()
+    with pytest.raises(RuntimeError):
+        ops.update()
+    with pytest.raises(RuntimeError):
+        ops.retire()
 
 
 def test_create_allocates_id_and_saves():
@@ -95,6 +98,6 @@ def test_create_allocates_id_and_saves():
     def builder(identity):
         return make_loco(identity)
 
-    result = ops.create(builder, railroad="Union Pacific", reporting_mark="UP", road_number="4014")
+    result = ops.create(EntityType.LOCO, builder, railroad="Union Pacific", reporting_mark="UP", road_number="4014")
     assert result.id == "L001"
-    assert dao.objects["L001"] is result
+    assert dao.objects["L001"] is result.object

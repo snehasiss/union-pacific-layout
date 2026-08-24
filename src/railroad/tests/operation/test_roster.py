@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # test_roster.py
 
+import pytest
+
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model, Status
@@ -34,8 +36,8 @@ def test_search_returns_ids():
         loco("L002", "UP", "844", Status.STORED),
         loco("L003", "SP", "4449", Status.ACTIVE),
     ])
-    assert roster.search(reporting_mark="UP") == ["L001", "L002"]
-    assert roster.search(reporting_mark="UP", road_number="844") == ["L002"]
+    assert roster.search({"reporting_mark": "UP"}) == ["L001", "L002"]
+    assert roster.search({"reporting_mark": "UP", "road_number": "844"}) == ["L002"]
 
 
 def test_search_can_match_nested_model_attributes():
@@ -43,4 +45,25 @@ def test_search_can_match_nested_model_attributes():
         loco("L001", "UP", "4014", Status.ACTIVE),
         loco("L002", "UP", "844", Status.REPAIR),
     ])
-    assert roster.search(**{"model.status": Status.ACTIVE}) == ["L001"]
+    assert roster.search({"model.status": Status.ACTIVE}) == ["L001"]
+
+
+def test_search_without_criteria_returns_all_active_ids():
+    roster = Roster([
+        loco("L001", "UP", "4014", Status.ACTIVE),
+        loco("L002", "UP", "844", Status.RETIRED),
+        loco("L003", "SP", "4449", Status.STORED),
+    ])
+    assert roster.search() == ["L001", "L003"]
+
+
+def test_search_rejects_non_mapping_criteria():
+    roster = Roster([loco("L001", "UP", "4014", Status.ACTIVE)])
+    with pytest.raises(TypeError, match="criteria must be a mapping"):
+        roster.search([("reporting_mark", "UP")])
+
+
+def test_search_rejects_duplicate_mapping_and_keyword_criteria():
+    roster = Roster([loco("L001", "UP", "4014", Status.ACTIVE)])
+    with pytest.raises(ValueError, match="criteria specified more than once"):
+        roster.search({"reporting_mark": "UP"}, reporting_mark="UP")
