@@ -5,14 +5,11 @@
 
 from __future__ import annotations
 
-from datetime import date
-
 import pytest
 
-from railroad.domain.asset import Asset, AssetStatus
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model
+from railroad.domain.model import Model, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco, LocoType
 from railroad.rs.roster import Roster
@@ -21,10 +18,15 @@ from railroad.rs.roster import Roster
 def create_loco(loco_id: str = "L001") -> Loco:
     identity = Identity(id=loco_id, entity_type=EntityType.LOCO, railroad="Union Pacific", reporting_mark="UP", road_number="4014")
     prototype = Prototype(builder="ALCo", model="4-8-8-4", nickname="Big Boy", purpose=Purpose.FREIGHT)
-    model = Model(maker="Athearn", product="Genesis Big Boy")
+    model = Model(
+        maker="Athearn",
+        product="Genesis Big Boy",
+        status=Status.STORED,
+        source="Model Train Stuff",
+        price=599.99,
+    )
     control = Control(type=ControlType.DCC, light=True, sound=True, smoke=False, decoder="Paragon4", address=4014)
-    asset = Asset(status=AssetStatus.OWNED, source="Model Train Stuff", price=599.99, acquired=date(2026, 1, 1))
-    return Loco(identity=identity, prototype=prototype, model=model, control=control, asset=asset, loco_type=LocoType.STEAM)
+    return Loco(identity=identity, prototype=prototype, model=model, control=control, loco_type=LocoType.STEAM)
 
 
 def test_empty_roster() -> None:

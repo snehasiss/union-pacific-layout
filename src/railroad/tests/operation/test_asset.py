@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # test_asset.py
 
+from __future__ import annotations
+
 import pytest
 
 from railroad.domain.control import Control, ControlType
