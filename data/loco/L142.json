@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Bachmann",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "ebay",
+        "price": 550.0,
+        "acquired": "2026-04-07",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "econami",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "ebay",
-        "price": 550.0,
-        "acquired": "2026-04-07"
     }
 }

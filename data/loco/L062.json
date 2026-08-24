@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn Genesis",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "SpringCreek",
+        "price": 152.0,
+        "acquired": "2023-10-05",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "tsunami",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "SpringCreek",
-        "price": 152.0,
-        "acquired": "2023-10-05"
     }
 }

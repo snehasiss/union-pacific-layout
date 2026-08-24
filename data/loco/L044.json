@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Rapido",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "SpringCreek",
+        "price": 270.0,
+        "acquired": "2026-01-02",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "LokSound5",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "SpringCreek",
-        "price": 270.0,
-        "acquired": "2026-01-02"
     }
 }

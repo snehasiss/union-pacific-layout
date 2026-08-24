@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Atlas",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "lombard",
+        "price": 180.0,
+        "acquired": "2021-10-06",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "loksound",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "lombard",
-        "price": 180.0,
-        "acquired": "2021-10-06"
     }
 }

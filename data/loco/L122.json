@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Piko",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "lombard",
+        "price": 370.0,
+        "acquired": "2026-02-18",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "smartdecoder5.1",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "lombard",
-        "price": 370.0,
-        "acquired": "2026-02-18"
     }
 }

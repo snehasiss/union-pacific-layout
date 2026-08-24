@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Bachmann",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "intent",
+        "source": "Trainworld",
+        "price": 0.0,
+        "acquired": null,
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "econami",
         "address": 3
-    },
-    "asset": {
-        "status": "intent",
-        "source": "Trainworld",
-        "price": 0.0,
-        "acquired": null
     }
 }

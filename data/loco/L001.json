@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Broadway Limited",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "FactoryDirect",
+        "price": 100.0,
+        "acquired": "2021-06-19",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "dcc",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "FactoryDirect",
-        "price": 100.0,
-        "acquired": "2021-06-19"
     }
 }

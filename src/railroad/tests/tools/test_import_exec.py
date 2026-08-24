@@ -57,7 +57,7 @@ def test_import_locos_writes_expected_json(tmp_path):
     import_directory = tmp_path / "imports"
     import_directory.mkdir()
     (import_directory / "steam.csv").write_text(
-        "purpose,locotype,builder,loco_model,nickname,railroad,reporting_mark,road_number,make,dcc,sound,light,smoke,decoder,address,status,store,price,dated\nfreight,steam,ALCo,4-8-8-4,Big Boy,Union Pacific,up,4014,Athearn,yes,yes,yes,no,tsunami,3,owned,Model Train Stuff,655,2020-11-20\n",
+        "purpose,locotype,builder,loco_model,nickname,railroad,reporting_mark,road_number,make,dcc,sound,light,smoke,decoder,address,status,store,price,dated,scale,product,note\nfreight,steam,ALCo,4-8-8-4,Big Boy,Union Pacific,up,4014,Athearn,yes,yes,yes,no,tsunami,3,spotted,Model Train Stuff,655,2020-11-20,OO,Genesis Big Boy,Sound tested\n",
         encoding="utf-8",
     )
     count = import_locos(config=config, import_directory=import_directory)
@@ -67,5 +67,16 @@ def test_import_locos_writes_expected_json(tmp_path):
     assert payload["identity"]["reporting_mark"] == "UP"
     assert payload["identity"]["road_number"] == "4014"
     assert payload["loco_type"] == "steam"
+    assert payload["model"] == {
+        "maker": "Athearn",
+        "product": "Genesis Big Boy",
+        "scale": "OO",
+        "status": "spotted",
+        "source": "Model Train Stuff",
+        "price": 655.0,
+        "acquired": "2020-11-20",
+        "note": "Sound tested",
+    }
     assert payload["control"]["type"] == "dcc"
     assert payload["control"]["address"] == 3
+    assert "asset" not in payload

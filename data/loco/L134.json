@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "brass",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "intent",
+        "source": "unknown",
+        "price": 0.0,
+        "acquired": null,
+        "note": null
     },
     "control": {
         "type": "dc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": null,
         "address": 0
-    },
-    "asset": {
-        "status": "intent",
-        "source": "unknown",
-        "price": 0.0,
-        "acquired": null
     }
 }

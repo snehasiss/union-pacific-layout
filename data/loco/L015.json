@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "ScaleTrains",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "pwrs-ca",
+        "price": 250.0,
+        "acquired": "2021-07-03",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "LokSound5",
         "address": 2672
-    },
-    "asset": {
-        "status": "owned",
-        "source": "pwrs-ca",
-        "price": 250.0,
-        "acquired": "2021-07-03"
     }
 }

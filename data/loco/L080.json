@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Bachmann",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "SpringCreek",
+        "price": 156.0,
+        "acquired": "2022-03-08",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "soundtraxx value",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "SpringCreek",
-        "price": 156.0,
-        "acquired": "2022-03-08"
     }
 }

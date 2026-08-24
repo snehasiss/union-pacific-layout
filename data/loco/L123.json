@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "model train stuff",
+        "price": 655.0,
+        "acquired": "2020-11-20",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "tsunami",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "model train stuff",
-        "price": 655.0,
-        "acquired": "2020-11-20"
     }
 }

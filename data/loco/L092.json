@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "high country hobbies",
+        "price": 80.0,
+        "acquired": "2021-12-07",
+        "note": null
     },
     "control": {
         "type": "dc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": null,
         "address": 0
-    },
-    "asset": {
-        "status": "owned",
-        "source": "high country hobbies",
-        "price": 80.0,
-        "acquired": "2021-12-07"
     }
 }

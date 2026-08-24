@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Proto2000",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "pwrs-ca",
+        "price": 240.0,
+        "acquired": "2021-08-14",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "loksound",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "pwrs-ca",
-        "price": 240.0,
-        "acquired": "2021-08-14"
     }
 }

@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Walthers Proto",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "ebay",
+        "price": 143.0,
+        "acquired": "2022-01-01",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "qsi",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "ebay",
-        "price": 143.0,
-        "acquired": "2022-01-01"
     }
 }

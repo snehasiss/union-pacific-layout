@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Rivarossi",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "intent",
+        "source": "unknown",
+        "price": 340.0,
+        "acquired": null,
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "loksound",
         "address": 3
-    },
-    "asset": {
-        "status": "intent",
-        "source": "unknown",
-        "price": 340.0,
-        "acquired": null
     }
 }

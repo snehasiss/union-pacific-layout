@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "SpringCreek",
+        "price": 96.0,
+        "acquired": "2021-12-15",
+        "note": null
     },
     "control": {
         "type": "dc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": null,
         "address": 0
-    },
-    "asset": {
-        "status": "owned",
-        "source": "SpringCreek",
-        "price": 96.0,
-        "acquired": "2021-12-15"
     }
 }

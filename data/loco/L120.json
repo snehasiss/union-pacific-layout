@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "ScaleTrains",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "intent",
+        "source": "lombard",
+        "price": 430.0,
+        "acquired": null,
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "LokSound5",
         "address": 3
-    },
-    "asset": {
-        "status": "intent",
-        "source": "lombard",
-        "price": 430.0,
-        "acquired": null
     }
 }

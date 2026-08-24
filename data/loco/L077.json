@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Walthers Mainline",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "SpringCreek",
+        "price": 100.0,
+        "acquired": "2022-03-08",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "econami",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "SpringCreek",
-        "price": 100.0,
-        "acquired": "2022-03-08"
     }
 }

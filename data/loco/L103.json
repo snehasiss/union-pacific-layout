@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn Genesis",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "engine house services",
+        "price": 212.0,
+        "acquired": "2021-07-29",
+        "note": null
     },
     "control": {
         "type": "dc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": null,
         "address": 0
-    },
-    "asset": {
-        "status": "owned",
-        "source": "engine house services",
-        "price": 212.0,
-        "acquired": "2021-07-29"
     }
 }

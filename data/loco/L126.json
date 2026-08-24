@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "BLI",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "factorydirect",
+        "price": 470.0,
+        "acquired": "2021-03-17",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": true,
         "decoder": "paragon4",
         "address": 2190
-    },
-    "asset": {
-        "status": "owned",
-        "source": "factorydirect",
-        "price": 470.0,
-        "acquired": "2021-03-17"
     }
 }

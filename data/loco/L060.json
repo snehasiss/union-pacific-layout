@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn Genesis",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "high country hobbies",
+        "price": 162.0,
+        "acquired": "2021-07-27",
+        "note": null
     },
     "control": {
         "type": "dc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": null,
         "address": 0
-    },
-    "asset": {
-        "status": "owned",
-        "source": "high country hobbies",
-        "price": 162.0,
-        "acquired": "2021-07-27"
     }
 }

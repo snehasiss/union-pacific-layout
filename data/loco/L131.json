@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "BLI",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "trainworld",
+        "price": 560.0,
+        "acquired": "2021-12-21",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": true,
         "decoder": "paragon3",
         "address": 844
-    },
-    "asset": {
-        "status": "owned",
-        "source": "trainworld",
-        "price": 560.0,
-        "acquired": "2021-12-21"
     }
 }

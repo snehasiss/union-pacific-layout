@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Rivarossi",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "SFO hobby shop",
+        "price": null,
+        "acquired": "2010-07-01",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "loksound",
         "address": 5311
-    },
-    "asset": {
-        "status": "owned",
-        "source": "SFO hobby shop",
-        "price": null,
-        "acquired": "2010-07-01"
     }
 }

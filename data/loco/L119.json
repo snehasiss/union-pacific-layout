@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn Genesis",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "TrainWorld",
+        "price": 300.0,
+        "acquired": "2026-01-25",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "tsunami2",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "TrainWorld",
-        "price": 300.0,
-        "acquired": "2026-01-25"
     }
 }

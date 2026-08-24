@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Walthers Mainline",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "ebay",
+        "price": 225.0,
+        "acquired": "2022-02-24",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "econami",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "ebay",
-        "price": 225.0,
-        "acquired": "2022-02-24"
     }
 }

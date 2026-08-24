@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "BLI",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "ebay",
+        "price": 700.0,
+        "acquired": "2026-06-11",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "paragon4",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "ebay",
-        "price": 700.0,
-        "acquired": "2026-06-11"
     }
 }

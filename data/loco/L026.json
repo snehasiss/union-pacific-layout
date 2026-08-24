@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Broadway Limited",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "modeltraindepo",
+        "price": 200.0,
+        "acquired": "2022-02-23",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "paragon3",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "modeltraindepo",
-        "price": 200.0,
-        "acquired": "2022-02-23"
     }
 }

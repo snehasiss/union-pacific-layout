@@ -13,7 +13,7 @@ from pathlib import Path
 from railroad.dao.loco import LocoDAO
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model, Status
+from railroad.domain.model import Model, Scale, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco, LocoType
 
@@ -83,11 +83,13 @@ class LocoImport:
             ),
             model=Model(
                 maker=cls._optional_string(row["make"]),
-                product=None,
+                product=cls._optional_string(row.get("product", "")),
+                scale=cls._scale(row.get("scale", "")),
                 status=cls._status(row["status"]),
                 source=cls._optional_string(row["store"]),
                 price=cls._optional_float(row["price"]),
                 acquired=cls._optional_date(row["dated"]),
+                note=cls._optional_string(row.get("note", "")),
             ),
             control=cls._create_control(row),
         )
@@ -99,6 +101,12 @@ class LocoImport:
         if value == "owned":
             value = Status.STORED.value
         return Status(value)
+
+    @staticmethod
+    def _scale(value: str) -> Scale:
+        """Use a supplied scale or default legacy CSV rows to HO."""
+        value = value.strip().upper()
+        return Scale.HO if not value else Scale(value)
 
     @staticmethod
     def _create_control(row: dict[str, str]) -> Control:

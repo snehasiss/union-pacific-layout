@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Broadway Limited",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "TrainWorld",
+        "price": 264.0,
+        "acquired": "2021-08-05",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "paragon4",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "TrainWorld",
-        "price": 264.0,
-        "acquired": "2021-08-05"
     }
 }

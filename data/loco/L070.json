@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Atlas",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "ebay",
+        "price": 140.0,
+        "acquired": "2021-07-26",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "dcc",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "ebay",
-        "price": 140.0,
-        "acquired": "2021-07-26"
     }
 }

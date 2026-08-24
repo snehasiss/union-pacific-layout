@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "lombard",
+        "price": 230.0,
+        "acquired": "2025-12-26",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "econami",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "lombard",
-        "price": 230.0,
-        "acquired": "2025-12-26"
     }
 }

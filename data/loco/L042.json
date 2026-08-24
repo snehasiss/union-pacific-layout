@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Stewart",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "ebay",
+        "price": 65.0,
+        "acquired": "2023-12-08",
+        "note": null
     },
     "control": {
         "type": "dc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": null,
         "address": 0
-    },
-    "asset": {
-        "status": "owned",
-        "source": "ebay",
-        "price": 65.0,
-        "acquired": "2023-12-08"
     }
 }

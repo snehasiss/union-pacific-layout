@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Rapido",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "lombard",
+        "price": 300.0,
+        "acquired": "2026-04-11",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "LokSound5",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "lombard",
-        "price": 300.0,
-        "acquired": "2026-04-11"
     }
 }

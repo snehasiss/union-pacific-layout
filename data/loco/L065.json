@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Athearn Genesis",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "lombard",
+        "price": 215.0,
+        "acquired": "2021-07-09",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "tsunami2",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "lombard",
-        "price": 215.0,
-        "acquired": "2021-07-09"
     }
 }

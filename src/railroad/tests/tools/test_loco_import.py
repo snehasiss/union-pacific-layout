@@ -11,7 +11,7 @@ import pytest
 
 from railroad.domain.control import ControlType
 from railroad.domain.identity import IdGenerator
-from railroad.domain.model import Status
+from railroad.domain.model import Scale, Status
 from railroad.domain.prototype import Purpose
 from railroad.rs.loco import LocoType
 from railroad.tools.loco_import import LocoImport
@@ -40,6 +40,7 @@ def test_import_steam_file():
     assert loco.prototype.purpose == Purpose.FREIGHT
     assert loco.model.maker == "Athearn"
     assert loco.model.product is None
+    assert loco.model.scale == Scale.HO
     assert loco.model.status == Status.STORED
     assert loco.model.source == "model train stuff"
     assert loco.model.price == 655.0

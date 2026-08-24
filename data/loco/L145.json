@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Mantua",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "ebay",
+        "price": null,
+        "acquired": null,
+        "note": null
     },
     "control": {
         "type": "dc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": null,
         "address": 0
-    },
-    "asset": {
-        "status": "owned",
-        "source": "ebay",
-        "price": null,
-        "acquired": null
     }
 }

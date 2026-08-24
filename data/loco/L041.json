@@ -15,8 +15,13 @@
     },
     "model": {
         "maker": "Stewart",
+        "product": null,
         "scale": "HO",
-        "product": null
+        "status": "stored",
+        "source": "ebay",
+        "price": 100.0,
+        "acquired": "2023-12-08",
+        "note": null
     },
     "control": {
         "type": "dcc",
@@ -25,11 +30,5 @@
         "smoke": false,
         "decoder": "loksound",
         "address": 3
-    },
-    "asset": {
-        "status": "owned",
-        "source": "ebay",
-        "price": 100.0,
-        "acquired": "2023-12-08"
     }
 }
