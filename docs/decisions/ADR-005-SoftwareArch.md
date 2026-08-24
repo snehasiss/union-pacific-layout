@@ -1,8 +1,12 @@
 # ADR-005: Software Architecture — Entity Domain Model
 
-- **Status:** Accepted
+- **Status:** Superseded by ADR-006
 - **Date:** 2026-08-12
-- **Decision:** Establish a generic, compositional domain model for railroad entities and organize all project software under `src/` by software/system boundary.
+- **Decision:** Historical record of the initial generic, compositional domain model and source-tree organization.
+
+> **Superseded for domain and operational decisions.** This ADR predates the
+> unified `Model` lifecycle, `Scale` enum, generic operational `Asset`, and
+> `Roster`/`Layout` boundary. Use ADR-006 for those decisions.
 
 ## Context
 
@@ -329,6 +333,7 @@ Import         → later
 
 ## Status
 
-**Accepted — current corrected version.**
+**Superseded by ADR-006.**
 
-This ADR supersedes earlier versions of ADR-005 and reflects the current committed source-tree architecture and the domain decisions validated through the implementation of `Identity`, `Prototype`, and `Model`.
+The source-tree organization remains useful historical context; ADR-006 is the
+authoritative data-model and operations decision.

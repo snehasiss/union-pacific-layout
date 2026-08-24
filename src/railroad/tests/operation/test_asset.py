@@ -59,6 +59,14 @@ def test_view_can_return_retired_object():
     assert ops.view("L001").model.status == Status.RETIRED
 
 
+def test_view_rejects_object_with_a_type_mismatched_to_its_id():
+    ops, dao = make_ops()
+    mismatched_identity = Identity(id="C001", entity_type=EntityType.CAR, railroad="Union Pacific", reporting_mark="UP", road_number="4014")
+    dao.objects["L001"] = make_loco(mismatched_identity)
+    with pytest.raises(ValueError, match="EntityType.LOCO"):
+        ops.view("L001")
+
+
 def test_view_rejects_unbound_prefix():
     ops, _ = make_ops()
     with pytest.raises(ValueError):

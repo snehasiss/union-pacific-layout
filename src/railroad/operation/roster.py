@@ -8,7 +8,9 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Generic, Iterable, TypeVar
 
+from railroad.domain.identity import EntityType
 from railroad.domain.model import Status
+from railroad.operation.ops import dao_for_type
 
 
 T = TypeVar("T")
@@ -23,6 +25,31 @@ class Roster(Generic[T]):
 
     def __init__(self, objects: Iterable[T] = ()) -> None:
         self._objects = [obj for obj in objects if not self._retired(obj)]
+
+    @classmethod
+    def from_config(
+        cls,
+        config,
+        entity_types: Iterable[EntityType] = (
+            EntityType.LOCO,
+            EntityType.CAR,
+            EntityType.MOW,
+        ),
+        *,
+        dao_factory=dao_for_type,
+    ) -> "Roster":
+        """Load currently supported persisted objects into an active roster.
+
+        The returned collection omits retired objects just like a roster built
+        directly from an iterable.  Callers may limit the collection to a
+        subset of entity types when needed.
+        """
+        objects = []
+        for entity_type in entity_types:
+            if not isinstance(entity_type, EntityType):
+                raise TypeError("entity_types must contain only EntityType values.")
+            objects.extend(dao_factory(entity_type, config).list())
+        return cls(objects)
 
     @property
     def objects(self) -> tuple[T, ...]:

@@ -43,10 +43,12 @@ class Asset:
         validate_id(entity_id)
         entity_type = resolve_type(entity_id)
         dao = self._dao_factory(entity_type, self._config)
+        obj = load_object(dao, entity_id)
+        self._validate_object(obj, entity_type)
         return Asset(
             self._config,
             dao_factory=self._dao_factory,
-            obj=load_object(dao, entity_id),
+            obj=obj,
             dao=dao,
         )
 

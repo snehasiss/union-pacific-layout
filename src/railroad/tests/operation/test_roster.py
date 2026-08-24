@@ -2,6 +2,7 @@
 # test_roster.py
 
 import pytest
+from types import SimpleNamespace
 
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
@@ -67,3 +68,39 @@ def test_search_rejects_duplicate_mapping_and_keyword_criteria():
     roster = Roster([loco("L001", "UP", "4014", Status.ACTIVE)])
     with pytest.raises(ValueError, match="criteria specified more than once"):
         roster.search({"reporting_mark": "UP"}, reporting_mark="UP")
+
+
+def test_from_config_loads_supported_types_and_excludes_retired_objects():
+    config = object()
+    daos = {
+        EntityType.LOCO: FakeDAO([loco("L001", "UP", "4014", Status.ACTIVE)]),
+        EntityType.CAR: FakeDAO([SimpleNamespace(id="C001", model=Model(status=Status.STORED))]),
+        EntityType.MOW: FakeDAO([SimpleNamespace(id="M001", model=Model(status=Status.RETIRED))]),
+    }
+    calls = []
+
+    def dao_factory(entity_type, received_config):
+        calls.append((entity_type, received_config))
+        return daos[entity_type]
+
+    roster = Roster.from_config(config, dao_factory=dao_factory)
+
+    assert roster.search() == ["L001", "C001"]
+    assert calls == [
+        (EntityType.LOCO, config),
+        (EntityType.CAR, config),
+        (EntityType.MOW, config),
+    ]
+
+
+def test_from_config_rejects_an_unknown_entity_type():
+    with pytest.raises(TypeError, match="entity_types must contain only EntityType"):
+        Roster.from_config(object(), entity_types=["loco"])
+
+
+class FakeDAO:
+    def __init__(self, objects):
+        self._objects = objects
+
+    def list(self):
+        return self._objects
