@@ -1,0 +1,10 @@
+<!doctype html>
+<title>Union Pacific Roster</title>
+<h1>Operational roster</h1>
+<form method="get">
+  <label>Reporting mark <input name="reporting_mark" value="{{ selected.get('reporting_mark', '') }}"></label>
+  <label>Status <select name="status"><option value="">Any</option>{% for status in statuses %}<option value="{{ status.value }}" {% if selected.get('status') == status.value %}selected{% endif %}>{{ status.name }}</option>{% endfor %}</select></label>
+  <button type="submit">Search</button>
+</form>
+<p>{{ ids|length }} matching asset(s)</p>
+<ul>{% for id in ids %}<li><a href="{{ url_for('web.view_asset', entity_id=id) }}">{{ id }}</a></li>{% endfor %}</ul>

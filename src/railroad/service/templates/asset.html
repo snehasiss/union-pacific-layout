@@ -1,0 +1,6 @@
+<!doctype html>
+<title>{{ asset.id }}</title>
+<p><a href="{{ url_for('web.roster') }}">Roster</a></p>
+<h1>{{ asset.id }}</h1>
+<pre>{{ payload }}</pre>
+{% if asset.model.status.value != 'retired' %}<form method="post" action="{{ url_for('web.retire_asset', entity_id=asset.id) }}"><button type="submit">Retire</button></form>{% endif %}
