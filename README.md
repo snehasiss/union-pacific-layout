@@ -64,3 +64,5 @@ The [roadmap](docs/designs/080-roadmap.md) describes the intended destination
 of the project. Architectural choices are recorded in
 [docs/decisions](docs/decisions/), while system and layout designs live in
 [docs/designs](docs/designs/).
+---
+(Ɔ) Copyleft 2026, Snehasis Sinha
