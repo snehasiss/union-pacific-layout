@@ -13,7 +13,7 @@ from railroad.config import Config
 from railroad.dao.mow import MowDAO
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model, Status
+from railroad.domain.model import Model, Scale, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.mow import MOW, MOWType
 
@@ -27,13 +27,13 @@ def create_config(tmp_path: Path) -> Config:
 
 
 def create_mow(mow_id: str = "M001", status: Status = Status.STORED, acquired: date | None = date(2026, 1, 1)) -> MOW:
-    return MOW(identity=Identity(id=mow_id, entity_type=EntityType.MOW, railroad="Union Pacific", reporting_mark="UP", road_number="1001"), prototype=Prototype(builder="Jordan Spreader", model="MOW Spreader", nickname=None, purpose=Purpose.FREIGHT), model=Model(maker="Athearn", product="MOW Spreader", scale="HO", status=status, source="Model Train Stuff", price=79.99, acquired=acquired), control=Control(type=ControlType.DC, light=True, sound=False, smoke=False, decoder=None, address=0), mow_type=MOWType.CLEANER, self_propelled=False)
+    return MOW(identity=Identity(id=mow_id, entity_type=EntityType.MOW, railroad="Union Pacific", reporting_mark="UP", road_number="1001"), prototype=Prototype(builder="Jordan Spreader", model="MOW Spreader", nickname=None, purpose=Purpose.FREIGHT), model=Model(maker="Athearn", product="MOW Spreader", scale=Scale.HO, status=status, source="Model Train Stuff", price=79.99, acquired=acquired), control=Control(type=ControlType.DC, light=True, sound=False, smoke=False, decoder=None, address=0), mow_type=MOWType.CLEANER, self_propelled=False)
 
 
 def test_save_and_get(tmp_path: Path):
     dao = MowDAO(create_config(tmp_path)); dao.save(create_mow()); mow = dao.get("M001")
     assert mow.id == "M001"
-    assert mow.model.scale == "HO"
+    assert mow.model.scale == Scale.HO
     assert mow.model.status == Status.STORED
     assert mow.model.source == "Model Train Stuff"
     assert mow.model.acquired == date(2026, 1, 1)

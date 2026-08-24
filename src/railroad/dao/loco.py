@@ -13,7 +13,7 @@ from railroad.config import Config
 from railroad.dao.iostream import IOStream
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model, Status
+from railroad.domain.model import Model, Scale, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.loco import Loco, LocoType
 
@@ -92,7 +92,7 @@ class LocoDAO:
             "identity": {"id": loco.identity.id, "entity_type": loco.identity.entity_type.value, "railroad": loco.identity.railroad, "reporting_mark": loco.identity.reporting_mark, "road_number": loco.identity.road_number},
             "loco_type": loco.loco_type.value,
             "prototype": {"builder": loco.prototype.builder, "model": loco.prototype.model, "nickname": loco.prototype.nickname, "purpose": loco.prototype.purpose.value},
-            "model": {"maker": loco.model.maker, "product": loco.model.product, "scale": loco.model.scale, "status": loco.model.status.value, "source": loco.model.source, "price": loco.model.price, "acquired": loco.model.acquired.isoformat() if loco.model.acquired is not None else None, "note": loco.model.note},
+            "model": {"maker": loco.model.maker, "product": loco.model.product, "scale": loco.model.scale.value, "status": loco.model.status.value, "source": loco.model.source, "price": loco.model.price, "acquired": loco.model.acquired.isoformat() if loco.model.acquired is not None else None, "note": loco.model.note},
             "control": {"type": loco.control.type.value, "light": loco.control.light, "sound": loco.control.sound, "smoke": loco.control.smoke, "decoder": loco.control.decoder, "address": loco.control.address},
         }
 
@@ -110,6 +110,6 @@ class LocoDAO:
             raw_status = Status.STORED.value
         identity = Identity.from_existing(id=identity_data["id"], entity_type=EntityType(identity_data["entity_type"]), railroad=identity_data["railroad"], reporting_mark=identity_data["reporting_mark"], road_number=identity_data["road_number"])
         prototype = Prototype(builder=prototype_data["builder"], model=prototype_data["model"], nickname=prototype_data.get("nickname"), purpose=Purpose(prototype_data["purpose"]))
-        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), scale=model_data.get("scale", "HO"), status=Status(raw_status), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
+        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), scale=Scale(model_data.get("scale", Scale.HO.value)), status=Status(raw_status), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
         control = Control(type=ControlType(control_data["type"]), light=control_data["light"], sound=control_data["sound"], smoke=control_data["smoke"], decoder=control_data.get("decoder"), address=control_data.get("address"))
         return Loco(identity=identity, loco_type=LocoType(payload["loco_type"]), prototype=prototype, model=model, control=control)

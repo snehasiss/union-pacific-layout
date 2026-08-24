@@ -7,12 +7,12 @@ from dataclasses import fields
 
 import pytest
 
-from railroad.domain.model import Model, Status
+from railroad.domain.model import Model, Scale, Status
 
 
 def test_model_default_scale_is_ho():
     model = Model()
-    assert model.scale == "HO"
+    assert model.scale == Scale.HO
     assert "scale" in {field.name for field in fields(Model)}
 
 
@@ -30,7 +30,7 @@ def test_model_can_be_created_with_complete_data():
     model = Model(
         maker="Broadway Limited Imports",
         product="4801",
-        scale="OO",
+        scale=Scale.OO,
         status=Status.STORED,
         source="Broadway Limited Imports",
         price=599.99,
@@ -40,7 +40,7 @@ def test_model_can_be_created_with_complete_data():
 
     assert model.maker == "Broadway Limited Imports"
     assert model.product == "4801"
-    assert model.scale == "OO"
+    assert model.scale == Scale.OO
     assert model.status == Status.STORED
     assert model.source == "Broadway Limited Imports"
     assert model.price == 599.99
@@ -58,9 +58,20 @@ def test_invalid_status():
         Model(status="stored")
 
 
+@pytest.mark.parametrize("scale", list(Scale))
+def test_valid_model_scales(scale):
+    assert Model(scale=scale).scale == scale
+
+
+def test_scale_can_be_changed_from_ho_to_oo():
+    model = Model()
+    model.scale = Scale.OO
+    assert model.scale == Scale.OO
+
+
 def test_invalid_scale():
-    with pytest.raises(ValueError):
-        Model(scale="")
+    with pytest.raises(TypeError):
+        Model(scale="HO")
 
 
 def test_invalid_maker():

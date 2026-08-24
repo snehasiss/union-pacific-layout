@@ -26,13 +26,20 @@ class Status(Enum):
     MISSED = "missed"
 
 
+class Scale(Enum):
+    """Supported model scales that share the layout's track gauge."""
+
+    HO = "HO"
+    OO = "OO"
+
+
 @dataclass
 class Model:
     """Describe the physical scaled model of a railroad prototype."""
 
     maker: str | None = None
     product: str | None = None
-    scale: str = "HO"
+    scale: Scale = Scale.HO
     status: Status = Status.STORED
     source: str | None = None
     price: float | None = None
@@ -49,8 +56,8 @@ class Model:
             if not isinstance(self.product, str) or not self.product.strip():
                 raise ValueError("product must be a non-empty string when provided.")
 
-        if not isinstance(self.scale, str) or not self.scale.strip():
-            raise ValueError("scale must be a non-empty string.")
+        if not isinstance(self.scale, Scale):
+            raise TypeError("scale must be a Scale.")
 
         if not isinstance(self.status, Status):
             raise TypeError("status must be a Status.")

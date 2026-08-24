@@ -13,7 +13,7 @@ from railroad.config import Config
 from railroad.dao.car import CarDAO
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model, Status
+from railroad.domain.model import Model, Scale, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.car import Car, CarType
 
@@ -27,13 +27,13 @@ def create_config(tmp_path: Path) -> Config:
 
 
 def create_car(car_id: str = "C001", status: Status = Status.STORED, acquired: date | None = date(2026, 1, 1)) -> Car:
-    return Car(identity=Identity(id=car_id, entity_type=EntityType.CAR, railroad="Union Pacific", reporting_mark="UP", road_number="12345"), prototype=Prototype(builder="ACF", model="2-Bay Hopper", nickname=None, purpose=Purpose.FREIGHT), model=Model(maker="Athearn", product="Genesis Hopper", scale="HO", status=status, source="Model Train Stuff", price=49.99, acquired=acquired), control=Control(type=ControlType.DCC, light=True, sound=False, smoke=False, decoder="LokSound", address=12345), car_type=CarType.HOPPER)
+    return Car(identity=Identity(id=car_id, entity_type=EntityType.CAR, railroad="Union Pacific", reporting_mark="UP", road_number="12345"), prototype=Prototype(builder="ACF", model="2-Bay Hopper", nickname=None, purpose=Purpose.FREIGHT), model=Model(maker="Athearn", product="Genesis Hopper", scale=Scale.HO, status=status, source="Model Train Stuff", price=49.99, acquired=acquired), control=Control(type=ControlType.DCC, light=True, sound=False, smoke=False, decoder="LokSound", address=12345), car_type=CarType.HOPPER)
 
 
 def test_save_and_get(tmp_path: Path):
     dao = CarDAO(create_config(tmp_path)); dao.save(create_car()); car = dao.get("C001")
     assert car.id == "C001"
-    assert car.model.scale == "HO"
+    assert car.model.scale == Scale.HO
     assert car.model.status == Status.STORED
     assert car.model.source == "Model Train Stuff"
     assert car.model.acquired == date(2026, 1, 1)

@@ -13,7 +13,7 @@ from railroad.config import Config
 from railroad.dao.iostream import IOStream
 from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
-from railroad.domain.model import Model, Status
+from railroad.domain.model import Model, Scale, Status
 from railroad.domain.prototype import Prototype, Purpose
 from railroad.rs.mow import MOW, MOWType
 
@@ -93,7 +93,7 @@ class MowDAO:
             "mow_type": mow.mow_type.value,
             "self_propelled": mow.self_propelled,
             "prototype": {"builder": mow.prototype.builder, "model": mow.prototype.model, "nickname": mow.prototype.nickname, "purpose": mow.prototype.purpose.value},
-            "model": {"maker": mow.model.maker, "product": mow.model.product, "scale": mow.model.scale, "status": mow.model.status.value, "source": mow.model.source, "price": mow.model.price, "acquired": mow.model.acquired.isoformat() if mow.model.acquired is not None else None, "note": mow.model.note},
+            "model": {"maker": mow.model.maker, "product": mow.model.product, "scale": mow.model.scale.value, "status": mow.model.status.value, "source": mow.model.source, "price": mow.model.price, "acquired": mow.model.acquired.isoformat() if mow.model.acquired is not None else None, "note": mow.model.note},
             "control": {"type": mow.control.type.value, "decoder": mow.control.decoder, "address": mow.control.address, "sound": mow.control.sound, "light": mow.control.light, "smoke": mow.control.smoke},
         }
 
@@ -111,6 +111,6 @@ class MowDAO:
             raw_status = Status.STORED.value
         identity = Identity.from_existing(id=identity_data["id"], entity_type=EntityType(identity_data["entity_type"]), railroad=identity_data["railroad"], reporting_mark=identity_data["reporting_mark"], road_number=identity_data["road_number"])
         prototype = Prototype(builder=prototype_data["builder"], model=prototype_data["model"], nickname=prototype_data.get("nickname"), purpose=Purpose(prototype_data["purpose"]))
-        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), scale=model_data.get("scale", "HO"), status=Status(raw_status), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
+        model = Model(maker=model_data.get("maker"), product=model_data.get("product"), scale=Scale(model_data.get("scale", Scale.HO.value)), status=Status(raw_status), source=model_data.get("source"), price=model_data.get("price"), acquired=model_acquired, note=model_data.get("note"))
         control = Control(type=ControlType(control_data["type"]), decoder=control_data.get("decoder"), address=control_data.get("address"), sound=control_data["sound"], light=control_data["light"], smoke=control_data["smoke"])
         return MOW(identity=identity, prototype=prototype, model=model, control=control, mow_type=MOWType(payload["mow_type"]), self_propelled=payload["self_propelled"])
