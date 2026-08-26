@@ -75,7 +75,7 @@
     if (panels.media.dataset.loaded) return; panels.media.dataset.loaded = "true"; panels.media.innerHTML = '<p>Loading media…</p>';
     const response = await fetch(`/api/assets/${encodeURIComponent(entityId)}/media`); const payload = await response.json();
     if (!payload.media.length) { panels.media.innerHTML = '<p class="empty-state">No curated representative image is available for this asset yet.</p>'; return; }
-    panels.media.innerHTML = `<div class="media-grid">${payload.media.map((item) => `<article class="media-card"><img src="${safe(item.url)}" alt="${safe(item.title)}" loading="lazy"><div class="media-caption"><h2>${safe(item.title)}</h2><p>${safe(item.description)}</p><p>Photo: <a href="${safe(item.source_url)}" target="_blank" rel="noopener noreferrer">${safe(item.credit)}</a> · <a href="${safe(item.license_url)}" target="_blank" rel="noopener noreferrer">${safe(item.license)}</a></p></div></article>`).join("")}</div>`;
+    panels.media.innerHTML = `<div class="media-grid">${payload.media.map((item) => `<article class="media-card"><img src="${safe(item.url)}" alt="${safe(item.title)}" loading="lazy"><div class="media-caption"><p class="media-kind">${safe(item.kind)} image</p><h2>${safe(item.title)}</h2><p>${safe(item.description)}</p><p>Photo: ${item.source_url ? `<a href="${safe(item.source_url)}" target="_blank" rel="noopener noreferrer">${safe(item.credit)}</a>` : safe(item.credit)}${item.license ? ` · <a href="${safe(item.license_url)}" target="_blank" rel="noopener noreferrer">${safe(item.license)}</a>` : ""}</p></div></article>`).join("")}</div>`;
   }
 
   function renderAll() {

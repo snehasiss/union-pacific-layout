@@ -17,9 +17,9 @@
         "maker": "Rivarossi",
         "product": null,
         "scale": "HO",
-        "status": "intent",
+        "status": "missed",
         "source": "unknown",
-        "price": 340.0,
+        "price": 340,
         "acquired": null,
         "note": null
     },

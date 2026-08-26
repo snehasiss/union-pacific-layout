@@ -12,15 +12,76 @@ from __future__ import annotations
 MEDIA: dict[str, list[dict[str, str]]] = {
     "L124": [
         {
-            "title": "Union Pacific Challenger 3985",
-            "description": "Representative 4-6-6-4 Challenger prototype image; not the model itself.",
-            "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Union_Pacific_No._3985_%22Challenger%22_%28September_28%2C_2008%29_%282903858658%29.jpg?width=640",
-            "source_url": "https://commons.wikimedia.org/wiki/File:Union_Pacific_No._3985_%22Challenger%22_(September_28,_2008)_(2903858658).jpg",
-            "credit": "Michael Hicks",
-            "license": "CC BY 2.0",
-            "license_url": "https://creativecommons.org/licenses/by/2.0/",
+            "kind": "model",
+            "title": "HO model photo — UP 3826",
+            "description": "Owner-supplied photo of the HO-scale model.",
+            "url": "/static/img/models/L124-UP3826.png",
+            "credit": "Layout owner",
+        },
+    ],
+    "L125": [
+        {
+            "kind": "model",
+            "title": "HO model photo — UP 3672",
+            "description": "Owner-supplied photo of the HO-scale model.",
+            "url": "/static/img/models/L125-UP3672.png",
+            "credit": "Layout owner",
         }
-    ]
+    ],
+    "L127": [
+        {
+            "kind": "model",
+            "title": "HO model photo — UP 3551",
+            "description": "Owner-supplied photo of the HO-scale model.",
+            "url": "/static/img/models/L127-UP3551.png",
+            "credit": "Layout owner",
+        }
+    ],
+    "L128": [
+        {
+            "kind": "model",
+            "title": "HO model photo — UP 5053",
+            "description": "Owner-supplied photo of the HO-scale model.",
+            "url": "/static/img/models/L128-UP5053.png",
+            "credit": "Layout owner",
+        }
+    ],
+    "L129": [
+        {
+            "kind": "model",
+            "title": "HO model photo — UP 9028",
+            "description": "Owner-supplied photo of the HO-scale model.",
+            "url": "/static/img/models/L129-UP9028.png",
+            "credit": "Layout owner",
+        }
+    ],
+    "L132": [
+        {
+            "kind": "model",
+            "title": "HO model photo — UP 7002",
+            "description": "Owner-supplied photo of the HO-scale model.",
+            "url": "/static/img/models/L132-UP7002.png",
+            "credit": "Layout owner",
+        }
+    ],
+    "L135": [
+        {
+            "kind": "model",
+            "title": "HO model photo — UP 2485",
+            "description": "Owner-supplied photo of the HO-scale model.",
+            "url": "/static/img/models/L135-UP2485.png",
+            "credit": "Layout owner",
+        }
+    ],
+    "L136": [
+        {
+            "kind": "model",
+            "title": "HO model photo — UP 604",
+            "description": "Owner-supplied photo of the HO-scale model.",
+            "url": "/static/img/models/L136-UP604.png",
+            "credit": "Layout owner",
+        }
+    ],
 }
 
 

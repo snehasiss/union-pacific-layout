@@ -82,5 +82,6 @@ input:focus, select:focus { border-color: #79641a; box-shadow: 0 0 0 3px rgba(23
 .media-caption { padding: 16px; }
 .media-caption h2 { margin: 0 0 8px; color: #152230; font-family: Georgia, "Times New Roman", serif; font-size: 1.3rem; font-weight: 500; }
 .media-caption p { margin: 0 0 10px; color: #5b6670; font-size: .9rem; line-height: 1.45; }
+.media-caption .media-kind { margin-bottom: 5px; color: #79641a; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .media-caption a { color: #314f65; font-size: .85rem; font-weight: 700; }
 @media (max-width: 700px) { .site-header { min-height: 64px; padding-inline: 20px; } .header-context { display: none; } .filter-fields, .details-grid, .form-grid { grid-template-columns: 1fr; } .form-section .field-grid { grid-template-columns: 1fr; } .page-shell { padding-top: 36px; } .asset-heading { display: block; } .asset-status { display: inline-block; margin-top: 18px; } .record-tabs { overflow-x: auto; } .record-tab { padding-inline: 11px; } }

@@ -54,6 +54,19 @@ def test_roster_and_asset_json_api(client):
     assert web.get("/api/assets/L001/media").json == {"media": []}
 
 
+def test_owner_model_photo_is_available_in_media(client):
+    web, _ = client
+    # The test fixture contains L001 only; verify the application media manifest
+    # through its default configuration separately.
+    app = create_app()
+    response = app.test_client().get("/api/assets/L124/media")
+    assert response.status_code == 200
+    assert len(response.json["media"]) == 1
+    assert response.json["media"][0]["kind"] == "model"
+    assert response.json["media"][0]["url"] == "/static/img/models/L124-UP3826.png"
+    assert app.test_client().get(response.json["media"][0]["url"]).status_code == 200
+
+
 def test_default_configuration_renders_roster():
     app = create_app()
     app.testing = True
