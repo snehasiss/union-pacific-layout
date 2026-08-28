@@ -72,7 +72,7 @@ def get_asset_media(entity_id: str):
         Asset(_config()).view(entity_id)
     except (FileNotFoundError, ValueError, TypeError):
         return jsonify(error=f"Asset '{entity_id}' was not found."), 404
-    return jsonify(media=media_for(entity_id))
+    return jsonify(media=media_for(_config(), entity_id))
 
 
 @web.post("/assets/<entity_id>/retire")

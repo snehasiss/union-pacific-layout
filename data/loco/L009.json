@@ -4,7 +4,7 @@
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "2615"
+        "road_number": "9027"
     },
     "loco_type": "diesel",
     "prototype": {
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "lombard",
-        "price": 310.0,
+        "price": 310,
         "acquired": "2025-11-04",
         "note": null
     },

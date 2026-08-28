@@ -92,6 +92,14 @@ def test_exists_and_list(tmp_path: Path):
     assert [loco.id for loco in dao.list()] == ["L001", "L002"]
 
 
+def test_list_ignores_locomotive_media_manifest(tmp_path: Path):
+    dao = LocoDAO(create_config(tmp_path))
+    dao.save(create_loco())
+    (tmp_path / "data" / "loco" / "loco-media.json").write_text('{"version": 1}', encoding="utf-8")
+
+    assert [loco.id for loco in dao.list()] == ["L001"]
+
+
 def test_next_id(tmp_path: Path):
     dao = LocoDAO(create_config(tmp_path))
     assert dao.next_id() == "L001"

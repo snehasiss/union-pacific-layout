@@ -36,6 +36,8 @@ def test_roster_and_asset_pages(client):
     response = web.get("/")
     assert response.status_code == 200
     assert b"Operations desk" in response.data
+    assert b"Create equipment" in response.data
+    assert b'id="create-dialog"' in response.data
     assert b"static/css/railroad.css" in response.data
     assert b"static/img/union-pacific-logo.png" in response.data
     response = web.get("/assets/L001")
@@ -54,7 +56,7 @@ def test_roster_and_asset_json_api(client):
     assert web.get("/api/assets/L001/media").json == {"media": []}
 
 
-def test_owner_model_photo_is_available_in_media(client):
+def test_owner_photos_are_available_in_media(client):
     web, _ = client
     # The test fixture contains L001 only; verify the application media manifest
     # through its default configuration separately.
@@ -63,8 +65,12 @@ def test_owner_model_photo_is_available_in_media(client):
     assert response.status_code == 200
     assert len(response.json["media"]) == 1
     assert response.json["media"][0]["kind"] == "model"
-    assert response.json["media"][0]["url"] == "/static/img/models/L124-UP3826.png"
+    assert response.json["media"][0]["url"] == "/static/img/media/L124-model-local.jpg"
+    assert response.json["media"][0]["credit"] == "(C) Snehasis Sinha"
     assert app.test_client().get(response.json["media"][0]["url"]).status_code == 200
+    media = app.test_client().get("/api/assets/L012/media").json["media"]
+    assert {entry["kind"] for entry in media} == {"model", "prototype"}
+    assert all(app.test_client().get(entry["url"]).status_code == 200 for entry in media)
 
 
 def test_default_configuration_renders_roster():

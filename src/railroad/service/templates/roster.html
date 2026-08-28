@@ -15,10 +15,13 @@
     <span class="header-context">Rolling stock roster</span>
   </header>
   <main class="page-shell">
-    <section class="page-intro">
-      <p class="eyebrow">Operations desk</p>
-      <h1>Roster</h1>
-      <p>Find and inspect the track vehicles currently available to the railroad.</p>
+    <section class="page-intro roster-intro">
+      <div>
+        <p class="eyebrow">Operations desk</p>
+        <h1>Roster</h1>
+        <p>Find and inspect the track vehicles currently available to the railroad.</p>
+      </div>
+      <button id="create-asset" class="primary-button" type="button">Create equipment</button>
     </section>
     <section class="filter-panel" aria-label="Roster filters">
       <div class="type-switcher" role="group" aria-label="Asset type">
@@ -40,6 +43,30 @@
       <p id="roster-error" class="error-state" hidden>Roster data could not be loaded. Refresh the page to try again.</p>
     </section>
   </main>
+  <dialog id="create-dialog" class="create-dialog" aria-labelledby="create-title">
+    <form id="create-form" method="dialog">
+      <p class="eyebrow">New asset</p>
+      <h2 id="create-title">Create equipment record</h2>
+      <p class="dialog-intro">Create a default record, then complete its details from the Asset Record update tab.</p>
+      <label>Equipment type
+        <select id="create-type" required>
+          <option value="loco">Locomotive</option>
+          <option value="car">Freight car</option>
+          <option value="mow">Maintenance of way</option>
+        </select>
+      </label>
+      <div class="create-identity-fields">
+        <label>Railroad<input id="create-railroad" value="Union Pacific" required></label>
+        <label>Reporting mark<input id="create-reporting-mark" value="UP" maxlength="8" required></label>
+        <label>Road number <span class="optional-label">optional</span><input id="create-road-number" placeholder="UNASSIGNED"></label>
+      </div>
+      <p id="create-message" class="form-error" aria-live="polite"></p>
+      <div class="dialog-actions">
+        <button id="create-cancel" class="text-button" type="button">Cancel</button>
+        <button id="create-save" class="save-button" type="submit">Create record</button>
+      </div>
+    </form>
+  </dialog>
   <script src="{{ url_for('static', filename='js/roster.js') }}" defer></script>
 </body>
 </html>

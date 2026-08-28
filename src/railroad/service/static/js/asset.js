@@ -4,7 +4,11 @@
   const content = document.querySelector("#asset-content");
   const error = document.querySelector("#asset-error");
   const panels = Object.fromEntries(["view", "update", "retire", "media"].map((tab) => [tab, document.querySelector(`#panel-${tab}`)]));
-  const label = (value) => value ? String(value).replaceAll("_", " ") : "—";
+  const label = (value) => {
+    if (value === null || value === undefined || value === "") return "—";
+    const text = String(value).replaceAll("_", " ");
+    return text === text.toLowerCase() ? text.replace(/\b[a-z]/g, (letter) => letter.toUpperCase()) : text;
+  };
   const safe = (value) => String(label(value)).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
   const safeValue = (value) => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
   const field = (name, value) => `<dt>${safe(name)}</dt><dd>${safe(value)}</dd>`;
@@ -75,11 +79,13 @@
     if (panels.media.dataset.loaded) return; panels.media.dataset.loaded = "true"; panels.media.innerHTML = '<p>Loading media…</p>';
     const response = await fetch(`/api/assets/${encodeURIComponent(entityId)}/media`); const payload = await response.json();
     if (!payload.media.length) { panels.media.innerHTML = '<p class="empty-state">No curated representative image is available for this asset yet.</p>'; return; }
-    panels.media.innerHTML = `<div class="media-grid">${payload.media.map((item) => `<article class="media-card"><img src="${safe(item.url)}" alt="${safe(item.title)}" loading="lazy"><div class="media-caption"><p class="media-kind">${safe(item.kind)} image</p><h2>${safe(item.title)}</h2><p>${safe(item.description)}</p><p>Photo: ${item.source_url ? `<a href="${safe(item.source_url)}" target="_blank" rel="noopener noreferrer">${safe(item.credit)}</a>` : safe(item.credit)}${item.license ? ` · <a href="${safe(item.license_url)}" target="_blank" rel="noopener noreferrer">${safe(item.license)}</a>` : ""}</p></div></article>`).join("")}</div>`;
+    panels.media.innerHTML = `<div class="media-grid">${payload.media.map((item) => `<article class="media-card"><img src="${safeValue(item.url)}" alt="${safe(item.title)}" loading="lazy"><div class="media-caption"><p class="media-kind">${safe(item.kind)} image</p><h2>${safe(item.title)}</h2><p>${safe(item.description)}</p><p>Photo: ${item.source_url ? `<a href="${safeValue(item.source_url)}" target="_blank" rel="noopener noreferrer">${safe(item.credit)}</a>` : safe(item.credit)}${item.license ? ` · <a href="${safeValue(item.license_url)}" target="_blank" rel="noopener noreferrer">${safe(item.license)}</a>` : ""}</p></div></article>`).join("")}</div>`;
   }
 
   function renderAll() {
-    const heading = document.createElement("div"); const title = document.createElement("h1"); title.textContent = `${asset.identity.reporting_mark} ${asset.identity.road_number}`; const subtitle = document.createElement("p"); subtitle.className = "asset-subtitle"; subtitle.textContent = `${label(asset.identity.entity_type)} · ${asset.prototype.model}${asset.prototype.nickname ? ` · ${asset.prototype.nickname}` : ""}`; heading.append(title, subtitle);
+    const heading = document.createElement("div"); const titleLine = document.createElement("div"); titleLine.className = "asset-title-line";
+    if (asset.identity.entity_type === "loco" && ["steam", "diesel", "turbine"].includes(asset.loco_type)) { const icon = document.createElement("img"); icon.className = "asset-heading-icon"; icon.src = `/static/img/${asset.loco_type}-locomotive.svg`; icon.alt = `${label(asset.loco_type)} locomotive`; titleLine.append(icon); }
+    const title = document.createElement("h1"); title.textContent = `${asset.identity.reporting_mark} ${asset.identity.road_number}`; const subtitle = document.createElement("p"); subtitle.className = "asset-subtitle"; subtitle.textContent = `${label(asset.identity.entity_type)} · ${label(asset.prototype.model)}${asset.prototype.nickname ? ` · ${label(asset.prototype.nickname)}` : ""}`; titleLine.append(title); heading.append(titleLine, subtitle);
     const status = document.createElement("span"); status.className = "status-chip asset-status"; status.dataset.status = asset.model.status; status.textContent = label(asset.model.status); loading.replaceChildren(heading, status);
     renderView(); renderUpdate(); renderRetire(); panels.media.dataset.loaded = ""; panels.media.innerHTML = ""; content.hidden = false;
   }

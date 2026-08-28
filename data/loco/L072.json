@@ -3,7 +3,7 @@
         "id": "L072",
         "entity_type": "loco",
         "railroad": "Union Pacific",
-        "reporting_mark": "UP",
+        "reporting_mark": "UPY",
         "road_number": "1342"
     },
     "loco_type": "diesel",
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "pwrs-ca",
-        "price": 190.0,
+        "price": 190,
         "acquired": "2021-07-03",
         "note": null
     },
