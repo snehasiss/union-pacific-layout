@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "copyright": "(C) Snehasis Sinha",
+  "local_photos": [
+    ["M001", "model", "HO model photo — Network Rail DR80303", "M001-DR80303.jpg"],
+    ["M002", "model", "HO model photo — Network Rail 73208 tamper", "M002-tamper-73208.jpg"]
+  ],
+  "flickr_photos": []
+}

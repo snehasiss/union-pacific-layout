@@ -9,7 +9,7 @@
     "loco_type": "diesel",
     "prototype": {
         "builder": "EMD",
-        "model": "SD59M-2",
+        "model": "SD59MX",
         "nickname": null,
         "purpose": "freight"
     },
@@ -19,9 +19,9 @@
         "scale": "HO",
         "status": "stored",
         "source": "Lombard",
-        "price": 265.0,
+        "price": 265,
         "acquired": "2023-12-12",
-        "note": null
+        "note": "Marked as SD59M-2"
     },
     "control": {
         "type": "dcc",

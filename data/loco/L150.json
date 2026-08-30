@@ -1,34 +1,34 @@
 {
     "identity": {
-        "id": "L013",
+        "id": "L150",
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "6151"
+        "road_number": "9095"
     },
     "loco_type": "diesel",
     "prototype": {
         "builder": "GE General Electric",
-        "model": "C44ACM",
-        "nickname": null,
+        "model": "C40-8W",
+        "nickname": "Dash 8-40C",
         "purpose": "freight"
     },
     "model": {
         "maker": "ScaleTrains",
-        "product": null,
+        "product": "Rivet Counter",
         "scale": "HO",
         "status": "spotted",
-        "source": "Scaletrains.com",
-        "price": 340,
+        "source": "scaletrains.com",
+        "price": 330,
         "acquired": null,
-        "note": null
+        "note": "ETA: May 2027"
     },
     "control": {
         "type": "dcc",
         "light": true,
         "sound": true,
         "smoke": false,
-        "decoder": "LokSound5",
+        "decoder": "ESU LokSound v5",
         "address": 3
     }
 }

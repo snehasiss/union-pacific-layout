@@ -63,14 +63,43 @@ def test_owner_photos_are_available_in_media(client):
     app = create_app()
     response = app.test_client().get("/api/assets/L124/media")
     assert response.status_code == 200
-    assert len(response.json["media"]) == 1
-    assert response.json["media"][0]["kind"] == "model"
-    assert response.json["media"][0]["url"] == "/static/img/media/L124-model-local.jpg"
-    assert response.json["media"][0]["credit"] == "(C) Snehasis Sinha"
-    assert app.test_client().get(response.json["media"][0]["url"]).status_code == 200
+    assert any(entry["kind"] == "model" for entry in response.json["media"])
+    assert any(entry["url"] == "/photos/L124-UP3826-1.jpg" for entry in response.json["media"])
+    assert all(entry["credit"] == "(C) Snehasis Sinha" for entry in response.json["media"])
+    assert all(app.test_client().get(entry["url"]).status_code == 200 for entry in response.json["media"])
     media = app.test_client().get("/api/assets/L012/media").json["media"]
     assert {entry["kind"] for entry in media} == {"model", "prototype"}
     assert all(app.test_client().get(entry["url"]).status_code == 200 for entry in media)
+    mow_media = app.test_client().get("/api/assets/M002/media").json["media"]
+    assert mow_media[0]["url"] == "/photos/M002-NR73208-1.jpg"
+    assert app.test_client().get(mow_media[0]["url"]).status_code == 200
+
+
+def test_newly_imported_locomotive_photos_are_mapped_and_served():
+    app = create_app()
+    web = app.test_client()
+    expected_urls = {
+        "L014": ["/photos/L014-UP7928-1.jpg", "/photos/L014-UP7928-2.jpg"],
+        "L036": ["/photos/L036-UP971-1.jpg"],
+        "L040": ["/photos/L040-UP523-1.jpg"],
+        "L041": ["/photos/L041-UP523B-1.jpg"],
+        "L042": ["/photos/L042-UP517B-1.jpg"],
+        "L046": [
+            "/photos/L046-UP903999-1.jpg",
+            "/photos/L046-UP903999-2.jpg",
+            "/photos/L046-UP903999-3.jpg",
+            "/photos/L046-UP903999-4.jpg",
+        ],
+        "L054": ["/photos/L054-UP700-1.jpg", "/photos/L054-UP700-2.jpg"],
+        "L062": ["/photos/L062-UP66-1.jpg", "/photos/L062-UP66-2.jpg", "/photos/L062-UP66-3.jpg"],
+        "L102": ["/photos/L102-UP8503-1.jpg"],
+        "L115": ["/photos/L115-UP627-1.jpg", "/photos/L115-UP627-2.jpg"],
+        "L148": ["/photos/L148-BO5311-1.jpg", "/photos/L148-BO5311-2.jpg"],
+    }
+    for asset_id, urls in expected_urls.items():
+        media = web.get(f"/api/assets/{asset_id}/media").json["media"]
+        assert [entry["url"] for entry in media] == urls
+        assert all(web.get(url).status_code == 200 for url in urls)
 
 
 def test_default_configuration_renders_roster():

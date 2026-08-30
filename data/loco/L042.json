@@ -4,7 +4,7 @@
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "523C"
+        "road_number": "517B"
     },
     "loco_type": "diesel",
     "prototype": {
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "ebay",
-        "price": 65.0,
+        "price": 65,
         "acquired": "2023-12-08",
         "note": null
     },

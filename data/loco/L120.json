@@ -8,7 +8,7 @@
     },
     "loco_type": "diesel",
     "prototype": {
-        "builder": "GE",
+        "builder": "GE General Electric",
         "model": "U50C",
         "nickname": null,
         "purpose": "freight"
@@ -17,9 +17,9 @@
         "maker": "ScaleTrains",
         "product": null,
         "scale": "HO",
-        "status": "intent",
-        "source": "lombard",
-        "price": 430.0,
+        "status": "spotted",
+        "source": "scaletrains.com",
+        "price": 430,
         "acquired": null,
         "note": null
     },

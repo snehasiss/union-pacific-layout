@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "M001",
+        "entity_type": "mow",
+        "railroad": "Network Rail",
+        "reporting_mark": "NR",
+        "road_number": "80303"
+    },
+    "mow_type": "cleaner",
+    "self_propelled": false,
+    "prototype": {
+        "builder": "Harsco Track Technologies",
+        "model": "YZA Track Cleaning Unit",
+        "nickname": null,
+        "purpose": "machine"
+    },
+    "model": {
+        "maker": "Gaugemaster",
+        "product": "Track Cleaning Unit",
+        "scale": "HO",
+        "status": "stored",
+        "source": "Hattons UK",
+        "price": 109,
+        "acquired": "2020-03-16",
+        "note": "it is not self propelled but dcc is for cleaning operation"
+    },
+    "control": {
+        "type": "dcc",
+        "decoder": "GM DCC92 4-Function only",
+        "address": 3,
+        "sound": false,
+        "light": false,
+        "smoke": false
+    }
+}

@@ -6,7 +6,7 @@ from dataclasses import asdict, is_dataclass, replace
 from datetime import date
 from enum import Enum
 
-from flask import Blueprint, abort, current_app, jsonify, redirect, render_template, request, url_for
+from flask import Blueprint, abort, current_app, jsonify, redirect, render_template, request, send_from_directory, url_for
 
 from railroad.config import Config
 from railroad.domain.control import Control
@@ -73,6 +73,12 @@ def get_asset_media(entity_id: str):
     except (FileNotFoundError, ValueError, TypeError):
         return jsonify(error=f"Asset '{entity_id}' was not found."), 404
     return jsonify(media=media_for(_config(), entity_id))
+
+
+@web.get("/photos/<path:filename>")
+def optimized_photo(filename: str):
+    """Serve an optimized local media derivative outside Flask's static tree."""
+    return send_from_directory(_config().resources / "photos" / "optimized", filename)
 
 
 @web.post("/assets/<entity_id>/retire")

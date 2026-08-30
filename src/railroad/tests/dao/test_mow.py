@@ -58,6 +58,14 @@ def test_exists_list_and_next_id(tmp_path: Path):
     assert [mow.id for mow in dao.list()] == ["M001", "M002"]
 
 
+def test_list_ignores_mow_media_manifest(tmp_path: Path):
+    dao = MowDAO(create_config(tmp_path))
+    dao.save(create_mow())
+    (tmp_path / "data" / "mow" / "mow-media.json").write_text('{"version": 1}', encoding="utf-8")
+
+    assert [mow.id for mow in dao.list()] == ["M001"]
+
+
 def test_get_missing_mow_raises(tmp_path: Path):
     with pytest.raises(FileNotFoundError):
         MowDAO(create_config(tmp_path)).get("M001")

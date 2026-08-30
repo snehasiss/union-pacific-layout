@@ -10,7 +10,7 @@
     "prototype": {
         "builder": "Baldwin",
         "model": "DS-44-1000",
-        "nickname": null,
+        "nickname": "Yard Switcher",
         "purpose": "switcher"
     },
     "model": {
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "TrainWorld",
-        "price": 210.0,
+        "price": 210,
         "acquired": "2021-08-05",
         "note": null
     },

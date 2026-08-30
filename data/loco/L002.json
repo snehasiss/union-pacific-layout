@@ -10,7 +10,7 @@
     "prototype": {
         "builder": "NRE",
         "model": "3GS21B",
-        "nickname": null,
+        "nickname": "Switcher",
         "purpose": "switcher"
     },
     "model": {
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "Whistle stop train OKC",
-        "price": 108.0,
+        "price": 108,
         "acquired": "2021-08-04",
         "note": null
     },

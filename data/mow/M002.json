@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "M002",
+        "entity_type": "mow",
+        "railroad": "Network Railway",
+        "reporting_mark": "NR",
+        "road_number": "73208"
+    },
+    "mow_type": "tamper",
+    "self_propelled": false,
+    "prototype": {
+        "builder": "Plasser Theurer",
+        "model": "Plasser Tamper Machine",
+        "nickname": null,
+        "purpose": "freight"
+    },
+    "model": {
+        "maker": "Bachmann",
+        "product": "Plasser Tamper 36-165A",
+        "scale": "HO",
+        "status": "stored",
+        "source": "Hattons UK",
+        "price": 100,
+        "acquired": "2010-02-06",
+        "note": null
+    },
+    "control": {
+        "type": "dcc",
+        "decoder": "Digitrax",
+        "address": 3,
+        "sound": false,
+        "light": false,
+        "smoke": false
+    }
+}

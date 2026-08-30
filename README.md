@@ -1,6 +1,6 @@
 # Union Pacific HO Scale Layout Project
 
-![Technical wire diagram of Union Pacific Challenger 3826](resources/photos/UP3626_Challenger_sketch.png)
+![Technical wire diagram of Union Pacific Challenger 3826](resources/photos/UP3826_Challenger_sketch.png)
 
 This repository is the authoritative digital representation of a physical
 Union Pacific HO-scale model railroad. It holds the engineering documentation,

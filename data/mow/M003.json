@@ -1,0 +1,35 @@
+{
+    "identity": {
+        "id": "M003",
+        "entity_type": "mow",
+        "railroad": "Network Rail",
+        "reporting_mark": "NR",
+        "road_number": "DC98902"
+    },
+    "mow_type": "mpv",
+    "self_propelled": false,
+    "prototype": {
+        "builder": "Windhoff",
+        "model": "Multi-purpose vehicle",
+        "nickname": null,
+        "purpose": "machine"
+    },
+    "model": {
+        "maker": "Bachmann",
+        "product": "MPV",
+        "scale": "HO",
+        "status": "stored",
+        "source": "Hattons UK",
+        "price": 140.0,
+        "acquired": "2019-09-15",
+        "note": null
+    },
+    "control": {
+        "type": "dcc",
+        "decoder": "Bachmann 21 Pin MTC",
+        "address": 3,
+        "sound": false,
+        "light": true,
+        "smoke": false
+    }
+}

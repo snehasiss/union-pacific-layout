@@ -2,8 +2,8 @@
     "identity": {
         "id": "L016",
         "entity_type": "loco",
-        "railroad": "Union Pacific",
-        "reporting_mark": "UP",
+        "railroad": "Duluth, Missabe and Iron Range",
+        "reporting_mark": "DMIR",
         "road_number": "900"
     },
     "loco_type": "diesel",
@@ -19,9 +19,9 @@
         "scale": "HO",
         "status": "stored",
         "source": "TrainWorld",
-        "price": 220.0,
+        "price": 220,
         "acquired": "2021-06-06",
-        "note": null
+        "note": "UP 2900 changed to DMIR 900 as DMIR  acquired 10 C630 from UP in 1974"
     },
     "control": {
         "type": "dcc",

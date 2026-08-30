@@ -10,7 +10,7 @@
     "prototype": {
         "builder": "Baldwin",
         "model": "AS-616",
-        "nickname": null,
+        "nickname": "Yard Switcher",
         "purpose": "switcher"
     },
     "model": {
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "ebay",
-        "price": 260.0,
+        "price": 260,
         "acquired": "2022-02-08",
         "note": null
     },

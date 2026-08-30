@@ -46,7 +46,7 @@ class MowDAO:
         directory = self._data.path
         if not directory.exists():
             return []
-        return [self.get(path.stem) for path in sorted(directory.glob("*.json"))]
+        return [self.get(path.stem) for path in sorted(directory.glob(f"{self._data.prefix}*.json"))]
 
     def next_id(self) -> str:
         directory = self._data.path

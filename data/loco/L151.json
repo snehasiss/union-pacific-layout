@@ -1,0 +1,34 @@
+{
+    "identity": {
+        "id": "L151",
+        "entity_type": "loco",
+        "railroad": "Deutsche Bahn",
+        "reporting_mark": "DB",
+        "road_number": "212 067-3"
+    },
+    "loco_type": "diesel",
+    "prototype": {
+        "builder": " MaK Maschinenbau Kiel",
+        "model": "DB212 V100",
+        "nickname": null,
+        "purpose": "switcher"
+    },
+    "model": {
+        "maker": "Trix",
+        "product": "Class 212",
+        "scale": "HO",
+        "status": "stored",
+        "source": "Modellbahnshop-Lippe",
+        "price": 300,
+        "acquired": "2021-02-03",
+        "note": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": true,
+        "smoke": false,
+        "decoder": "ESU LokSound",
+        "address": 3
+    }
+}

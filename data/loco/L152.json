@@ -1,34 +1,34 @@
 {
     "identity": {
-        "id": "L013",
+        "id": "L152",
         "entity_type": "loco",
-        "railroad": "Union Pacific",
-        "reporting_mark": "UP",
-        "road_number": "6151"
+        "railroad": "Chicago North Western",
+        "reporting_mark": "CNW",
+        "road_number": "8825"
     },
     "loco_type": "diesel",
     "prototype": {
         "builder": "GE General Electric",
-        "model": "C44ACM",
-        "nickname": null,
+        "model": "AC4400CW",
+        "nickname": "Operation Lifesaver",
         "purpose": "freight"
     },
     "model": {
-        "maker": "ScaleTrains",
+        "maker": "Athearn",
         "product": null,
         "scale": "HO",
-        "status": "spotted",
-        "source": "Scaletrains.com",
-        "price": 340,
+        "status": "stored",
+        "source": null,
+        "price": null,
         "acquired": null,
         "note": null
     },
     "control": {
         "type": "dcc",
         "light": true,
-        "sound": true,
+        "sound": false,
         "smoke": false,
-        "decoder": "LokSound5",
+        "decoder": "Digitrax",
         "address": 3
     }
 }
