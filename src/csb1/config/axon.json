@@ -1,0 +1,10 @@
+{
+  "server": {
+    "port": 5001
+  },
+  "serial": {
+    "port": "/dev/csb1",
+    "connectOnStartup": true
+  }
+}
+

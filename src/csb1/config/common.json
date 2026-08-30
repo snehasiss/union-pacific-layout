@@ -1,0 +1,23 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 5001,
+    "secretKey": "development-only-change-for-production",
+    "allowedOrigins": "*"
+  },
+  "serial": {
+    "port": "auto",
+    "baudRate": 115200,
+    "readTimeoutSeconds": 0.1,
+    "writeTimeoutSeconds": 1.0,
+    "connectOnStartup": false,
+    "reconnect": true,
+    "reconnectMaxSeconds": 30
+  },
+  "safety": {
+    "restorePowerAfterReconnect": false,
+    "restoreThrottlesAfterReconnect": false,
+    "allowRawCommands": false
+  }
+}
+

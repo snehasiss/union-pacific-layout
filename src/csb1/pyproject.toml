@@ -1,0 +1,31 @@
+[project]
+name = "union-pacific-csb1"
+version = "0.1.0"
+description = "Web and serial control service for an EX-CSB1 command station"
+requires-python = ">=3.10"
+dependencies = [
+  "Flask>=3.0,<4",
+  "Flask-SocketIO>=5.3,<6",
+  "jsonschema>=4.21,<5",
+  "pyserial>=3.5,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<9",
+]
+
+[project.scripts]
+csb1-server = "backend.__main__:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["backend", "backend.api", "backend.serial"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
