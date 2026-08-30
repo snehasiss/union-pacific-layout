@@ -42,7 +42,7 @@ def parse_frame(frame: str) -> ProtocolEvent:
                         "direction": direction,
                         "functions": {
                             str(number): bool(function_map & (1 << number))
-                            for number in range(9)
+                            for number in range(16)
                         },
                     },
                     frame,

@@ -1,10 +1,9 @@
 {
   "server": {
-    "port": 5001
+    "port": 5202
   },
   "serial": {
     "port": "auto",
     "connectOnStartup": false
   }
 }
-

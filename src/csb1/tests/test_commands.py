@@ -22,9 +22,12 @@ def test_throttle_command():
     assert throttle(4014, 0, "reverse") == "<t 4014 0 0>"
 
 
-def test_function_commands_f0_to_f8():
+def test_function_commands_f0_to_f31():
     assert function(3, 0, True) == "<F 3 0 1>"
     assert function(3, 8, False) == "<F 3 8 0>"
+    assert function(3, 15, True) == "<F 3 15 1>"
+    assert function(3, 16, True) == "<F 3 16 1>"
+    assert function(3, 31, False) == "<F 3 31 0>"
 
 
 @pytest.mark.parametrize("address,speed,direction", [(0, 0, "forward"), (3, 127, "forward"), (3, 0, "sideways")])

@@ -53,7 +53,18 @@ python3 -m pip install "Flask>=3.0,<4.0"
 PYTHONPATH=src python3 -m railroad.service --config config/railroad-conf.json
 ```
 
-Open `http://127.0.0.1:5000/` to view the movable-vehicle roster. See the
+Or manage both local services with the repository scripts:
+
+```bash
+./app_service start     # roster UI on port 5201
+./dcc_service start     # EX-CSB1 UI and serial service on port 5202
+./app_service status
+./dcc_service status
+```
+
+Open `http://127.0.0.1:5201/` on the host or
+`http://<mac-lan-ip>:5201/` from an iPhone on the trusted layout network to
+view the movable-vehicle roster. See the
 [web-service design](docs/designs/090-web-service.md) for the web and JSON API
 boundary, and [ADR-007](docs/decisions/ADR-007-OperatingFunctions.md) for the
 operation API.

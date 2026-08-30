@@ -15,3 +15,8 @@ def test_parses_stopped_reverse_locomotive_broadcast():
     event = parse_frame("<l 3 0 0 0>")
     assert event.data["speed"] == 0
     assert event.data["direction"] == "reverse"
+
+
+def test_parses_functions_through_f15():
+    event = parse_frame(f"<l 3 0 128 {1 << 15}>")
+    assert event.data["functions"]["15"] is True

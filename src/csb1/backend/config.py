@@ -47,6 +47,8 @@ def load_config(profile: str | None = None) -> dict[str, Any]:
         config["serial"]["port"] = port
     if server_port := os.environ.get("CSB1_SERVER_PORT"):
         config["server"]["port"] = int(server_port)
+    if server_host := os.environ.get("CSB1_SERVER_HOST"):
+        config["server"]["host"] = server_host
 
     validator = Draft202012Validator(_read_json(CONFIG_DIR / "schema.json"))
     errors = sorted(validator.iter_errors(config), key=lambda error: list(error.path))
@@ -54,4 +56,3 @@ def load_config(profile: str | None = None) -> dict[str, Any]:
         details = "; ".join(error.message for error in errors)
         raise ConfigurationError(f"Invalid configuration: {details}")
     return config
-

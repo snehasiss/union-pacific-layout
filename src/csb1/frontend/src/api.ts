@@ -1,4 +1,4 @@
-import type { RailroadState } from "./types";
+import type { RailroadState, RosterLocomotive } from "./types";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
@@ -12,6 +12,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export const api = {
   status: () => request<RailroadState>("/api/v1/status"),
+  locomotives: () => request<{ locomotives: RosterLocomotive[]; count: number }>("/api/v1/locomotives"),
   connect: (port?: string) =>
     request<{ connected: boolean; port: string }>("/api/v1/serial/connect", {
       method: "POST",
@@ -21,8 +22,7 @@ export const api = {
     request<{ connected: boolean }>("/api/v1/serial/disconnect", { method: "POST" }),
   setPower: (state: "on" | "off") =>
     request("/api/v1/power", { method: "PUT", body: JSON.stringify({ state }) }),
-  emergencyStop: () => request("/api/v1/emergency-stop", { method: "POST" })
-  ,
+  emergencyStop: () => request("/api/v1/emergency-stop", { method: "POST" }),
   setThrottle: (address: number, speed: number, direction: "forward" | "reverse") =>
     request(`/api/v1/locomotives/${address}/throttle`, {
       method: "PUT",

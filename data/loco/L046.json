@@ -17,9 +17,9 @@
         "maker": "Rapido",
         "product": null,
         "scale": "HO",
-        "status": "stored",
+        "status": "active",
         "source": "the train exchange",
-        "price": 298.0,
+        "price": 298,
         "acquired": "2026-03-15",
         "note": null
     },

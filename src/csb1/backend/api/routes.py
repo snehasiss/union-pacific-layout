@@ -5,6 +5,7 @@ from flask import current_app, jsonify, request
 from . import api
 from ..serial import commands
 from ..serial.discovery import available_ports
+from ..roster import available_locomotives
 
 
 def _controller():
@@ -18,6 +19,12 @@ def _state():
 @api.get("/status")
 def get_status():
     return jsonify(_state().snapshot())
+
+
+@api.get("/locomotives")
+def get_locomotives():
+    locomotives = available_locomotives()
+    return jsonify({"locomotives": locomotives, "count": len(locomotives)})
 
 
 @api.get("/serial/ports")

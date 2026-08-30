@@ -4,7 +4,7 @@
         "entity_type": "loco",
         "railroad": "Union Pacific",
         "reporting_mark": "UP",
-        "road_number": "3003"
+        "road_number": "3000"
     },
     "loco_type": "diesel",
     "prototype": {
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "TrainWorld",
-        "price": 350.0,
+        "price": 350,
         "acquired": "2025-10-25",
         "note": null
     },

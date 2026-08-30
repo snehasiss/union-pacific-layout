@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+# Control the EX-CSB1 Flask and serial service.
+
+set -euo pipefail
+
+ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+SERVICE_DIR="$ROOT_DIR/src/csb1"
+TMP_DIR="$ROOT_DIR/tmp"
+PID_FILE="$TMP_DIR/dcc_service.pid"
+LOG_FILE="$TMP_DIR/dcc_service.log"
+DEFAULT_PYTHON="$(command -v python3)"
+PYTHON_BIN="${PYTHON_BIN:-$DEFAULT_PYTHON}"
+HOST="${DCC_SERVICE_HOST:-0.0.0.0}"
+PORT="${DCC_SERVICE_PORT:-5202}"
+PROFILE="${CSB1_PROFILE:-mac}"
+
+usage() {
+    echo "Usage: $0 {start|stop|restart|status}"
+}
+
+pid_from_file() {
+    [[ -f "$PID_FILE" ]] || return 1
+    tr -d '[:space:]' < "$PID_FILE"
+}
+
+is_our_service() {
+    local pid command
+    pid="$(pid_from_file)" || return 1
+    kill -0 "$pid" 2>/dev/null || return 1
+    command="$(ps -p "$pid" -o command= 2>/dev/null || true)"
+    [[ -z "$command" || "$command" == *"-m backend"* ]]
+}
+
+clear_stale_pid() {
+    if [[ -f "$PID_FILE" ]] && ! is_our_service; then
+        local pid
+        pid="$(pid_from_file || true)"
+        if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+            echo "PID $pid is not a dcc_service process; refusing to stop it." >&2
+            exit 1
+        fi
+        rm -f "$PID_FILE"
+    fi
+}
+
+validate_runtime() {
+    if [[ ! -x "$PYTHON_BIN" ]]; then
+        echo "Python runtime not found or not executable: $PYTHON_BIN" >&2
+        echo "Install Python 3 or set PYTHON_BIN explicitly." >&2
+        exit 1
+    fi
+    if ! "$PYTHON_BIN" -c 'import flask, flask_socketio, jsonschema, serial' >/dev/null 2>&1; then
+        echo "DCC service dependencies are incomplete in Python runtime: $PYTHON_BIN" >&2
+        echo "Install the src/csb1 project dependencies, or set PYTHON_BIN explicitly." >&2
+        exit 1
+    fi
+}
+
+start() {
+    mkdir -p "$TMP_DIR"
+    clear_stale_pid
+    validate_runtime
+    if is_our_service; then
+        echo "DCC service is already running (PID $(pid_from_file)) on $HOST:$PORT."
+        return
+    fi
+
+    (
+        cd "$SERVICE_DIR"
+        export CSB1_PROFILE="$PROFILE"
+        export CSB1_SERVER_HOST="$HOST"
+        export CSB1_SERVER_PORT="$PORT"
+        exec "$PYTHON_BIN" -m backend
+    ) >"$LOG_FILE" 2>&1 &
+    echo $! > "$PID_FILE"
+
+    local ready=false
+    for _ in {1..50}; do
+        if ! is_our_service; then
+            break
+        fi
+        if curl --silent --fail --max-time 1 "http://127.0.0.1:$PORT/health" >/dev/null; then
+            ready=true
+            break
+        fi
+        sleep 0.2
+    done
+    if [[ "$ready" != true ]]; then
+        echo "DCC service did not start; see $LOG_FILE" >&2
+        if is_our_service; then
+            kill "$(pid_from_file)" 2>/dev/null || true
+        fi
+        rm -f "$PID_FILE"
+        exit 1
+    fi
+    echo "DCC service started (PID $(pid_from_file), profile $PROFILE) on $HOST:$PORT."
+}
+
+stop() {
+    clear_stale_pid
+    if ! is_our_service; then
+        echo "DCC service is not running."
+        return
+    fi
+
+    local pid
+    pid="$(pid_from_file)"
+    kill "$pid"
+    for _ in {1..30}; do
+        kill -0 "$pid" 2>/dev/null || break
+        sleep 0.1
+    done
+    if kill -0 "$pid" 2>/dev/null; then
+        echo "DCC service did not stop cleanly (PID $pid)." >&2
+        exit 1
+    fi
+    rm -f "$PID_FILE"
+    echo "DCC service stopped."
+}
+
+status() {
+    clear_stale_pid
+    if is_our_service; then
+        echo "DCC service is running (PID $(pid_from_file), profile $PROFILE) on $HOST:$PORT."
+    else
+        echo "DCC service is not running."
+    fi
+}
+
+case "${1:-}" in
+    start) start ;;
+    stop) stop ;;
+    restart) stop; start ;;
+    status) status ;;
+    *) usage; exit 2 ;;
+esac

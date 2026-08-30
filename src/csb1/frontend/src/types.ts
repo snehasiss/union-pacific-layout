@@ -20,3 +20,17 @@ export type LocomotiveState = {
   direction?: "forward" | "reverse";
   functions?: Record<string, boolean>;
 };
+
+export type RosterLocomotive = {
+  id: string;
+  reportingMark: string;
+  roadNumber: string;
+  railroad: string;
+  prototype: string;
+  nickname: string | null;
+  status: "parked" | "stored" | "active";
+  address: number;
+  light: boolean;
+  sound: boolean;
+  smoke: boolean;
+};

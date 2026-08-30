@@ -51,5 +51,6 @@ python3 -m pip install "Flask>=3.0,<4.0"
 PYTHONPATH=src python3 -m railroad.service --config config/railroad-conf.json
 ```
 
-The development server binds to `127.0.0.1:5000` by default. Use `--host`,
-`--port`, and `--debug` as needed.
+The development server binds to `0.0.0.0:5201` by default so it is reachable
+from an iPhone on the trusted layout network. Use `--host`, `--port`, and
+`--debug` as needed.

@@ -13,9 +13,21 @@ pip install -e '.[dev]'
 CSB1_PROFILE=mac python -m backend
 ```
 
-The API listens on `http://0.0.0.0:5001` by default. The serial port is not
+The DCC API listens on `http://0.0.0.0:5202` by default. The serial port is not
 opened automatically in the Mac profile; connect it through the API after the
 service starts.
+
+From the repository root, the normal Mac workflow is:
+
+```bash
+./dcc_service start
+./dcc_service status
+./dcc_service restart
+./dcc_service stop
+```
+
+Runtime output is written to `tmp/dcc_service.log`; the managed process ID is
+stored in `tmp/dcc_service.pid`.
 
 ## Frontend
 
@@ -25,7 +37,7 @@ npm install
 npm run dev
 ```
 
-Vite listens on port 5173 and proxies API and Socket.IO traffic to port 5001.
+Vite listens on port 5173 and proxies API and Socket.IO traffic to port 5202.
 
 ## Tests
 
@@ -33,4 +45,3 @@ Vite listens on port 5173 and proxies API and Socket.IO traffic to port 5001.
 cd src/csb1
 pytest
 ```
-

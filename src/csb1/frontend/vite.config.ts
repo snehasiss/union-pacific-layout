@@ -6,13 +6,12 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      "/api": "http://127.0.0.1:5001",
-      "/health": "http://127.0.0.1:5001",
+      "/api": "http://127.0.0.1:5202",
+      "/health": "http://127.0.0.1:5202",
       "/socket.io": {
-        target: "ws://127.0.0.1:5001",
+        target: "ws://127.0.0.1:5202",
         ws: true
       }
     }
   }
 });
-

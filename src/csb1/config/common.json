@@ -1,7 +1,7 @@
 {
   "server": {
     "host": "0.0.0.0",
-    "port": 5001,
+    "port": 5202,
     "secretKey": "development-only-change-for-production",
     "allowedOrigins": "*"
   },
@@ -20,4 +20,3 @@
     "allowRawCommands": false
   }
 }
-
