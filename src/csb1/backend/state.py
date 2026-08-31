@@ -50,6 +50,10 @@ class StateStore:
         with self._lock:
             key = str(address)
             current = deepcopy(self._state["locomotives"].get(key, {}))
+            if "functions" in changes:
+                functions = dict(current.get("functions", {}))
+                functions.update(changes["functions"])
+                changes["functions"] = functions
             current.update({"address": address, **changes})
             self._state["locomotives"][key] = current
             return deepcopy(current)
