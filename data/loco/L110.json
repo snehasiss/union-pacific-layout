@@ -9,7 +9,7 @@
     "loco_type": "turbine",
     "prototype": {
         "builder": "GE",
-        "model": "Turbine Gas Oil Tender",
+        "model": "Gas Turbine Oil Tender",
         "nickname": null,
         "purpose": "freight"
     },
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "SpringCreek",
-        "price": 360.0,
+        "price": 360,
         "acquired": "2021-11-30",
         "note": null
     },

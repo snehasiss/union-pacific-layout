@@ -9,7 +9,7 @@
     "loco_type": "turbine",
     "prototype": {
         "builder": "GE",
-        "model": "Turbine Gas Big Blow",
+        "model": "Gas Turbine Big Blow",
         "nickname": null,
         "purpose": "freight"
     },
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "ScaleTrains",
-        "price": 650.0,
+        "price": 650,
         "acquired": "2020-01-24",
         "note": null
     },

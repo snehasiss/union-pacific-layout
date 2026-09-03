@@ -58,8 +58,10 @@ Or manage both local services with the repository scripts:
 ```bash
 ./app_service start     # roster UI on port 5201
 ./dcc_service start     # EX-CSB1 UI and serial service on port 5202
+./chat_service start    # conversational asset UI on port 5203
 ./app_service status
 ./dcc_service status
+./chat_service status
 ```
 
 Open `http://127.0.0.1:5201/` on the host or
@@ -68,6 +70,29 @@ view the movable-vehicle roster. See the
 [web-service design](docs/designs/090-web-service.md) for the web and JSON API
 boundary, and [ADR-007](docs/decisions/ADR-007-OperatingFunctions.md) for the
 operation API.
+
+Open `http://127.0.0.1:5203/` for the separate asset-management chat interface.
+It uses the same domain, DAO, and roster search behavior as `app_service`; a
+search runs when Enter is pressed. Set `CHAT_SLM_URL` and `CHAT_SLM_MODEL` to
+use an optional local OpenAI-compatible SLM endpoint. Without one, the service
+uses its deterministic interpreter.
+
+To use Llama 3.2 1B locally with Ollama on macOS:
+
+```bash
+brew install ollama
+brew services start ollama
+ollama pull llama3.2:1b
+CHAT_SLM_URL=http://127.0.0.1:11434 \
+CHAT_SLM_MODEL=llama3.2:1b \
+./chat_service restart
+curl http://127.0.0.1:5203/health
+```
+
+The health response reports `"interpreter":"slm"` when the SLM configuration
+is active. Ollama runs inference locally; no Python virtual environment or
+separate model SDK is required. If the background service is unavailable, run
+`ollama serve` in a separate terminal before starting `chat_service`.
 
 ## Planning and design
 

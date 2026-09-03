@@ -7,6 +7,7 @@
   const label = (value) => {
     if (value === null || value === undefined || value === "") return "—";
     const text = String(value).replaceAll("_", " ");
+    if (["dc", "dcc"].includes(text.toLowerCase())) return text.toUpperCase();
     return text === text.toLowerCase() ? text.replace(/\b[a-z]/g, (letter) => letter.toUpperCase()) : text;
   };
   const safe = (value) => String(label(value)).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -16,7 +17,7 @@
   const options = {
     purpose: ["passenger", "freight", "switcher", "logger", "machine", "special"], scale: ["HO", "OO"],
     status: ["intent", "spotted", "bought", "shipped", "parked", "stored", "active", "repair", "missed"],
-    type: ["dc", "dcc"], loco_type: ["steam", "diesel", "turbine"],
+    type: ["dc", "dcc", "unpowered"], loco_type: ["steam", "diesel", "turbine"],
     car_type: ["passenger", "observation", "luggage", "brakevan", "hopper", "gondola", "wagon", "tanker", "flatcar", "intermodal", "reefer", "power", "pantry", "caboose"],
     mow_type: ["crane", "snowplow", "cleaner", "tamper", "mpv"]
   };
@@ -50,18 +51,30 @@
     if (asset.model.status === "retired") { panels.update.innerHTML = '<p class="empty-state">Retired records are view-only.</p>'; return; }
     const kind = asset.identity.entity_type; const kindField = kind === "loco" ? "loco_type" : kind === "car" ? "car_type" : "mow_type";
     panels.update.innerHTML = `<form id="update-form"><div class="form-grid">${formSection("Identity", "identity", [input("identity", "id", asset.identity.id, { label: "Record / ID", readonly: true }), input("identity", "railroad", asset.identity.railroad, { required: true }), input("identity", "reporting_mark", asset.identity.reporting_mark, { required: true }), input("identity", "road_number", asset.identity.road_number, { required: true }), input("identity", kindField, asset[kindField], { section: "asset" })])}${formSection("Prototype", "prototype", [input("prototype", "builder", asset.prototype.builder, { required: true }), input("prototype", "model", asset.prototype.model, { required: true }), input("prototype", "nickname", asset.prototype.nickname), input("prototype", "purpose", asset.prototype.purpose)])}${formSection("Model", "model", [input("model", "maker", asset.model.maker), input("model", "product", asset.model.product), input("model", "scale", asset.model.scale), input("model", "status", asset.model.status), input("model", "source", asset.model.source), input("model", "price", asset.model.price), input("model", "acquired", asset.model.acquired), input("model", "note", asset.model.note, { wide: true })])}${formSection("Control", "control", [input("control", "type", asset.control.type), input("control", "decoder", asset.control.decoder), input("control", "address", asset.control.address), input("control", "sound", asset.control.sound, { type: "checkbox" }), input("control", "light", asset.control.light, { type: "checkbox" }), input("control", "smoke", asset.control.smoke, { type: "checkbox" })])}</div><div class="save-row"><p class="save-message" id="update-message" aria-live="polite"></p><button class="save-button" type="submit">Save changes</button></div></form>`;
+    const controlType = document.querySelector("#field-control-type");
+    const decoder = document.querySelector("#field-control-decoder");
+    const address = document.querySelector("#field-control-address");
+    const syncControlFields = () => {
+      decoder.disabled = controlType.value !== "dcc";
+      address.disabled = controlType.value === "unpowered";
+    };
+    controlType.addEventListener("change", syncControlFields);
+    syncControlFields();
     document.querySelector("#update-form").addEventListener("submit", saveUpdate);
   }
 
   async function saveUpdate(event) {
     event.preventDefault(); const patch = {};
     event.currentTarget.querySelectorAll("[data-section][data-name]").forEach((control) => {
-      if (control.readOnly) return; const section = control.dataset.section; const name = control.dataset.name;
+      if (control.readOnly || control.disabled) return; const section = control.dataset.section; const name = control.dataset.name;
       const value = control.type === "checkbox" ? control.checked : control.value === "" ? null : control.type === "number" ? Number(control.value) : control.value;
       (patch[section] ||= {})[name] = value;
     });
     const kind = asset.identity.entity_type; const kindField = kind === "loco" ? "loco_type" : kind === "car" ? "car_type" : "mow_type";
     patch[kindField] = patch.identity[kindField]; delete patch.identity[kindField];
+    if (patch.control.type !== "dcc") patch.control.decoder = null;
+    if (patch.control.type === "unpowered") patch.control.address = null;
+    if (patch.control.type === "dc" && patch.control.address === null) patch.control.address = 0;
     const response = await fetch(`/assets/${encodeURIComponent(entityId)}/update`, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(patch) });
     const message = document.querySelector("#update-message");
     if (!response.ok) { message.textContent = (await response.json()).error || "Update failed."; return; }

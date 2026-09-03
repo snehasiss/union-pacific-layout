@@ -56,6 +56,14 @@ def test_roster_and_asset_json_api(client):
     assert web.get("/api/assets/L001/media").json == {"media": []}
 
 
+def test_roster_api_delegates_free_text_search_to_core_roster(client):
+    web, _ = client
+
+    assert web.get("/api/assets?q=steam").json["count"] == 1
+    assert web.get("/api/assets?q=STEAM").json["assets"][0]["identity"]["id"] == "L001"
+    assert web.get("/api/assets?q=gondola").json == {"assets": [], "count": 0}
+
+
 def test_owner_photos_are_available_in_media(client):
     web, _ = client
     # The test fixture contains L001 only; verify the application media manifest
@@ -137,3 +145,22 @@ def test_create_default_locomotive_with_json_patch(client):
     assert response.status_code == 201
     assert response.json["identity"]["id"] == "L002"
     assert response.json["model"]["note"] == "new"
+
+
+def test_create_gondola_defaults_to_unpowered_control(client):
+    web, _ = client
+    response = web.post(
+        "/assets",
+        json={"type": "car", "road_number": "12345", "patch": {"car_type": "gondola"}},
+    )
+
+    assert response.status_code == 201
+    assert response.json["car_type"] == "gondola"
+    assert response.json["control"] == {
+        "type": "unpowered",
+        "decoder": None,
+        "address": None,
+        "sound": False,
+        "light": False,
+        "smoke": False,
+    }

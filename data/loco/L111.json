@@ -9,7 +9,7 @@
     "loco_type": "turbine",
     "prototype": {
         "builder": "GE",
-        "model": "Turbine Gas standard",
+        "model": "Gas  Turbine standard",
         "nickname": null,
         "purpose": "freight"
     },
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "ebay",
-        "price": 255.0,
+        "price": 255,
         "acquired": "2021-07-24",
         "note": null
     },

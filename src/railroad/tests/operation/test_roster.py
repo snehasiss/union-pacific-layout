@@ -49,6 +49,31 @@ def test_search_can_match_nested_model_attributes():
     assert roster.search({"model.status": Status.ACTIVE}) == ["L001"]
 
 
+@pytest.mark.parametrize(
+    "query",
+    ["l001", "4014", "up", "steam", "alco", "big boy", "athearn", "genesis"],
+)
+def test_free_text_search_uses_canonical_attributes(query):
+    roster = Roster([loco("L001", "UP", "4014", Status.ACTIVE)])
+
+    assert roster.search_text(query) == ["L001"]
+
+
+def test_free_text_search_is_case_insensitive_and_ignores_missing_type_fields():
+    roster = Roster([loco("L001", "UP", "4014", Status.ACTIVE)])
+
+    assert roster.search_text("BiG BoY") == ["L001"]
+    assert roster.search_text("gondola") == []
+    assert roster.search_text("") == ["L001"]
+
+
+def test_free_text_search_rejects_non_string_query():
+    roster = Roster([loco("L001", "UP", "4014", Status.ACTIVE)])
+
+    with pytest.raises(TypeError, match="query must be a string"):
+        roster.search_text(None)
+
+
 def test_search_without_criteria_returns_all_active_ids():
     roster = Roster([
         loco("L001", "UP", "4014", Status.ACTIVE),

@@ -1,0 +1,34 @@
+{
+    "identity": {
+        "id": "C001",
+        "entity_type": "car",
+        "railroad": "Missouri-Kansas-Texas Railroad",
+        "reporting_mark": "MKT",
+        "road_number": "43470"
+    },
+    "car_type": "gondola",
+    "prototype": {
+        "builder": "GATC",
+        "model": "40' Gondola",
+        "nickname": null,
+        "purpose": "freight"
+    },
+    "model": {
+        "maker": "Athearn",
+        "product": null,
+        "scale": "HO",
+        "status": "stored",
+        "source": "The Train Shop, CA",
+        "price": 14,
+        "acquired": "2010-07-01",
+        "note": null
+    },
+    "control": {
+        "type": "unpowered",
+        "decoder": null,
+        "address": null,
+        "sound": false,
+        "light": false,
+        "smoke": false
+    }
+}

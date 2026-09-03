@@ -9,7 +9,7 @@
     "loco_type": "turbine",
     "prototype": {
         "builder": "GE",
-        "model": "Turbine Gas Veranda",
+        "model": "Gas Turbine Veranda",
         "nickname": null,
         "purpose": "freight"
     },
@@ -19,7 +19,7 @@
         "scale": "HO",
         "status": "stored",
         "source": "Lombard",
-        "price": 370.0,
+        "price": 370,
         "acquired": "2023-06-20",
         "note": null
     },

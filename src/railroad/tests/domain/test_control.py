@@ -117,6 +117,23 @@ def test_dc_zero_address_is_valid():
 
     assert control.address == 0
 
+
+def test_unpowered_control_has_no_decoder_or_address():
+    control = Control(type=ControlType.UNPOWERED)
+
+    assert control.type == ControlType.UNPOWERED
+    assert control.decoder is None
+    assert control.address is None
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [("decoder", "LokSound"), ("address", 3)],
+)
+def test_unpowered_control_rejects_decoder_and_address(field, value):
+    with pytest.raises(ValueError, match="not allowed.*UNPOWERED"):
+        Control(type=ControlType.UNPOWERED, **{field: value})
+
 def test_invalid_control_type():
     with pytest.raises(TypeError):
         Control(type="dcc")
@@ -166,4 +183,4 @@ def test_smoke_is_independent_of_dcc():
 def test_control_type_values():
     assert ControlType.DC.value == "dc"
     assert ControlType.DCC.value == "dcc"
-
+    assert ControlType.UNPOWERED.value == "unpowered"

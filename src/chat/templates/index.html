@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Chat · Union Pacific Layout</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="{{ url_for('chat.index') }}"><img src="{{ url_for('chat.shared_static', filename='union-pacific-logo.png') }}" alt="Union Pacific shield"><span>Asset Chat</span></a>
+      <button id="new-chat" class="new-chat" type="button">＋ New conversation</button>
+      <section><p class="nav-label">Recent</p><nav><button class="history-item is-current" type="button">Asset search</button></nav></section>
+      <p class="service-status"><span></span>chat_service · :5203<br>Asset management only</p>
+    </aside>
+
+    <main class="chat-panel">
+      <header class="chat-header"><div><strong>Asset assistant</strong><small>Search, inspect, create and update roster assets</small></div><span>{{ "SLM connected" if slm_enabled else "Rules mode" }}</span></header>
+      <section id="thread" class="thread" aria-live="polite">
+        <article class="message assistant"><span class="avatar">UP</span><div class="bubble">Enter a road number, asset ID, builder, model, maker, product or other roster search.</div></article>
+      </section>
+      <div class="suggestions"><button type="button" data-prompt="4014">Find road number 4014</button><button type="button" data-prompt="ALCo">Find ALCo assets</button><button type="button" data-prompt="show locomotives">Show locomotives</button><button type="button" data-action="create">Create an asset</button></div>
+      <form id="composer" class="composer"><textarea id="message" rows="1" placeholder="Type a search and press Enter…" aria-label="Asset search"></textarea><button type="submit" aria-label="Search">↑</button></form>
+    </main>
+  </div>
+  <script src="{{ url_for('static', filename='js/chat.js') }}" defer></script>
+</body>
+</html>

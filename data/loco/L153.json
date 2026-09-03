@@ -1,0 +1,34 @@
+{
+    "identity": {
+        "id": "L153",
+        "entity_type": "loco",
+        "railroad": "Seaboard Air Line",
+        "reporting_mark": "SAL",
+        "road_number": "4202"
+    },
+    "loco_type": "diesel",
+    "prototype": {
+        "builder": "ALCo",
+        "model": "FA-1",
+        "nickname": "Cab unit",
+        "purpose": "freight"
+    },
+    "model": {
+        "maker": "Proto 2000",
+        "product": null,
+        "scale": "HO",
+        "status": "stored",
+        "source": "The Train Shop, CA",
+        "price": 100.0,
+        "acquired": "2010-07-01",
+        "note": null
+    },
+    "control": {
+        "type": "dcc",
+        "light": true,
+        "sound": false,
+        "smoke": false,
+        "decoder": "Digitrax",
+        "address": 4202
+    }
+}

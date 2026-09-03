@@ -17,10 +17,8 @@
     const text = String(value).replaceAll("_", " ");
     return text === text.toLowerCase() ? text.replace(/\b[a-z]/g, (letter) => letter.toUpperCase()) : text;
   };
-  const matchesSearch = (asset) => [asset.identity.id, asset.identity.road_number, asset.identity.reporting_mark, asset.prototype.builder, asset.prototype.model, asset.prototype.nickname, asset.model.maker, asset.model.product].filter(Boolean).join(" ").toLowerCase().includes(state.search.toLowerCase());
-
   function render() {
-    const visible = assets.filter(matchesSearch);
+    const visible = assets;
     grid.replaceChildren();
     for (const asset of visible) {
       const card = document.createElement("a");
@@ -56,6 +54,7 @@
     if (state.type !== "all") query.set("type", state.type);
     if (state.status) query.set("status", state.status);
     if (state.reportingMark) query.set("reporting_mark", state.reportingMark);
+    if (state.search) query.set("q", state.search);
     try {
       const response = await fetch(`/api/assets?${query}`, { headers: { Accept: "application/json" } });
       if (!response.ok) throw new Error("Unable to load roster.");
@@ -70,7 +69,12 @@
     document.querySelectorAll("[data-type]").forEach((item) => item.classList.toggle("is-selected", item === button));
     load();
   }));
-  search.addEventListener("input", () => { state.search = search.value.trim(); render(); });
+  let searchTimer;
+  search.addEventListener("input", () => {
+    state.search = search.value.trim();
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(load, 150);
+  });
   reportingMark.addEventListener("input", () => { state.reportingMark = reportingMark.value.trim(); load(); });
   status.addEventListener("change", () => { state.status = status.value; load(); });
   clear.addEventListener("click", () => {

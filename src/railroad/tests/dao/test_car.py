@@ -58,6 +58,18 @@ def test_exists_list_and_next_id(tmp_path: Path):
     assert [car.id for car in dao.list()] == ["C001", "C002"]
 
 
+def test_unpowered_car_round_trips(tmp_path: Path):
+    dao = CarDAO(create_config(tmp_path))
+    car = create_car()
+    car.control = Control(type=ControlType.UNPOWERED)
+    dao.save(car)
+
+    restored = dao.get("C001")
+    assert restored.control.type == ControlType.UNPOWERED
+    assert restored.control.decoder is None
+    assert restored.control.address is None
+
+
 def test_get_missing_car_raises(tmp_path: Path):
     with pytest.raises(FileNotFoundError):
         CarDAO(create_config(tmp_path)).get("C001")

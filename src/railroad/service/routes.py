@@ -9,7 +9,7 @@ from enum import Enum
 from flask import Blueprint, abort, current_app, jsonify, redirect, render_template, request, send_from_directory, url_for
 
 from railroad.config import Config
-from railroad.domain.control import Control
+from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType
 from railroad.domain.model import Model, Status
 from railroad.domain.prototype import Prototype, Purpose
@@ -51,6 +51,8 @@ def list_assets():
 
     collection = Roster.from_config(_config(), entity_types)
     ids = set(collection.search(criteria))
+    if query := request.args.get("q", "").strip():
+        ids &= set(collection.search_text(query))
     return jsonify(
         assets=[_jsonable(obj) for obj in collection.objects if obj.id in ids],
         count=len(ids),
@@ -129,9 +131,9 @@ def _build(entity_type, identity, patch):
     if entity_type == EntityType.LOCO:
         obj = Loco(identity, LocoType.DIESEL, prototype, Model(), Control())
     elif entity_type == EntityType.CAR:
-        obj = Car(identity, prototype, Model(), Control(), CarType.WAGON)
+        obj = Car(identity, prototype, Model(), Control(type=ControlType.UNPOWERED), CarType.WAGON)
     elif entity_type == EntityType.MOW:
-        obj = MOW(identity, prototype, Model(), Control(), MOWType.MPV, False)
+        obj = MOW(identity, prototype, Model(), Control(type=ControlType.UNPOWERED), MOWType.MPV, False)
     else:
         raise ValueError(f"Unsupported creation type '{entity_type.value}'.")
     _apply_patch(obj, patch)

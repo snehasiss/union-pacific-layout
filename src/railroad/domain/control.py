@@ -17,6 +17,7 @@ class ControlType(Enum):
 
     DC = "dc"
     DCC = "dcc"
+    UNPOWERED = "unpowered"
 
 
 @dataclass
@@ -25,7 +26,7 @@ class Control:
     Describe the control capabilities of a railroad model.
 
     Attributes:
-        type: DC or DCC control.
+        type: DC, DCC, or unpowered control.
         light: Whether the model has lighting.
         sound: Whether the model has sound.
         smoke: Whether the model has a smoke generator.
@@ -99,4 +100,14 @@ class Control:
                 raise ValueError(
                     "address must not be negative."
                 )
-        
+
+        elif self.type == ControlType.UNPOWERED:
+            if self.decoder is not None:
+                raise ValueError(
+                    "decoder is not allowed when control type is UNPOWERED."
+                )
+
+            if self.address is not None:
+                raise ValueError(
+                    "address is not allowed when control type is UNPOWERED."
+                )

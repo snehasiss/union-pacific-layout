@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from enum import Enum
 from typing import Generic, Iterable, TypeVar
 
 from railroad.domain.identity import EntityType
@@ -14,6 +15,21 @@ from railroad.operation.ops import dao_for_type
 
 
 T = TypeVar("T")
+
+
+SEARCHABLE_ATTRIBUTE_PATHS = (
+    "identity.id",
+    "identity.road_number",
+    "identity.reporting_mark",
+    "loco_type",
+    "car_type",
+    "mow_type",
+    "prototype.builder",
+    "prototype.model",
+    "prototype.nickname",
+    "model.maker",
+    "model.product",
+)
 
 
 class Roster(Generic[T]):
@@ -83,6 +99,33 @@ class Roster(Generic[T]):
             for obj in self._objects
             if all(self._matches(obj, key, value) for key, value in all_criteria.items())
         ]
+
+    def search_text(self, query: str) -> list[str]:
+        """Return active object IDs matching the canonical free-text index.
+
+        Matching is a case-insensitive substring operation. Type-specific
+        attributes that do not exist on an object are safely ignored.
+        """
+        if not isinstance(query, str):
+            raise TypeError("query must be a string.")
+        needle = query.strip().casefold()
+        if not needle:
+            return [obj.id for obj in self._objects]
+        return [obj.id for obj in self._objects if needle in self._search_text(obj)]
+
+    @staticmethod
+    def _search_text(obj: T) -> str:
+        values = []
+        for path in SEARCHABLE_ATTRIBUTE_PATHS:
+            value = obj
+            try:
+                for part in path.split("."):
+                    value = getattr(value, part)
+            except AttributeError:
+                continue
+            if value is not None:
+                values.append(value.value if isinstance(value, Enum) else value)
+        return " ".join(str(value) for value in values).casefold()
 
     @staticmethod
     def _retired(obj: T) -> bool:

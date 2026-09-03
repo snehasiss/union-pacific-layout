@@ -21,7 +21,8 @@ views.
 - `GET /assets/<id>` — asset-detail application shell, including retired
   records.
 - `GET /api/assets` — active roster JSON. Optional query parameters are
-  `type=all|loco|car|mow`, `reporting_mark`, and `status`.
+  `type=all|loco|car|mow`, `reporting_mark`, `status`, and `q` for the core
+  case-insensitive free-text roster search.
 - `GET /api/assets/<id>` — JSON for an individual asset, including retired
   records.
 - `GET /api/assets/<id>/media` — attributed, curated representative-media

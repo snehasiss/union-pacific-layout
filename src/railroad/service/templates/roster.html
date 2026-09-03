@@ -31,7 +31,7 @@
         <button class="type-button" type="button" data-type="mow">MOW</button>
       </div>
       <div class="filter-fields">
-        <label>Search<input id="search" type="search" placeholder="ID, road number, maker, or prototype" autocomplete="off"></label>
+        <label>Search<input id="search" type="search" placeholder="ID, road number, type, maker, or prototype" autocomplete="off"></label>
         <label>Reporting mark<input id="reporting-mark" type="search" placeholder="UP" maxlength="8" autocomplete="off"></label>
         <label>Status<select id="status"><option value="">All active statuses</option>{% for status in statuses %}<option value="{{ status.value }}">{{ status.name|title }}</option>{% endfor %}</select></label>
       </div>

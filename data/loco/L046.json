@@ -10,7 +10,7 @@
     "prototype": {
         "builder": "GE",
         "model": "GE 44 Tonner",
-        "nickname": null,
+        "nickname": "switcher",
         "purpose": "switcher"
     },
     "model": {
