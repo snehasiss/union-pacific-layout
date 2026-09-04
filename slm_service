@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+# Control the local Ollama SLM service used by chat_service.
+
+set -euo pipefail
+
+ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+TMP_DIR="$ROOT_DIR/tmp"
+PID_FILE="$TMP_DIR/slm_service.pid"
+LOG_FILE="$TMP_DIR/slm_service.log"
+OLLAMA_BIN="${OLLAMA_BIN:-$(command -v ollama || true)}"
+HOST="${SLM_SERVICE_HOST:-127.0.0.1:11434}"
+MODEL="${SLM_MODEL:-llama3.2:1b}"
+API_URL="http://$HOST"
+
+usage() { echo "Usage: $0 {start|stop|restart|status}"; }
+pid_from_file() { [[ -f "$PID_FILE" ]] || return 1; tr -d '[:space:]' < "$PID_FILE"; }
+endpoint_ready() { curl --silent --fail --max-time 1 "$API_URL/api/tags" >/dev/null 2>&1; }
+
+is_our_service() {
+  local pid command
+  pid="$(pid_from_file)" || return 1
+  kill -0 "$pid" 2>/dev/null || return 1
+  command="$(ps -p "$pid" -o command= 2>/dev/null || true)"
+  [[ -z "$command" || "$command" == *"ollama serve"* ]]
+}
+
+clear_stale_pid() {
+  if [[ -f "$PID_FILE" ]] && ! is_our_service; then
+    local pid
+    pid="$(pid_from_file || true)"
+    if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then
+      echo "PID $pid is not an Ollama service; refusing to stop it." >&2
+      exit 1
+    fi
+    rm -f "$PID_FILE"
+  fi
+}
+
+validate_runtime() {
+  [[ -n "$OLLAMA_BIN" && -x "$OLLAMA_BIN" ]] || {
+    echo "Ollama is not installed. Install it with: brew install ollama" >&2
+    exit 1
+  }
+}
+
+start() {
+  mkdir -p "$TMP_DIR"
+  clear_stale_pid
+  if is_our_service; then
+    echo "SLM service is already running (PID $(pid_from_file)) at $API_URL using $MODEL."
+    return
+  fi
+  if endpoint_ready; then
+    echo "Ollama is already running at $API_URL outside slm_service." >&2
+    echo "Stop the login/manual Ollama process before using this controller." >&2
+    exit 1
+  fi
+  validate_runtime
+
+  (
+    export OLLAMA_HOST="$HOST"
+    export OLLAMA_FLASH_ATTENTION="${OLLAMA_FLASH_ATTENTION:-1}"
+    export OLLAMA_KV_CACHE_TYPE="${OLLAMA_KV_CACHE_TYPE:-q8_0}"
+    exec "$OLLAMA_BIN" serve
+  ) >"$LOG_FILE" 2>&1 &
+  echo $! > "$PID_FILE"
+
+  local ready=false
+  for _ in {1..100}; do
+    if ! is_our_service; then break; fi
+    if endpoint_ready; then ready=true; break; fi
+    sleep 0.1
+  done
+  if [[ "$ready" != true ]]; then
+    local pid
+    pid="$(pid_from_file || true)"
+    [[ -z "$pid" ]] || kill "$pid" 2>/dev/null || true
+    rm -f "$PID_FILE"
+    echo "SLM service did not become ready; see $LOG_FILE" >&2
+    exit 1
+  fi
+
+  if ! OLLAMA_HOST="$HOST" "$OLLAMA_BIN" show "$MODEL" >/dev/null 2>&1; then
+    stop
+    echo "Model '$MODEL' is not installed. Run: ollama pull $MODEL" >&2
+    exit 1
+  fi
+  echo "SLM service started (PID $(pid_from_file)) at $API_URL using $MODEL."
+}
+
+stop() {
+  clear_stale_pid
+  if ! is_our_service; then
+    echo "SLM service is not running."
+    return
+  fi
+  local pid
+  pid="$(pid_from_file)"
+  kill "$pid"
+  for _ in {1..50}; do kill -0 "$pid" 2>/dev/null || break; sleep 0.1; done
+  if kill -0 "$pid" 2>/dev/null; then
+    echo "SLM service did not stop cleanly (PID $pid)." >&2
+    exit 1
+  fi
+  rm -f "$PID_FILE"
+  echo "SLM service stopped."
+}
+
+status() {
+  clear_stale_pid
+  if is_our_service && endpoint_ready; then
+    echo "SLM service is running (PID $(pid_from_file)) at $API_URL using $MODEL."
+  elif endpoint_ready; then
+    echo "Ollama is running at $API_URL, but it is not managed by slm_service."
+  else
+    echo "SLM service is not running."
+  fi
+}
+
+case "${1:-}" in
+  start) start ;;
+  stop) stop ;;
+  restart) stop; start ;;
+  status) status ;;
+  *) usage; exit 2 ;;
+esac

@@ -16,6 +16,7 @@ def create_app(config_path: str | Path | None = None) -> Flask:
     )
     app.config.setdefault("CHAT_SLM_URL", None)
     app.config.setdefault("CHAT_SLM_MODEL", "local-model")
+    app.config.setdefault("CHAT_SLM_DEBUG", False)
 
     from chat.routes import web
 
@@ -24,4 +25,3 @@ def create_app(config_path: str | Path | None = None) -> Flask:
 
 
 __all__ = ["create_app"]
-

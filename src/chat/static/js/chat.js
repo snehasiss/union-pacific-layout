@@ -32,19 +32,31 @@
     if (!assets.length) return;
     const list = document.createElement("div");
     list.className = "result-list";
-    for (const asset of assets.slice(0, 50)) {
+    for (const asset of assets) {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "result";
       const name = document.createElement("strong");
       name.textContent = summary(asset);
       const description = document.createElement("small");
-      description.textContent = `${label(asset.identity.entity_type)} · ${label(asset.prototype.model)} · ${label(asset.model.status)}`;
+      description.textContent = `${asset.identity.id} · ${label(asset.identity.entity_type)} · ${label(asset.prototype.model)} · ${label(asset.model.status)}`;
       button.append(name, description);
       button.addEventListener("click", () => showAsset(asset));
       list.append(button);
     }
     bubble.append(list);
+  }
+
+  function showDebug(bubble, debug) {
+    if (!debug) return;
+    const details = document.createElement("details");
+    details.className = "interpreter-debug";
+    const summary = document.createElement("summary");
+    summary.textContent = `Interpreter debug · ${debug.source}`;
+    const output = document.createElement("pre");
+    output.textContent = JSON.stringify(debug, null, 2);
+    details.append(summary, output);
+    bubble.append(details);
   }
 
   async function showMedia(record, entityId) {
@@ -232,6 +244,7 @@
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Request failed.");
       const bubble = addMessage(payload.reply);
+      showDebug(bubble, payload.debug);
       if (payload.assets) showResults(bubble, payload.assets);
       if (payload.asset && payload.intent === "detail") showAsset(payload.asset, bubble);
       if (payload.intent === "create") openForm();

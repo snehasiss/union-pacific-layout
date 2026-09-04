@@ -30,6 +30,9 @@ button { cursor: pointer; }
 .result { display: grid; gap: 2px; width: 100%; padding: 10px 0; border: 0; border-bottom: 1px solid #e1e4e7; color: inherit; background: transparent; text-align: left; }
 .result:hover strong { color: #a51e2d; text-decoration: underline; }
 .result small { color: #6d7379; }
+.interpreter-debug { margin-top: 14px; padding-top: 10px; border-top: 1px dashed #c8cdd2; color: #596067; font-size: .8rem; }
+.interpreter-debug summary { cursor: pointer; }
+.interpreter-debug pre { max-height: 280px; margin: 9px 0 0; padding: 10px; overflow: auto; background: #f5f6f7; white-space: pre-wrap; overflow-wrap: anywhere; }
 .suggestions { display: flex; gap: 7px; padding: 0 20px 10px; overflow-x: auto; }
 .suggestions button { min-height: 38px; padding: 0 11px; border: 1px solid #d4d7db; border-radius: 999px; white-space: nowrap; background: transparent; }
 .suggestions button:hover { background: #fff5ce; }

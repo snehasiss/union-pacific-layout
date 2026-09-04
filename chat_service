@@ -11,26 +11,43 @@ PYTHON_BIN="${PYTHON_BIN:-$(command -v python3)}"
 HOST="${CHAT_SERVICE_HOST:-0.0.0.0}"
 PORT="${CHAT_SERVICE_PORT:-5203}"
 CONFIG_FILE="$ROOT_DIR/config/railroad-conf.json"
+SLM_URL="${CHAT_SLM_URL:-http://127.0.0.1:11434}"
+SLM_MODEL="${CHAT_SLM_MODEL:-llama3.2:1b}"
+SLM_DEBUG="${CHAT_SLM_DEBUG:-0}"
 
 usage() { echo "Usage: $0 {start|stop|restart|status}"; }
 pid_from_file() { [[ -f "$PID_FILE" ]] || return 1; tr -d '[:space:]' < "$PID_FILE"; }
 is_our_service() { local pid command; pid="$(pid_from_file)" || return 1; kill -0 "$pid" 2>/dev/null || return 1; command="$(ps -p "$pid" -o command= 2>/dev/null || true)"; [[ -z "$command" || ( "$command" == *"-m chat"* && "$command" == *"$CONFIG_FILE"* ) ]]; }
 clear_stale_pid() { if [[ -f "$PID_FILE" ]] && ! is_our_service; then local pid; pid="$(pid_from_file || true)"; if [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null; then echo "PID $pid is not chat_service; refusing to stop it." >&2; exit 1; fi; rm -f "$PID_FILE"; fi; }
 validate_runtime() { [[ -x "$PYTHON_BIN" ]] || { echo "Python runtime not executable: $PYTHON_BIN" >&2; exit 1; }; "$PYTHON_BIN" -c 'import flask' >/dev/null 2>&1 || { echo "Flask is not installed in $PYTHON_BIN" >&2; exit 1; }; }
+endpoint_ready() { curl --silent --fail --max-time 1 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1; }
 
 start() {
   mkdir -p "$TMP_DIR"; clear_stale_pid
   if is_our_service; then echo "chat_service is already running (PID $(pid_from_file)) at http://$HOST:$PORT/."; return; fi
+  if endpoint_ready; then
+    echo "Port $PORT is already serving an unmanaged chat_service process." >&2
+    echo "Stop that process before starting chat_service with this controller." >&2
+    exit 1
+  fi
   validate_runtime
-  (cd "$ROOT_DIR"; export PYTHONPATH="$ROOT_DIR/src${PYTHONPATH:+:$PYTHONPATH}"; exec "$PYTHON_BIN" -m chat --config "$CONFIG_FILE" --host "$HOST" --port "$PORT") >"$LOG_FILE" 2>&1 &
+  local slm_args=()
+  if curl --silent --fail --max-time 1 "$SLM_URL/api/tags" >/dev/null 2>&1; then
+    slm_args=(--slm-url "$SLM_URL" --slm-model "$SLM_MODEL")
+  fi
+  if [[ "$SLM_DEBUG" =~ ^(1|true|yes|on)$ ]]; then
+    slm_args+=(--slm-debug)
+  fi
+  (cd "$ROOT_DIR"; export PYTHONPATH="$ROOT_DIR/src${PYTHONPATH:+:$PYTHONPATH}"; exec "$PYTHON_BIN" -m chat --config "$CONFIG_FILE" --host "$HOST" --port "$PORT" "${slm_args[@]}") >"$LOG_FILE" 2>&1 &
   echo $! > "$PID_FILE"
   local ready=false
   for _ in {1..50}; do if ! is_our_service; then break; fi; if curl --silent --fail --max-time 1 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1; then ready=true; break; fi; sleep .1; done
   if [[ "$ready" != true ]]; then local pid; pid="$(pid_from_file || true)"; [[ -z "$pid" ]] || kill "$pid" 2>/dev/null || true; rm -f "$PID_FILE"; echo "chat_service did not become ready; see $LOG_FILE" >&2; exit 1; fi
-  echo "chat_service started (PID $(pid_from_file)) at http://$HOST:$PORT/."
+  local interpreter
+  interpreter="$(curl --silent --fail --max-time 1 "http://127.0.0.1:$PORT/health" | "$PYTHON_BIN" -c 'import json,sys; print(json.load(sys.stdin)["interpreter"])')"
+  echo "chat_service started (PID $(pid_from_file)) at http://$HOST:$PORT/ using $interpreter interpreter."
 }
 stop() { clear_stale_pid; if ! is_our_service; then echo "chat_service is not running."; return; fi; local pid; pid="$(pid_from_file)"; kill "$pid"; for _ in {1..20}; do kill -0 "$pid" 2>/dev/null || break; sleep .1; done; kill -0 "$pid" 2>/dev/null && { echo "chat_service did not stop cleanly (PID $pid)." >&2; exit 1; }; rm -f "$PID_FILE"; echo "chat_service stopped."; }
-status() { clear_stale_pid; if is_our_service; then echo "chat_service is running (PID $(pid_from_file)) at http://$HOST:$PORT/."; else echo "chat_service is not running."; fi; }
+status() { clear_stale_pid; if is_our_service; then echo "chat_service is running (PID $(pid_from_file)) at http://$HOST:$PORT/."; elif endpoint_ready; then echo "An unmanaged chat_service process is serving http://$HOST:$PORT/ (no matching PID file)."; else echo "chat_service is not running."; fi; }
 
 case "${1:-}" in start) start;; stop) stop;; restart) stop; start;; status) status;; *) usage; exit 2;; esac
-

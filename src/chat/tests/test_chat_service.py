@@ -5,10 +5,10 @@ import json
 import pytest
 
 from chat import create_app
-from chat.interpreter import RuleInterpreter
+from chat.interpreter import Intent, RuleInterpreter, SlmInterpreter
 from railroad.config import Config
 from railroad.dao.loco import LocoDAO
-from railroad.domain.control import Control
+from railroad.domain.control import Control, ControlType
 from railroad.domain.identity import EntityType, Identity
 from railroad.domain.model import Model, Status
 from railroad.domain.prototype import Prototype, Purpose
@@ -80,6 +80,70 @@ def test_natural_search_and_detail(client):
     assert detail.json["asset"]["prototype"]["nickname"] == "Big Boy"
 
 
+def test_locomotive_subtype_is_preserved_as_a_structured_filter():
+    web = create_app().test_client()
+    all_baldwin = web.post("/api/chat", json={"message": "show locomotives made by baldwin"}).json
+    diesel = web.post("/api/chat", json={"message": "show diesel locomotives made by baldwin"}).json
+    steam = web.post("/api/chat", json={"message": "show steam locomotives made by baldwin"}).json
+
+    all_ids = {asset["identity"]["id"] for asset in all_baldwin["assets"]}
+    diesel_ids = {asset["identity"]["id"] for asset in diesel["assets"]}
+    steam_ids = {asset["identity"]["id"] for asset in steam["assets"]}
+    assert diesel_ids and steam_ids
+    assert diesel_ids.isdisjoint(steam_ids)
+    assert diesel_ids | steam_ids == all_ids
+    assert {asset["loco_type"] for asset in diesel["assets"]} == {"diesel"}
+    assert {asset["loco_type"] for asset in steam["assets"]} == {"steam"}
+
+
+@pytest.mark.parametrize(
+    ("message", "control_type", "sound"),
+    [
+        ("show locomotives with DCC sound", "dcc", True),
+        ("show locomotives with DC", "dc", None),
+    ],
+)
+def test_control_capabilities_are_structured_filters(message, control_type, sound):
+    intent = RuleInterpreter().interpret(message)
+    assert intent.entity_type == EntityType.LOCO
+    assert intent.control_type == ControlType(control_type)
+    assert intent.sound is sound
+    assert intent.query == ""
+
+    response = create_app().test_client().post("/api/chat", json={"message": message})
+    assert response.status_code == 200
+    assert response.json["count"] > 0
+    assert {asset["control"]["type"] for asset in response.json["assets"]} == {control_type}
+    if sound is not None:
+        assert {asset["control"]["sound"] for asset in response.json["assets"]} == {sound}
+
+
+def test_debug_response_shows_raw_slm_output_and_fallback(monkeypatch, client):
+    web, _ = client
+    app = web.application
+    app.config.update(CHAT_SLM_URL="http://unused", CHAT_SLM_MODEL="test-model", CHAT_SLM_DEBUG=True)
+
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return None
+
+        def read(self):
+            response = {"choices": [{"message": {"content": "not valid JSON"}}]}
+            return json.dumps(response).encode("utf-8")
+
+    monkeypatch.setattr("chat.interpreter.request.urlopen", lambda *_args, **_kwargs: FakeResponse())
+    response = web.post("/api/chat", json={"message": "show steam locomotives made by ALCo"})
+
+    assert response.status_code == 200
+    assert response.json["debug"]["source"] == "rules-fallback"
+    assert response.json["debug"]["raw_response"] == "not valid JSON"
+    assert response.json["debug"]["intent"]["subtype"] == "steam"
+    assert {asset["loco_type"] for asset in response.json["assets"]} == {"steam"}
+
+
 def test_asset_media_reuses_curated_app_service_media():
     app = create_app()
     web = app.test_client()
@@ -110,3 +174,46 @@ def test_rule_interpreter_exposes_form_actions():
     assert interpreter.interpret("create a locomotive").operation == "create"
     intent = interpreter.interpret("update L001")
     assert (intent.operation, intent.entity_id) == ("update", "L001")
+
+
+@pytest.mark.parametrize(
+    ("message", "entity_type"),
+    [
+        ("show locomotives", EntityType.LOCO),
+        ("show all cars", EntityType.CAR),
+        ("list MOW", EntityType.MOW),
+        ("show assets", None),
+        ("show equipment", None),
+        ("show equipments", None),
+        ("show the roster", None),
+    ],
+)
+def test_exhaustive_list_commands_are_deterministic(message, entity_type, monkeypatch):
+    def unexpected_slm_call(*_args, **_kwargs):
+        raise AssertionError("An exhaustive list command must not call the SLM.")
+
+    monkeypatch.setattr("chat.interpreter.request.urlopen", unexpected_slm_call)
+    intent = SlmInterpreter("http://unused", "unused").interpret(message)
+
+    assert intent == Intent("search", entity_type=entity_type)
+
+
+@pytest.mark.parametrize(
+    ("message", "asset_type"),
+    [
+        ("show locomotives", "loco"),
+        ("show all cars", "car"),
+        ("show MOW", "mow"),
+        ("show assets", None),
+        ("show equipments", None),
+    ],
+)
+def test_exhaustive_chat_lists_match_the_complete_app_roster(message, asset_type):
+    query = {"type": asset_type} if asset_type else None
+    expected = create_roster_app().test_client().get("/api/assets", query_string=query).json
+    actual = create_app().test_client().post("/api/chat", json={"message": message}).json
+
+    assert actual["count"] == expected["count"]
+    assert [asset["identity"]["id"] for asset in actual["assets"]] == [
+        asset["identity"]["id"] for asset in expected["assets"]
+    ]

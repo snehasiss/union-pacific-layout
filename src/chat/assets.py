@@ -19,11 +19,35 @@ from railroad.rs.mow import MOW, MOWType
 SUPPORTED_TYPES = (EntityType.LOCO, EntityType.CAR, EntityType.MOW)
 
 
-def search_assets(config, query: str = "", entity_type: EntityType | None = None) -> list[dict[str, Any]]:
+def search_assets(
+    config,
+    query: str = "",
+    entity_type: EntityType | None = None,
+    subtype: str | None = None,
+    control_type: ControlType | None = None,
+    sound: bool | None = None,
+) -> list[dict[str, Any]]:
     """Apply the same case-insensitive substring search used by app_service."""
     types = (entity_type,) if entity_type else SUPPORTED_TYPES
     roster = Roster.from_config(config, types)
     ids = set(roster.search_text(query))
+    if subtype:
+        subtype_types = {
+            EntityType.LOCO: ("loco_type", LocoType),
+            EntityType.CAR: ("car_type", CarType),
+            EntityType.MOW: ("mow_type", MOWType),
+        }
+        if entity_type not in subtype_types:
+            raise ValueError("An equipment subtype requires an entity type.")
+        path, enum_type = subtype_types[entity_type]
+        ids &= set(roster.search({path: enum_type(subtype)}))
+    control_criteria = {}
+    if control_type is not None:
+        control_criteria["control.type"] = control_type
+    if sound is not None:
+        control_criteria["control.sound"] = sound
+    if control_criteria:
+        ids &= set(roster.search(control_criteria))
     return [jsonable(obj) for obj in roster.objects if obj.id in ids]
 
 

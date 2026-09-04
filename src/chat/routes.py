@@ -19,6 +19,23 @@ def _config() -> Config:
     return Config(current_app.config["RAILROAD_CONFIG"])
 
 
+def _chat_json(interpreter, interpreted, **payload):
+    if current_app.debug or current_app.config.get("CHAT_SLM_DEBUG"):
+        payload["debug"] = {
+            **getattr(interpreter, "debug_info", {"source": "rules"}),
+            "intent": {
+                "operation": interpreted.operation,
+                "query": interpreted.query,
+                "entity_type": interpreted.entity_type.value if interpreted.entity_type else None,
+                "entity_id": interpreted.entity_id,
+                "subtype": interpreted.subtype,
+                "control_type": interpreted.control_type.value if interpreted.control_type else None,
+                "sound": interpreted.sound,
+            },
+        }
+    return jsonify(payload)
+
+
 @web.get("/")
 def index():
     return render_template("index.html", slm_enabled=bool(current_app.config.get("CHAT_SLM_URL")))
@@ -64,17 +81,28 @@ def chat():
     try:
         if intent.operation == "detail" and intent.entity_id:
             asset = get_asset(_config(), intent.entity_id)
-            return jsonify(intent="detail", reply=f"Opened {intent.entity_id}.", asset=asset)
+            return _chat_json(interpreter, intent, intent="detail", reply=f"Opened {intent.entity_id}.", asset=asset)
         if intent.operation == "create":
-            return jsonify(intent="create", reply="Complete the new asset form before saving.")
+            return _chat_json(interpreter, intent, intent="create", reply="Complete the new asset form before saving.")
         if intent.operation == "update":
             asset = get_asset(_config(), intent.entity_id) if intent.entity_id else None
-            return jsonify(intent="update", reply="Review the asset fields before saving.", asset=asset)
+            return _chat_json(interpreter, intent, intent="update", reply="Review the asset fields before saving.", asset=asset)
 
-        assets = search_assets(_config(), intent.query, intent.entity_type)
+        assets = search_assets(
+            _config(), intent.query, intent.entity_type, intent.subtype,
+            intent.control_type, intent.sound,
+        )
         count = len(assets)
         reply = f"Found {count} matching {'asset' if count == 1 else 'assets'}."
-        return jsonify(intent="search", query=intent.query, reply=reply, assets=assets, count=count)
+        return _chat_json(
+            interpreter,
+            intent,
+            intent="search",
+            query=intent.query,
+            reply=reply,
+            assets=assets,
+            count=count,
+        )
     except (FileNotFoundError, KeyError, TypeError, ValueError) as exc:
         return jsonify(error=str(exc)), 400
 
