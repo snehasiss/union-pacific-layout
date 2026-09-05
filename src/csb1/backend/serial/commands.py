@@ -16,6 +16,22 @@ def status() -> str:
     return "<s>"
 
 
+def read_cv(cv: int, callback: int, callback_sub: int = 0) -> str:
+    if not 1 <= cv <= 1024:
+        raise ValueError("CV number must be between 1 and 1024")
+    if not 0 <= callback <= 32767 or not 0 <= callback_sub <= 32767:
+        raise ValueError("CV callback numbers must be between 0 and 32767")
+    return f"<R {cv} {callback} {callback_sub}>"
+
+
+def write_cv(cv: int, value: int) -> str:
+    if not 1 <= cv <= 1024:
+        raise ValueError("CV number must be between 1 and 1024")
+    if not 0 <= value <= 255:
+        raise ValueError("CV value must be between 0 and 255")
+    return f"<W {cv} {value}>"
+
+
 def throttle(address: int, speed: int, direction: str) -> str:
     if not 1 <= address <= 10293:
         raise ValueError("DCC address must be between 1 and 10293")

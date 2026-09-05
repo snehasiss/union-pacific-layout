@@ -24,11 +24,11 @@
         "note": null
     },
     "control": {
-        "type": "dc",
+        "type": "unpowered",
         "light": true,
         "sound": false,
         "smoke": false,
         "decoder": null,
-        "address": 0
+        "address": null
     }
 }

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from flask import Flask, jsonify, send_from_directory
@@ -15,6 +16,7 @@ from .state import StateStore
 def create_app(profile: str | None = None) -> tuple[Flask, SocketIO]:
     config = load_config(profile)
     frontend_dist = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+    shared_images = Path(__file__).resolve().parents[2] / "railroad" / "service" / "static" / "img"
     app = Flask(
         __name__,
         static_folder=str(frontend_dist / "assets"),
@@ -59,7 +61,11 @@ def create_app(profile: str | None = None) -> tuple[Flask, SocketIO]:
 
     @app.get("/health")
     def health():
-        return jsonify({"status": "ok", "profile": config["profile"]})
+        return jsonify({"status": "ok", "profile": config["profile"], "pid": os.getpid()})
+
+    @app.get("/shared/union-pacific-logo.png")
+    def union_pacific_logo():
+        return send_from_directory(shared_images, "union-pacific-logo.png")
 
     @app.get("/")
     @app.get("/<path:path>")

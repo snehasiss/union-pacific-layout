@@ -22,6 +22,16 @@ export const api = {
     request<{ connected: boolean }>("/api/v1/serial/disconnect", { method: "POST" }),
   setPower: (state: "on" | "off") =>
     request("/api/v1/power", { method: "PUT", body: JSON.stringify({ state }) }),
+  readCv: (cv: number) =>
+    request<{ cv: number; value: number; confirmed: boolean; mode: "service" }>("/api/v1/programming/cv/read", {
+      method: "POST",
+      body: JSON.stringify({ cv })
+    }),
+  writeCv: (cv: number, value: number) =>
+    request<{ cv: number; value: number; confirmed: boolean; mode: "service" }>("/api/v1/programming/cv", {
+      method: "PUT",
+      body: JSON.stringify({ cv, value })
+    }),
   emergencyStop: () => request("/api/v1/emergency-stop", { method: "POST" }),
   setThrottle: (address: number, speed: number, direction: "forward" | "reverse") =>
     request(`/api/v1/locomotives/${address}/throttle`, {

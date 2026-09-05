@@ -1,6 +1,6 @@
 import pytest
 
-from backend.serial.commands import emergency_stop, function, power, throttle
+from backend.serial.commands import emergency_stop, function, power, read_cv, throttle, write_cv
 
 
 def test_power_commands():
@@ -15,6 +15,25 @@ def test_invalid_power_state():
 
 def test_emergency_stop_command():
     assert emergency_stop() == "<!>"
+
+
+def test_service_track_cv_commands():
+    assert read_cv(29, 7) == "<R 29 7 0>"
+    assert write_cv(29, 38) == "<W 29 38>"
+
+
+@pytest.mark.parametrize("cv", [0, 1025])
+def test_invalid_cv_number(cv):
+    with pytest.raises(ValueError):
+        read_cv(cv, 1)
+    with pytest.raises(ValueError):
+        write_cv(cv, 0)
+
+
+@pytest.mark.parametrize("value", [-1, 256])
+def test_invalid_cv_value(value):
+    with pytest.raises(ValueError):
+        write_cv(1, value)
 
 
 def test_throttle_command():

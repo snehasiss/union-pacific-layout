@@ -79,7 +79,9 @@ start() {
         if ! is_our_service; then
             break
         fi
-        if curl --silent --fail --max-time 1 "http://127.0.0.1:$PORT/health" >/dev/null; then
+        health_pid="$({ curl --silent --fail --max-time 1 "http://127.0.0.1:$PORT/health" || true; } \
+            | "$PYTHON_BIN" -c 'import json, sys; print(json.load(sys.stdin).get("pid", ""))' 2>/dev/null || true)"
+        if [[ "$health_pid" == "$(pid_from_file)" ]]; then
             ready=true
             break
         fi

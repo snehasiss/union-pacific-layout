@@ -20,3 +20,21 @@ def test_parses_stopped_reverse_locomotive_broadcast():
 def test_parses_functions_through_f15():
     event = parse_frame(f"<l 3 0 128 {1 << 15}>")
     assert event.data["functions"]["15"] is True
+
+
+def test_parses_correlated_cv_read_response():
+    event = parse_frame("<r 7|0|29 38>")
+    assert event.type == "cv"
+    assert event.data == {"cv": 29, "value": 38, "callback": 7, "callbackSub": 0}
+
+
+def test_parses_compact_correlated_cv_read_response():
+    event = parse_frame("<r7|0|29 38>")
+    assert event.type == "cv"
+    assert event.data == {"cv": 29, "value": 38, "callback": 7, "callbackSub": 0}
+
+
+def test_parses_cv_write_response():
+    event = parse_frame("<r 29 38>")
+    assert event.type == "cv"
+    assert event.data == {"cv": 29, "value": 38}

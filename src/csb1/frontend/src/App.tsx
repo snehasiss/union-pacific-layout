@@ -26,6 +26,12 @@ export default function App() {
   const [rosterOpen, setRosterOpen] = useState(false);
   const [functionBank, setFunctionBank] = useState<0 | 1>(0);
   const [pendingFunctions, setPendingFunctions] = useState<Set<number>>(new Set());
+  const [mode, setMode] = useState<"operation" | "programming">("operation");
+  const [cvText, setCvText] = useState("");
+  const [cvValue, setCvValue] = useState<number | null>(null);
+  const [writeValueText, setWriteValueText] = useState("");
+  const [programmingBusy, setProgrammingBusy] = useState(false);
+  const [programmingMessage, setProgrammingMessage] = useState<string | null>(null);
   const throttleTimer = useRef<number | null>(null);
 
   useEffect(() => {
@@ -120,19 +126,66 @@ export default function App() {
     }
   }
 
+  const cv = Number(cvText);
+  const validCv = Number.isInteger(cv) && cv >= 1 && cv <= 1024;
+  const writeValue = Number(writeValueText);
+  const validWriteValue = Number.isInteger(writeValue) && writeValue >= 0 && writeValue <= 255;
+
+  async function readProgrammingCv() {
+    if (!validCv) return;
+    setProgrammingBusy(true);
+    setProgrammingMessage(null);
+    setCvValue(null);
+    try {
+      const result = await api.readCv(cv);
+      setCvValue(result.value);
+      setWriteValueText(String(result.value));
+      setProgrammingMessage(`CV ${cv} read successfully.`);
+    } catch (error) {
+      setProgrammingMessage(error instanceof Error ? error.message : "CV read failed");
+    } finally {
+      setProgrammingBusy(false);
+    }
+  }
+
+  async function writeProgrammingCv() {
+    if (!validCv || !validWriteValue) return;
+    setProgrammingBusy(true);
+    setProgrammingMessage(null);
+    try {
+      const result = await api.writeCv(cv, writeValue);
+      setCvValue(result.value);
+      setProgrammingMessage(`CV ${cv} confirmed at ${result.value}.`);
+    } catch (error) {
+      setProgrammingMessage(error instanceof Error ? error.message : "CV write failed");
+    } finally {
+      setProgrammingBusy(false);
+    }
+  }
+
   return (
     <main className="shell">
       <header className="topbar">
-        <div>
+        <div className="brand-row">
+          <img className="brand-logo" src="/shared/union-pacific-logo.png" alt="Union Pacific" />
           <p className="eyebrow">Union Pacific Layout</p>
-          <h1>Railroad Control</h1>
+          <button
+            className="header-stop"
+            aria-label="Emergency stop"
+            disabled={!connected || busy}
+            onClick={() => run(api.emergencyStop)}
+          >
+            <svg aria-hidden="true" viewBox="0 0 64 58">
+              <path d="M32 2 C36 2 38.5 4.5 41 9 L61 44 C65 51 60 57 52 57 H12 C4 57 -1 51 3 44 L23 9 C25.5 4.5 28 2 32 2 Z" />
+              <rect className="stop-mark" x="28.5" y="17" width="7" height="23" rx="3.5" />
+              <circle className="stop-mark" cx="32" cy="48" r="4" />
+            </svg>
+          </button>
         </div>
-        <div className="header-actions">
-          <span className={`connection connection--${state.connection.status}`}>
-            {state.connection.status}
-          </span>
-          <button className="header-stop" disabled={!connected || busy} onClick={() => run(api.emergencyStop)}>E-STOP</button>
-        </div>
+        <h1>Railroad Control</h1>
+        <span className={`connection connection--${state.connection.status}`}>
+          {state.connection.status}
+        </span>
       </header>
 
       <section className="panel status-panel" aria-label="Command station status">
@@ -171,6 +224,12 @@ export default function App() {
         </button>
       </section>
 
+      <div className="mode-selector" role="group" aria-label="Control mode">
+        <button className={mode === "operation" ? "selected" : ""} aria-pressed={mode === "operation"} onClick={() => setMode("operation")}>Operation</button>
+        <button className={mode === "programming" ? "selected" : ""} aria-pressed={mode === "programming"} onClick={() => setMode("programming")}>Programming</button>
+      </div>
+
+      {mode === "operation" ? (
       <section className="panel throttle-panel" aria-label="Locomotive throttle">
         <div className="throttle-heading">
           <div>
@@ -274,6 +333,39 @@ export default function App() {
           })}
         </div>
       </section>
+      ) : (
+      <section className="panel programming-panel" aria-label="Decoder service track programming">
+        <div>
+          <span className="label">Decoder</span>
+          <h2>Programming</h2>
+        </div>
+        <p className="programming-mode">Service track programming</p>
+
+        <label className="programming-field">
+          <span>CV number</span>
+          <div className="programming-action-row">
+            <input inputMode="numeric" pattern="[0-9]*" min="1" max="1024" value={cvText} onChange={(event) => { setCvText(event.target.value.replace(/\D/g, "")); setCvValue(null); setProgrammingMessage(null); }} placeholder="e.g. 29" />
+            <button disabled={!connected || programmingBusy || !validCv} onClick={readProgrammingCv}>Read</button>
+          </div>
+        </label>
+
+        <div className="cv-result" aria-live="polite">
+          <span>Current value</span>
+          <strong>{cvValue ?? "—"}</strong>
+        </div>
+
+        <label className="programming-field">
+          <span>New value</span>
+          <div className="programming-action-row">
+            <input inputMode="numeric" pattern="[0-9]*" min="0" max="255" value={writeValueText} onChange={(event) => { setWriteValueText(event.target.value.replace(/\D/g, "")); setProgrammingMessage(null); }} placeholder="0–255" />
+            <button className="write-cv" disabled={!connected || programmingBusy || !validCv || !validWriteValue} onClick={writeProgrammingCv}>Write</button>
+          </div>
+        </label>
+        <p className={`programming-confirmation${programmingMessage ? " has-message" : ""}`} aria-live="polite">
+          {programmingBusy ? "Programming command in progress…" : programmingMessage ?? "Write confirmation will appear here."}
+        </p>
+      </section>
+      )}
 
     </main>
   );

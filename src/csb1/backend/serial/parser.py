@@ -18,6 +18,31 @@ def parse_frame(frame: str) -> ProtocolEvent:
         return ProtocolEvent("power", {"state": "off"}, frame)
     if body.startswith("iDCC-EX"):
         return ProtocolEvent("system", {"identity": body[1:]}, frame)
+    if body.startswith("r"):
+        # DCC-EX callback responses normally omit whitespace after the opcode
+        # (for example, <r1|0|29 38>). Accept that and the spaced variant.
+        parts = body[1:].strip().split()
+        try:
+            if len(parts) == 2 and "|" in parts[0]:
+                callback_text, callback_sub_text, cv_text = parts[0].split("|")
+                return ProtocolEvent(
+                    "cv",
+                    {
+                        "cv": int(cv_text),
+                        "value": int(parts[1]),
+                        "callback": int(callback_text),
+                        "callbackSub": int(callback_sub_text),
+                    },
+                    frame,
+                )
+            if len(parts) == 2:
+                return ProtocolEvent(
+                    "cv",
+                    {"cv": int(parts[0]), "value": int(parts[1])},
+                    frame,
+                )
+        except ValueError:
+            pass
     if body.startswith("l "):
         parts = body.split()
         if len(parts) >= 5:

@@ -4,6 +4,7 @@ from flask import current_app, jsonify, request
 
 from . import api
 from ..serial import commands
+from ..serial.controller import SerialRequestTimeout
 from ..serial.discovery import available_ports
 from ..roster import available_locomotives
 
@@ -59,6 +60,59 @@ def set_power():
     except KeyError:
         return jsonify({"error": "Missing required field: state"}), 400
     except (RuntimeError, ValueError) as exc:
+        return jsonify({"error": str(exc)}), 409
+
+
+@api.post("/programming/cv/read")
+def read_cv():
+    payload = request.get_json(silent=True) or {}
+    try:
+        cv = int(payload["cv"])
+    except (KeyError, TypeError, ValueError):
+        return jsonify({"error": "Required integer field: cv"}), 400
+    try:
+        callback = 1
+        event = _controller().request(
+            commands.read_cv(cv, callback),
+            lambda candidate: candidate.type == "cv"
+            and candidate.data.get("cv") == cv
+            and candidate.data.get("callback") == callback,
+        )
+        value = int(event.data["value"])
+        if value < 0:
+            return jsonify({"error": f"Decoder did not acknowledge CV {cv}"}), 409
+        return jsonify({"cv": cv, "value": value, "confirmed": True, "mode": "service"})
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+    except SerialRequestTimeout as exc:
+        return jsonify({"error": str(exc)}), 504
+    except RuntimeError as exc:
+        return jsonify({"error": str(exc)}), 409
+
+
+@api.put("/programming/cv")
+def write_cv():
+    payload = request.get_json(silent=True) or {}
+    try:
+        cv = int(payload["cv"])
+        value = int(payload["value"])
+    except (KeyError, TypeError, ValueError):
+        return jsonify({"error": "Required integer fields: cv and value"}), 400
+    try:
+        event = _controller().request(
+            commands.write_cv(cv, value),
+            lambda candidate: candidate.type == "cv"
+            and candidate.data.get("cv") == cv,
+        )
+        confirmed_value = int(event.data["value"])
+        if confirmed_value != value:
+            return jsonify({"error": f"Decoder did not confirm writing CV {cv}"}), 409
+        return jsonify({"cv": cv, "value": value, "confirmed": True, "mode": "service"})
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+    except SerialRequestTimeout as exc:
+        return jsonify({"error": str(exc)}), 504
+    except RuntimeError as exc:
         return jsonify({"error": str(exc)}), 409
 
 
